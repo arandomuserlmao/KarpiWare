@@ -44,6 +44,7 @@ local H =
     {
         Text = "Type in full DisplayName or Username",
         Callback = function(Value)
+
             Name = Value
         end
     }
@@ -80,7 +81,7 @@ local A =
             wait(tpdel)
 
             while kltp == true do
-                plr1.HumanoidRootPart.CFrame = plr2.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1.5)
+                plr1.HumanoidRootPart.CFrame = plr2.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
                 wait(0.0001)
             end
             wait(0.1)
@@ -120,6 +121,7 @@ local yy7f =
         end
     }
 )
+
 
 local yy7f =
     Y.Button(
@@ -187,6 +189,26 @@ local C = Y.Slider({
 	Max = 10000,
 	Def = 119
 })
+
+local yy7f =
+    Y.Button(
+    {
+        Text = "Q to TP",
+        Callback = function()
+plr = game.Players.LocalPlayer
+hum = plr.Character.HumanoidRootPart
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+if key == "q" then
+if mouse.Target then
+hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
+end
+end
+end)
+        end
+    }
+)
+
 
 
 local C =
