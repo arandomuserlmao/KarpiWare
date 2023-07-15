@@ -1,0 +1,3 @@
+local PPname = "Mop"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(0.9,-1,-1)
