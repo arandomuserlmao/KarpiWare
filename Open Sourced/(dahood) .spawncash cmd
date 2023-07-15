@@ -1,0 +1,26 @@
+-- made by brady (buy moneygun at casino for this to work)
+
+          -- SETTINGS
+          local prefix = "." -- what you will use to signal that this is a command
+          local command = "spawncash" -- what you will say after prefix to initiate the command
+          
+          -- VARIABLES
+          local humanoid = game.Players.LocalPlayer.Character.Humanoid
+          local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+          
+          
+          -- MAIN SCRIPT *DO NOT MESS WITH THIS*
+            for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command then
+                            local humanoid = game.Players.LocalPlayer.Character.Humanoid
+                            local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+
+                            humanoid:EquipTool(tool)
+                            tool:Activate()
+                            humanoid:UnequipTools(tool)
+                        end
+                    end
+                )
+            end
