@@ -1,4 +1,3 @@
-```lua
 -- created by brady, need bat and stopsign for this to work
 
 local toolname = "[Bat]"
@@ -13,4 +12,3 @@ toollocation2.GripPos = Vector3.new(6,-0.1,0)
 
 local toollocation = game.Players.LocalPlayer.Character:WaitForChild(toolname)
 toollocation.GripPos = Vector3.new(0,-1,0)
-```
