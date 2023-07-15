@@ -1,4 +1,5 @@
-  local toolname = "[Bat]"
+-- created by brady, need bat and stopsign for this to work
+local toolname = "[Bat]"
   local toolname2 = "[StopSign]"
 
 local plr = game:GetService'Players'.LocalPlayer
