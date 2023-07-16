@@ -4,7 +4,7 @@
           local prefix = "." -- what you will use to signal that this is a command
           local command = "tool" -- cmd for equip tool
           local command2 = "unequip" -- this is the cmd for unequip tool
-          local command3 = "male" --  cmd for PP
+          local command3 = "male" --  cmd for PP (need DB shotgun)
           local command4 = "reset" -- resets all commands
           local command5 = "spawncash" -- uses moneygun to make it seem like you spawned cash (use .mg command and get moneygun)
           local command6 = "antislow" -- makes it so your WS and JP stays at 16 and 50
@@ -12,6 +12,11 @@
           local command8 = "combatphone" -- kill ppl with a phone (get bat)
           local command9 = "combatflowers" -- kill ppl with a flower (get flower and bat)
           local command10 = "combatchicken" -- kill ppl with a chicken (get chicken and bat)
+          local command11 = "antikick" -- prevents premium script users from kicking you (partly not mine)
+          local command12 = "tp" -- q to tp
+          local command13 = "fly" -- x to fly
+          local command14 = "antifreeze" -- prevents premium script users from freezing you
+          local command15 = "inviskill" -- Need revolver (aim at plr and press Z to fire)
           -- VARIABLES
           local plr1 = game.Players.LocalPlayer
           local character = plr1.Character
@@ -178,6 +183,216 @@ wait(0.01)
                    local PPname = "[Bat]"
 local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
 PPlocation.GripPos = Vector3.new(-100,-100,100)
+                        end
+                    end
+                )
+            end
+            
+            
+             for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command11 then
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+local protect = newcclosure or protect_function
+
+if not protect then
+protect = function(f) return f end
+end
+
+setreadonly(mt, false)
+mt.__namecall = protect(function(self, ...)
+local method = getnamecallmethod()
+if method == "Kick" then
+game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+wait(9e9)
+return
+end
+return old(self, ...)
+end)
+                        end
+                    end
+                )
+            end
+            
+                         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command12 then
+plr = game.Players.LocalPlayer
+hum = plr.Character.HumanoidRootPart
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+if key == "q" then
+if mouse.Target then
+hum.CFrame = CFrame.new(mouse.Hit.x, mouse.Hit.y + 5, mouse.Hit.z)
+end
+end
+end)
+                        end
+                    end
+                )
+            end
+            
+                         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command13 then
+                        local plr = game.Players.LocalPlayer
+	local mouse = plr:GetMouse()
+
+	localplayer = plr
+
+	if workspace:FindFirstChild("Core") then
+		workspace.Core:Destroy()
+	end
+
+	local Core = Instance.new("Part")
+	Core.Name = "Core"
+	Core.Size = Vector3.new(0.05, 0.05, 0.05)
+
+	spawn(function()
+		Core.Parent = workspace
+		local Weld = Instance.new("Weld", Core)
+		Weld.Part0 = Core
+		Weld.Part1 = localplayer.Character.LowerTorso
+		Weld.C0 = CFrame.new(0, 0, 0)
+	end)
+
+	workspace:WaitForChild("Core")
+
+	local torso = workspace.Core
+	flying = true
+	local speed=10
+	local keys={a=false,d=false,w=false,s=false}
+	local e1
+	local e2
+	local function start()
+		local pos = Instance.new("BodyPosition",torso)
+		local gyro = Instance.new("BodyGyro",torso)
+		pos.Name="EPIXPOS"
+		pos.maxForce = Vector3.new(math.huge, math.huge, math.huge)
+		pos.position = torso.Position
+		gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+		gyro.cframe = torso.CFrame
+		repeat
+			wait()
+			localplayer.Character.Humanoid.PlatformStand=true
+			local new=gyro.cframe - gyro.cframe.p + pos.position
+			if not keys.w and not keys.s and not keys.a and not keys.d then
+				speed=5
+			end
+			if keys.w then
+				new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+				speed=speed+0
+			end
+			if keys.s then
+				new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+				speed=speed+0
+			end
+			if keys.d then
+				new = new * CFrame.new(speed,0,0)
+				speed=speed+0
+			end
+			if keys.a then
+				new = new * CFrame.new(-speed,0,0)
+				speed=speed+0
+			end
+			if speed>10 then
+				speed=5
+			end
+			pos.position=new.p
+			if keys.w then
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0)
+			elseif keys.s then
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0)
+			else
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame
+			end
+		until flying == false
+		if gyro then gyro:Destroy() end
+		if pos then pos:Destroy() end
+		flying=false
+		localplayer.Character.Humanoid.PlatformStand=false
+		speed=10
+	end
+	e1=mouse.KeyDown:connect(function(key)
+		if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end
+		if key=="w" then
+			keys.w=true
+		elseif key=="s" then
+			keys.s=true
+		elseif key=="a" then
+			keys.a=true
+		elseif key=="d" then
+			keys.d=true
+		elseif key=="x" then
+			if flying==true then
+				flying=false
+			else
+				flying=true
+				start()
+			end
+		end
+	end)
+	e2=mouse.KeyUp:connect(function(key)
+		if key=="w" then
+			keys.w=false
+		elseif key=="s" then
+			keys.s=false
+		elseif key=="a" then
+			keys.a=false
+		elseif key=="d" then
+			keys.d=false
+		end
+	end)
+	start()
+                        end
+                    end
+                )
+            end
+            
+                         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command14 then
+                        while wait(0.0001) do
+ply = game.Players.LocalPlayer.Character.UpperTorso
+ply2 = game.Players.LocalPlayer.Character.HumanoidRootPart
+ply.Anchored = false
+ply.Anchored = false
+end
+                        end
+                    end
+                )
+            end
+            
+            
+                                               for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command15 then
+local PPname = "[Revolver]"
+plr = game.Players.LocalPlayer
+hum = plr.Character.HumanoidRootPart
+mouse = plr:GetMouse()
+mouse.KeyUp:connect(function(key)
+if key == "z" then
+plr.Backpack[PPname].Parent = plr.Character
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-10,10,10)
+plr.Character.Humanoid:UnequipTools()
+plr.Backpack[PPname].Parent = plr.Character
+PPlocation:Activate()
+plr.Character.Humanoid:UnequipTools()
+end
+end)
                         end
                     end
                 )
