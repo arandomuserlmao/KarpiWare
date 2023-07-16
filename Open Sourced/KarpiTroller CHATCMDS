@@ -1,0 +1,184 @@
+-- made by brady 
+
+          -- SETTINGS
+          local prefix = "." -- what you will use to signal that this is a command
+          local command = "tool" -- cmd for equip tool
+          local command2 = "unequip" -- this is the cmd for unequip tool
+          local command3 = "male" --  cmd for PP
+          local command4 = "reset" -- resets all commands
+          local command5 = "spawncash" -- uses moneygun to make it seem like you spawned cash (use .mg command and get moneygun)
+          local command6 = "antislow" -- makes it so your WS and JP stays at 16 and 50
+          local command7 = "mg" -- gets moneygun for spawncash cmd
+          local command8 = "combatphone" -- kill ppl with a phone (get bat)
+          local command9 = "combatflowers" -- kill ppl with a flower (get flower and bat)
+          local command10 = "combatchicken" -- kill ppl with a chicken (get chicken and bat)
+          -- VARIABLES
+          local plr1 = game.Players.LocalPlayer
+          local character = plr1.Character
+          local humanoid = character.Humanoid
+         
+          
+          -- MAIN SCRIPT *DO NOT MESS WITH THIS*
+            for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat:match(prefix..command) then
+                           local split = string.split(Chat, command)
+                           local str = string.gsub(split[2], " ", "")
+                              plr1.Backpack[str].Parent = character
+                           elseif plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command2 then
+                         humanoid:UnequipTools()
+                         elseif plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command3 then
+
+
+ local PPname2 = "[Double-Barrel SG]"
+
+local PPlocation2 = game.Players.LocalPlayer.Character:WaitForChild(PPname2)
+PPlocation2.GripPos = Vector3.new(1.3,1,-0.3)
+
+ elseif plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command4 then
+  local PPname2 = "[Double-Barrel SG]"
+
+local PPlocation2 = game.Players.LocalPlayer.Character:WaitForChild(PPname2)
+PPlocation2.GripPos = Vector3.new(0,0,0)
+                        end
+                    end
+                )
+                
+            end
+            
+                        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command5 then
+                            local humanoid = game.Players.LocalPlayer.Character.Humanoid
+                            local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+
+                            humanoid:EquipTool(tool)
+                            tool:Activate()
+                            humanoid:UnequipTools(tool)
+                        end
+                    end
+                )
+            end
+            
+            
+                        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command6 then
+                       local mt = getrawmetatable(game)
+local backup
+backup = hookfunction(mt.__newindex, newcclosure(function(self, key, value)
+if key == "WalkSpeed" and value < 16 then
+value = 16
+end
+return backup(self, key, value)
+end))
+      local mt = getrawmetatable(game)
+local backup
+backup = hookfunction(mt.__newindex, newcclosure(function(self, key, value)
+if key == "JumpPower" and value < 50 then
+value = 50
+end
+return backup(self, key, value)
+end))
+                        end
+                    end
+                )
+            end
+            
+            
+           for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command7 then
+                        local plr1 = game.Players.LocalPlayer.Character
+    x = game.Players.LocalPlayer.Character.UpperTorso.Position.x
+y = game.Players.LocalPlayer.Character.UpperTorso.Position.y
+z = game.Players.LocalPlayer.Character.UpperTorso.Position.z
+local x = (x)
+local y = (y)
+local z = (z)
+            local mg = game.Workspace.Ignored.Shop["[Money Gun] - $800"]
+            local sd = mg.ClickDetector
+            local xo = mg.Head.CFrame
+            plr1.HumanoidRootPart.CFrame = xo
+            wait(2)
+            plr1:MoveTo(Vector3.new(x,y,z))
+                       end
+                    end
+                )
+            end
+            
+            
+                  for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command8 then
+                  plr1.Backpack["[Phone]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,-100)
+wait(0.01)
+plr1.Character["[Phone]"].Parent = plr1.Backpack
+plr1.Character["[Bat]"].Parent = plr1.Backpack
+wait(0.01)
+                  plr1.Backpack["[Phone]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,100)
+                        end
+                    end
+                )
+            end
+                                   for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command9 then
+                  plr1.Backpack["[FlowersTool]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,-100)
+wait(0.01)
+plr1.Character["[FlowersTool]"].Parent = plr1.Backpack
+plr1.Character["[Bat]"].Parent = plr1.Backpack
+wait(0.01)
+                  plr1.Backpack["[FlowersTool]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,100)
+                        end
+                    end
+                )
+            end
+           
+                                              for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                plr.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command10 then
+                  plr1.Backpack["[Chicken]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,-100)
+wait(0.01)
+plr1.Character["[Chicken]"].Parent = plr1.Backpack
+plr1.Character["[Bat]"].Parent = plr1.Backpack
+wait(0.01)
+                  plr1.Backpack["[Chicken]"].Parent = plr1.Character
+                  plr1.Backpack["[Bat]"].Parent = plr1.Character
+                   local PPname = "[Bat]"
+local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
+PPlocation.GripPos = Vector3.new(-100,-100,100)
+                        end
+                    end
+                )
+            end
