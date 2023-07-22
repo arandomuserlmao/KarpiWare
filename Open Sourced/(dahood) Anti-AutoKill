@@ -1,0 +1,12 @@
+-- protects you from people that use AntiAutoKill, this will kill them when they try to autokill you, or just teleport to you in general
+-- to go back you will have to reset
+
+game.Workspace.FallenPartsDestroyHeight = -10000
+local part = Instance.new("Part")
+part.Size = Vector3.new(100, 2, 100)
+part.Name = "AntiAutoKill"
+part.Parent = game.Workspace
+part.Anchored = true
+local pl = game.Players.LocalPlayer.Character
+part.Position = Vector3.new(-897.6600952148438, -650.0717163085938, -709.875732421875)
+pl.HumanoidRootPart.CFrame = part.CFrame
