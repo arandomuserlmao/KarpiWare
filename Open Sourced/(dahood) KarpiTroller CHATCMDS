@@ -1,4 +1,5 @@
 -- made by brady 
+-- beta update (not full update)
 
           -- SETTINGS
           local prefix = "." -- what you will use to signal that this is a command
@@ -12,18 +13,40 @@
           local command8 = "combatphone" -- kill ppl with a phone (get bat)
           local command9 = "combatflowers" -- kill ppl with a flower (get flower and bat)
           local command10 = "combatchicken" -- kill ppl with a chicken (get chicken and bat)
-          local command11 = "antikick" -- prevents premium script users from kicking you (partly not mine)
+          local command11 = nil -- this was antikick, it autoenables when you execute this script
           local command12 = "tp" -- q to tp
           local command13 = "fly" -- x to fly
-          local command14 = "antifreeze" -- prevents premium script users from freezing you
+          local command14 = nil -- this was antifreeze, it autoenables when you execute this script
           local command15 = "inviskill" -- Need revolver (aim at plr and press Z to fire)
+          local command16 = "rj" --  Rejoins the current server
+          local command17 = "chatspy" -- dehoisted chat spy
+          local command18 = "male2" -- same as .male but uses a RPG
+          local command19 = "esp" -- my custom Highlight ESP
+          local command20 = "savegame" -- saves game JobId incase you get kicked or something
+          local command21 = "joinsave" -- joins saved game
           -- VARIABLES
           local plr1 = game.Players.LocalPlayer
           local character = plr1.Character
           local humanoid = character.Humanoid
+          local CoreGui = game:GetService("StarterGui")
          
-          
+        -- FUNCTIONS
+        local function notif()
+        CoreGui:SetCore("SendNotification", {
+	Title = "KarpiWare";
+	Text = "Prefix is "..prefix;
+	Duration = 3;
+})
+        end
+
+
           -- MAIN SCRIPT *DO NOT MESS WITH THIS*
+        CoreGui:SetCore("SendNotification", {
+	Title = "KarpiWare";
+	Text = "KarpiWare Loaded! Set prefix is "..prefix;
+	Duration = 3;
+})
+
             for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
                 plr.Chatted:Connect(
                     function(Chat)
@@ -189,33 +212,6 @@ PPlocation.GripPos = Vector3.new(-100,-100,100)
             end
             
             
-             for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-                plr.Chatted:Connect(
-                    function(Chat)
-                     local plr1 = game.Players.LocalPlayer
-                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command11 then
-local mt = getrawmetatable(game)
-local old = mt.__namecall
-local protect = newcclosure or protect_function
-
-if not protect then
-protect = function(f) return f end
-end
-
-setreadonly(mt, false)
-mt.__namecall = protect(function(self, ...)
-local method = getnamecallmethod()
-if method == "Kick" then
-game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
-wait(9e9)
-return
-end
-return old(self, ...)
-end)
-                        end
-                    end
-                )
-            end
             
                          for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
                 plr.Chatted:Connect(
@@ -356,28 +352,14 @@ end)
                 )
             end
             
-                         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-                plr.Chatted:Connect(
-                    function(Chat)
-                     local plr1 = game.Players.LocalPlayer
-                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command14 then
-                        while wait(0.0001) do
-ply = game.Players.LocalPlayer.Character.UpperTorso
-ply2 = game.Players.LocalPlayer.Character.HumanoidRootPart
-ply.Anchored = false
-ply.Anchored = false
-end
-                        end
-                    end
-                )
-            end
+                     
             
             
-                                               for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-                plr.Chatted:Connect(
+                                           
+                plr1.Chatted:Connect(
                     function(Chat)
                      local plr1 = game.Players.LocalPlayer
-                        if plr.Name == game.Players.LocalPlayer.Name and Chat == prefix..command15 then
+                        if Chat == prefix..command15 then
 local PPname = "[Revolver]"
 plr = game.Players.LocalPlayer
 hum = plr.Character.HumanoidRootPart
@@ -386,7 +368,7 @@ mouse.KeyUp:connect(function(key)
 if key == "z" then
 plr.Backpack[PPname].Parent = plr.Character
 local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-10,10,10)
+PPlocation.GripPos = Vector3.new(-7,-7,-7)
 plr.Character.Humanoid:UnequipTools()
 plr.Backpack[PPname].Parent = plr.Character
 PPlocation:Activate()
@@ -396,4 +378,72 @@ end)
                         end
                     end
                 )
-            end
+            
+                                                      
+                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command16 then
+game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+                        end
+                    end
+                )
+
+                                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command18 then
+ local PPname2 = "[RPG]"
+
+local PPlocation2 = game.Players.LocalPlayer.Character:WaitForChild(PPname2)
+PPlocation2.GripPos = Vector3.new(-0.55,2,-1)
+                        end
+                    end
+                )
+
+                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command19 then
+                            notif()
+                        loadstring(game:HttpGet('https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/Karpi%20Visuals'))()
+                        end
+                    end
+                )
+
+                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command17 then
+                         loadstring(game:HttpGet('https://raw.githubusercontent.com/dehoisted/Chat-Spy/main/source/main.lua'))()
+                        end
+                    end
+                )
+                
+                                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command20 then
+                        notif()
+                       writefile("Karpiwaregamejobid.KARPI", game.JobId)
+                        end
+                    end
+                )
+                
+                                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command21 then
+                       game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, readfile("Karpiwaregamejobid.KARPI"), game.Players.LocalPlayer)
+                    end
+                end
+                )
+                
+                     
+while wait(0.0001) do
+ply = game.Players.LocalPlayer.Character.UpperTorso
+ply2 = game.Players.LocalPlayer.Character.HumanoidRootPart
+ply.Anchored = false
+ply2.Anchored = false
+end
+
