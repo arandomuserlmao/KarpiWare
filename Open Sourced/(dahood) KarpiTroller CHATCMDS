@@ -1,5 +1,4 @@
 -- made by brady 
--- beta update (not full update)
 
           -- SETTINGS
           local prefix = "." -- what you will use to signal that this is a command
@@ -24,6 +23,8 @@
           local command19 = "esp" -- my custom Highlight ESP
           local command20 = "savegame" -- saves game JobId incase you get kicked or something
           local command21 = "joinsave" -- joins saved game
+          local command22 = "male2" -- bat PP (get bat)
+          local command23 = "curvemale" -- get old phone from phone store
           -- VARIABLES
           local plr1 = game.Players.LocalPlayer
           local character = plr1.Character
@@ -435,6 +436,35 @@ PPlocation2.GripPos = Vector3.new(-0.55,2,-1)
                      local plr1 = game.Players.LocalPlayer
                         if Chat == prefix..command21 then
                        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, readfile("Karpiwaregamejobid.KARPI"), game.Players.LocalPlayer)
+                    end
+                end
+                )
+                
+                                                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command22 then
+                      local PPname2 = "[Bat]"
+local PPlocation2 = game.Players.LocalPlayer.Character:WaitForChild(PPname2)
+print(Vector3.new(PPlocation2.GripPos))
+print(Vector3.new(PPlocation2.GripUp))
+print(Vector3.new(PPlocation2.GripForward))
+print(Vector3.new(PPlocation2.GripRight))
+PPlocation2.GripForward = Vector3.new(0,10,0)
+PPlocation2.GripPos = Vector3.new(-2,-0.5,0.3)
+                    end
+                end
+                )
+                
+                
+                                                                plr1.Chatted:Connect(
+                    function(Chat)
+                     local plr1 = game.Players.LocalPlayer
+                        if Chat == prefix..command23 then
+                     local PPname2 = "[Phone]"
+local PPlocation2 = game.Players.LocalPlayer.Character:WaitForChild(PPname2)
+print(Vector3.new(PPlocation2.GripPos))
+PPlocation2.GripPos = Vector3.new(-1.85,1.5,1.2)
                     end
                 end
                 )
