@@ -23,7 +23,7 @@
           local command19 = "esp" -- my custom Highlight ESP
           local command20 = "savegame" -- saves game JobId incase you get kicked or something
           local command21 = "joinsave" -- joins saved game
-          local command22 = "male2" -- bat PP (get bat)
+          local command22 = "batp" -- bat PP (get bat)
           local command23 = "curvemale" -- get old phone from phone store
           -- VARIABLES
           local plr1 = game.Players.LocalPlayer
