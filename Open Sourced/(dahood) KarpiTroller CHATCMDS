@@ -1,4 +1,4 @@
--- made by brady (wrong folder i know)
+-- made by brady 
 
 wait()
 
@@ -35,14 +35,27 @@ getgenv().Settings = {
         command26 = "antiak", -- prevents people from using autokill (beta, not tested against autokill users)
         command27 = "antiav", -- prevents people from using aim view on you (if you use .aimview yourself you can see ur beam but others still cant)
         command28 = "cmds", -- prints all commands into output (press F9 to get to output)
-        command29 = "target" -- sets target to <string> (no display name, must be exact full name)
+        command29 = "target", -- sets target to <string> (no display name, dosent have to be full name but is recommended to do so)
+        command30 = "dnslock", -- A OP leaked paid lock (Configure lock at "B")
+        command31 = "spectate", -- spectates target (use .target to set your target)
+        command32 = "unspectate", -- un spectates target
+        command33 = "goto", -- teleports to your target (again, use .target first to set target)
      },
      
         B = {
-        FreezeProtection = true -- Protects you from being frozen
-     
+        -- anti sp
+        FreezeProtection = true, -- Protects you from being frozen
+        
+        -- .dnslock settings (Default settings - true, 0, 40, T, B)
+        SmoothLock1 = true, -- True = Smooth lock, False = Blatent lock
+        Smoothing = 0, -- Smoothing value for SmoothLock (If 0 it will set to silent aim mode)
+        Fov_Size = 40, -- Size of FOV circle
+        Lock_Key = "T", -- Key for Lock
+        Unlock_Key = "B", -- Key for Unlock
      }
      
    }
    
-loadstring(game:HttpGet("https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/chatdpdncs"))()
+   
+   
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/chatdpdncs"))()
