@@ -40,6 +40,7 @@ getgenv().Settings = {
         command31 = "spectate", -- spectates target (use .target to set your target)
         command32 = "unspectate", -- un spectates target
         command33 = "goto", -- teleports to your target (again, use .target first to set target)
+        command34 = "configinfo", -- prints your (B) configuration information in the output
      },
      
         B = {
@@ -47,11 +48,17 @@ getgenv().Settings = {
         FreezeProtection = true, -- Protects you from being frozen
         
         -- .dnslock settings (Default settings - true, 0, 40, T, B)
-        SmoothLock1 = true, -- True = Smooth lock, False = Blatent lock
-        Smoothing = 0, -- Smoothing value for SmoothLock (If 0 it will set to silent aim mode)
-        Fov_Size = 40, -- Size of FOV circle
+        Cam_lock = true, -- Bool for DNS Cam lock
+        Silent_Aim = true, -- Bool for DNS Silent Aim
+        Cam_Lock_Prediction = 0.51, -- Value for DNS Cam lock prediction
+        Silent_Aim_Prediction = 0.12471, -- Value for DNS Silent Aim prediction
+        Prediction_Enabled = true, -- Bool for Cam Lock Prediction
+        Smooth_Lock = true, -- Bool for Smooth Cam Lock
+        Smoothing = 0.90, -- Value for Smooth Lock smoothing (Lower = Smoother)
+        Fov_Size = 40, -- Value for Size of FOV circle
         Lock_Key = "T", -- Key for Lock
         Unlock_Key = "B", -- Key for Unlock
+        Cam_Lock_Parts = {"UpperTorso"}, -- What cam lock will aim at (Use "Head" for max damage, "UpperTorso" for accuracy
      }
      
    }
