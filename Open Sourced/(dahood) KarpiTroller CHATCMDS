@@ -36,7 +36,7 @@ getgenv().Settings = {
         command27 = "antiav", -- prevents people from using aim view on you (if you use .aimview yourself you can see ur beam but others still cant)
         command28 = "cmds", -- prints all commands into output (press F9 to get to output)
         command29 = "target", -- sets target to <string> (no display name, dosent have to be full name but is recommended to do so)
-        command30 = "dnslock", -- A OP leaked paid lock (Configure lock at "B")
+        command30 = "test", -- ignore this
         command31 = "spectate", -- spectates target (use .target to set your target)
         command32 = "unspectate", -- un spectates target
         command33 = "goto", -- teleports to your target (again, use .target first to set target)
@@ -47,7 +47,7 @@ getgenv().Settings = {
         -- anti sp
         FreezeProtection = true, -- Protects you from being frozen
         
-        -- .dnslock settings (Default settings - true, 0, 40, T, B)
+        -- future stuff
         Cam_lock = true, -- Bool for DNS Cam lock
         Silent_Aim = true, -- Bool for DNS Silent Aim
         Cam_Lock_Prediction = 0.51, -- Value for DNS Cam lock prediction
