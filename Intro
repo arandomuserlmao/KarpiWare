@@ -36,15 +36,15 @@ local function ACNFZ_fake_script() -- Intro.Animate
 	local script = Instance.new('LocalScript', Intro)
 
 	wait(3)
-	local noob = script.Parent.Logo
+	local tw = script.Parent.Logo
 	Tween = function(Obj, Time, Settings)	
 		game:GetService("TweenService"):Create(Obj, TweenInfo.new(Time), Settings):Play()
 	end
-	Tween(noob, 1.3, {ImageTransparency = 0})
+	Tween(tw, 1.3, {ImageTransparency = 0})
 	
 	wait(5)
 	
-	Tween(noob, 1.3, {ImageTransparency = 1})
+	Tween(tw, 1.3, {ImageTransparency = 1})
 	wait(0.5)
 	loadstring(game:HttpGet(('https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/Loader'),true))() 
 end
