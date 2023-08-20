@@ -1,5 +1,5 @@
 -- protects you from people that use AntiAutoKill, this will kill them when they try to autokill you, or just teleport to you in general
--- to go back you will have to reset
+-- to go back you will have to reset or just teleport back to your position
 
 game.Workspace.FallenPartsDestroyHeight = -50000
 local part = Instance.new("Part")
