@@ -4,7 +4,7 @@
 game.Workspace.FallenPartsDestroyHeight = -50000
 local part = Instance.new("Part")
 part.Size = Vector3.new(50000, 0.5, 50000)
-part.Name = "FallProtect"
+part.Name = "Part"
 part.Parent = game.Workspace
 part.Anchored = true
 local pl = game.Players.LocalPlayer.Character
