@@ -1,3 +1,6 @@
+![image](https://github.com/biggaboy212/KarpiWare/assets/75142294/951e0d29-67d6-44c3-b814-c1526104f55d)
+
+
 # KarpiWare V5
 https://discord.gg/sbZNGNVdE9
 
