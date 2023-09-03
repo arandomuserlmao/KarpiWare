@@ -1,7 +1,7 @@
-![image](https://github.com/biggaboy212/KarpiWare/assets/75142294/951e0d29-67d6-44c3-b814-c1526104f55d)
+# Proton Utilities | KarpiWare
+![image](https://github.com/biggaboy212/KarpiWare/assets/75142294/aedc1cc1-2c0f-4099-a345-277441d15194)
 
 
-# KarpiWare V5
 https://discord.gg/sbZNGNVdE9
 
 IF YOU TAKE ANY PARTIAL OF MY SCRIPTS OUT
