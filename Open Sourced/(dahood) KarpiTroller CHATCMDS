@@ -41,7 +41,6 @@ getgenv().Settings = {
         command31 = "spectate", -- spectates target (use .target to set your target)
         command32 = "unspectate", -- un spectates target
         command33 = "goto", -- teleports to your target (again, use .target first to set target)
-        command34 = "configinfo", -- prints your (B) configuration information in the output
      },
      
         B = {
