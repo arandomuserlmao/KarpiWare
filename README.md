@@ -4,9 +4,4 @@
 
 https://discord.gg/sbZNGNVdE9
 
-IF YOU TAKE ANY PARTIAL OF MY SCRIPTS OUT
-TO BE USED IN A PUBLIC RELEASE,
-PLEASE GIVE CREDITS USING "biggaboy212" OR
-"brady"
-
-KARPKWARE CHAT COMMADS IS IN THE "Open Sourced" FOLDER, WRONG FOLDER I KNOW
+Main script open sourced ("chatdpdncs" file) no longer updating this, you can use it without credits idgaf
