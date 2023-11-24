@@ -1332,7 +1332,7 @@ end))
     
 
 
-if pa.FreezeProtection == true then
+if pa.FreezeProtection then
 print("FreezeProtect enabled.")
 while wait(0.01) do
 ply = game.Players.LocalPlayer.Character.UpperTorso
