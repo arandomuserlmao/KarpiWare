@@ -85,14 +85,9 @@ Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, B
 end)
 
 
--- antislow
 Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', function(Arguments, Speaker)
-   -- made by brady 
--- wrong folder yes i know
-
 wait()
-
--- Command names (you can change these to however you want)
+		
 getgenv().Settings = {
    A = {
       prefix = ".", -- what you will use to signal that this is a command
@@ -638,7 +633,7 @@ Window:AddCommand('RemoveWP', {'WaypointName'}, 'Removes a waypoint', function(A
     Window:CreateNotification('KarpiWare', 'Removed '..Arguments[1], 5)
 end)    
 
-Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them (Revolver needed)"', function(Arguments, Speaker)
+Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them !!Broken on some Emulators!! (Revolver needed)"', function(Arguments, Speaker)
     local PPname = "[Revolver]"
 plr = game.Players.LocalPlayer
 hum = plr.Character.HumanoidRootPart
@@ -1219,75 +1214,6 @@ Window:AddCommand('Goto', {}, 'Teleports to set target', function(Arguments, Spe
 end)
 
 
-Window:AddCommand('AntiAimView', {'Arguments'}, 'Not Mine | Prevents people from viewing your aim', function(Arguments, Speaker)
-    local DeepFakePosition = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nosssa/NossLock/main/GetRealMousePosition"))() 
-task.wait()
- 
- 
---//Services
-local China = setmetatable({}, {
-   __index = function(Company, Price)
-       return game:GetService(Price)
-   end})
-   
-local ChinaWorld = China.Workspace
-local Society = China.Players
-local ChineseDeporation = China.ReplicatedStorage
-local ChinaInputService = China.UserInputService
- 
---//Variables
-local ChingChong = Society.LocalPlayer
-local Cat =  "meow!!" and ChingChong:GetMouse()
- 
-local ChineseEvent = ChineseDeporation:FindFirstChild("MainEvent") or nil
-local Payment = "Hello Da Hoodian!" and nil
- 
-ChineseBypass = function(ChineseEntity)
-   local KimJongUn = ChineseEntity.ChildAdded:Connect(function(credit)
-       if credit:IsA("Tool") then
-           Payment = credit.Activated:Connect(function()
-               if ChineseEvent then
-                   ChineseEvent:FireServer("UpdateMousePos", Cat.Hit.Position)
-               end
-           end)
-       end
-   end)
-end
- 
-local RandomChinese = function(RandomCredit)
-   return type(RandomCredit) == "number" and math.random(-RandomCredit, RandomCredit) or 0
-end
- 
-local ChinaAlive = function(ChinesePlayer)
-   return ChinesePlayer and ChinesePlayer.Character and ChinesePlayer.Character:FindFirstChild("Humanoid") and ChinesePlayer.Character:FindFirstChild("Head") or false
-end
- 
-ChingChong.CharacterAdded:Connect(function(NewChingChong)
-   ChineseBypass(NewChingChong)
-end)
- 
-if ChinaAlive(ChingChong) then
-   ChingChong.Character.Humanoid:UnequipTools()
-   ChineseBypass(ChingChong.Character)
-end
- 
-local ChinaHook
-ChinaHook = hookmetamethod(game, "__namecall", function(self, ...)
-   local ChinaArgs = {...}
-   local DeportationMethod = getnamecallmethod()
- 
-   if not checkcaller() and DeportationMethod == "FireServer" and self.Name == "MainEvent" and ChinaArgs[1] == "UpdateMousePos" and "chungusdian" then
- 
-       ChinaArgs[2] = "Scarcin made this" and _G.FetchPosition() -- was V3.zero
-       
-       return self.FireServer(self, unpack(ChinaArgs))
-   end
-   
-   return ChinaHook(self, ...)
-end)
-end)
-
-
 Window:AddCommand('SpawnCash', {}, 'Fake spawns cash using moneygun, get moneygun first.', function(Arguments, Speaker)
     local humanoid = game.Players.LocalPlayer.Character.Humanoid
     local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
@@ -1360,6 +1286,7 @@ PPlocation.GripPos = Vector3.new(-100,-100,100)
 end)
 
 
+-- Teleports
 Window:AddCommand('Bank', {}, 'Teleports to bank', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-447.26019287109375, 23.003671646118164, -283.8965759277344)
 end)
