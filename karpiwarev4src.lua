@@ -85,6 +85,11 @@ Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, B
 end)
 
 
+Window:AddCommand('Discord', {}, 'Copies discord link', function(Arguments, Speaker)
+    setclipboard("https://discord.gg/sbZNGNVdE9")
+end)
+
+
 Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', function(Arguments, Speaker)
 wait()
 		
