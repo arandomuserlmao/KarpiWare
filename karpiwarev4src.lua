@@ -36,7 +36,9 @@ end
 
 local plr1 = game.Players.LocalPlayer
 local character = plr1.Character
+local humanoid = character.Humanoid
 local target = nil
+local foundtarg = nil
 local mgogpos = nil
 local Waypoints = {
 
@@ -184,6 +186,28 @@ end)
 Window:AddCommand('Equip', {'Tool'}, 'Equips a tool from your inventory, you can equip multiple tools with this', function(Arguments, Speaker)
     plr1.Backpack[Arguments[1]].Parent = character
 end)
+
+-- No Reoil
+Window:AddCommand('NoRecoil', {}, 'Removes Gun Recoil', function(Arguments, Speaker)
+    for i,v in pairs(game:GetService('Workspace'):GetChildren()) do
+        if v:IsA('Camera') then
+            v:Destroy()
+        end
+    end
+    local Camera2 = Instance.new('Camera',game.Workspace)
+    Camera2.Name = 'Camera'
+    Camera2.CameraType = 'Custom'
+    Camera2.CameraSubject = humanoid
+    Camera2.HeadLocked = true
+    Camera2.HeadScale = 1
+    game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+end)
+
+-- Rejoin
+Window:AddCommand('Rejoin', {}, 'Rejoins the game', function(Arguments, Speaker)
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+end)
+
 
 -- double barrel sg pp
 Window:AddCommand('Male1', {}, 'Double-Barrel SG | PP', function(Arguments, Speaker)
@@ -664,6 +688,7 @@ end)
 
 
 Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Arguments, Speaker)
+
     getgenv().DNS = {
         General = {
             Notifications = true,
@@ -671,37 +696,37 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
         },
         Silent = {
             Main = {
-                Enabled = pa.Silent_Aim,
+                Enabled = true,
                 Mode = "Target",
                 Toggle = "C",
-                Prediction = pa.Silent_Aim_Prediction,
+                Prediction = 0.12471,
                 Parts = {"Head","LowerTorso","UpperTorso"}
             },
             FOV = {
                 ShowFOV = true,
-                Radius = pa.Fov_Size,
+                Radius = 40,
                 Color = Color3.fromRGB(0, 71, 171),
                 Filled = false,
-                Transparency = 0.8
+                Transparency = 0.2
             }
         },
         Camlock = {
             Main = {
-                Enabled = pa.Cam_lock,
-                Key = pa.Lock_Key,
-                UnlockKey = pa.Unlock_Key,
-                SmoothLock = pa.Smooth_Lock,
-                Smoothness = pa.Smoothing,
-                PredictMovement = pa.Prediction_Enabled,
-                Prediction = pa.Cam_Lock_Prediction,
+                Enabled = true,
+                Key = "T",
+                UnlockKey = "B",
+                SmoothLock = true,
+                Smoothness = 0.90,
+                PredictMovement = true,
+                Prediction = 0.51,
                 Shake = false,
                 ShakeValue = 7,
-                Parts = pa.Cam_Lock_Parts
+                Parts = {"UpperTorso"}
             },
             FOV = {
                 UseFOV = true,
                 ShowFOV = true,
-                Radius = pa.Fov_Size,
+                Radius = 40,
                 Color = Color3.fromRGB(0, 71, 171),
                 Filled = false,
                 Transparency = 0.4
@@ -1171,20 +1196,28 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
 end)
 
 
-Window:AddCommand('SetTarget', {'Player'}, 'Sets the target player (Username only)', function(Arguments, Speaker)
+Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)', function(Arguments, Speaker)
     local str = string.gsub(Arguments[1], " ", "")
     local PartialName = str
 
+    local Players = game.Players:GetPlayers()
+    foundtarg = false
 
-local Players = game.Players:GetPlayers()
-for i = 1, #Players do
-local CurrentPlayer = Players[i]
-if string.lower(CurrentPlayer.Name):sub(1, #PartialName) == string.lower(PartialName) then
-target = CurrentPlayer.Name
-break
-end
-end
+    for i = 1, #Players do
+        local CurrentPlayer = Players[i]
+        if string.lower(CurrentPlayer.Name):sub(1, #PartialName) == string.lower(PartialName) then
+            target = CurrentPlayer.Name
+            foundtarg = true
+            Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
+            break
+        end
+    end
+
+    if not foundtarg then
+        Window:CreateNotification('KarpiWare', 'Unable to find target.', 5)
+    end
 end)
+
 
 
 Window:AddCommand('View', {}, 'Sets camerasubject to your target', function(Arguments, Speaker)
@@ -1213,6 +1246,27 @@ Window:AddCommand('Goto', {}, 'Teleports to set target', function(Arguments, Spe
         if game.Players:FindFirstChild(target) then
             local plr2 = game.Players:WaitForChild(target)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = plr2.Character.HumanoidRootPart.CFrame * CFrame.new(0,2,0)
+        else
+            Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
+        end
+    end
+end)
+
+
+Window:AddCommand('GetCash', {}, 'Tells you the set targets cash amount', function(Arguments, Speaker)
+    if target == nil then
+        Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
+    else
+        if game.Players:FindFirstChild(target) then
+            local cashtarget = game:GetService('Players'):FindFirstChild(target)
+
+            local nmb = (function (n)
+                n = tostring(n)
+                return n:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+            end)     
+            cashtarget = game:GetService('Players'):FindFirstChild(target)       
+            Window:CreateNotification('KarpiWare', 'Cash: '..nmb(cashtarget.DataFolder.Currency.Value), 5)
+            
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
         end
