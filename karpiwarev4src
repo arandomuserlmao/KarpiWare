@@ -7,7 +7,7 @@ local Window = Library:CreateWindow({
     IntroBlur = true,
     IntroBlurIntensity = 15,
     Theme =  Library.Themes.dark,
-    Position = 'bottom',
+    Position = 'Bottom',
     Draggable = true,
     Prefix = _G.Prefix
 })
@@ -36,12 +36,11 @@ end
 
 local plr1 = game.Players.LocalPlayer
 local character = plr1.Character
-local humanoid = character.Humanoid
-local AntiAKogpos = nil
-local AntiAKon = false
-local antiAKogenabled = false
 local target = nil
 local mgogpos = nil
+local Waypoints = {
+
+}
 
 
 Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, Blue', function(Arguments, Speaker)
@@ -83,6 +82,79 @@ Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, B
     elseif Arguments[1] == nil then
         Window:ChangeTheme('scriptware')
     end
+end)
+
+
+-- antislow
+Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', function(Arguments, Speaker)
+   -- made by brady 
+-- wrong folder yes i know
+
+wait()
+
+-- Command names (you can change these to however you want)
+getgenv().Settings = {
+   A = {
+      prefix = ".", -- what you will use to signal that this is a command
+      
+        command = "tool", -- cmd for equip tool
+        command2 = "unequip", -- this is the cmd for unequip tool
+        command3 = "male", --  cmd for PP (need DB shotgun)
+        command4 = "reset", -- resets all commands
+        command5 = "spawncash", -- uses mg to make it seem like you spawned cash (use .mg command and get mg)
+        command6 = "antislow", -- makes it so your WS and JP stays at 16 and 50
+        command7 = "mg", -- gets mg for spawncash cmd
+        command8 = "combatphone", -- kill ppl with a phone (get bat)
+        command9 = "combatflowers", -- kill ppl with a flower (get flower and bat)
+        command10 = "combatchicken", -- kill ppl with a chicken (get chicken and bat)
+        command11 = nil, -- this was antikick, it autoenables when you execute this script
+        command12 = "tp", -- q to tp
+        command13 = "fly", -- x to fly
+        command14 = nil, -- this was antifreeze, it autoenables when you execute this script
+        command15 = "inviskill", -- Need revolver (aim at plr and press Z to fire)
+        command16 = "rj", --  Rejoins the current server
+        command17 = "chatspy", -- dehoisted chat spy
+        command18 = "male2", -- same as .male but uses a RPG
+        command19 = "esp", -- my custom Highlight ESP
+        command20 = "savegame", -- saves game JobId incase you get kicked or something
+        command21 = "joinsave", -- joins saved game
+        command22 = "male3", -- bat PP (get bat)
+        command23 = "curvemale", -- get old phone from phone store
+        command24 = "destroyseats", -- destroys seats
+        command25 = "aimview", -- views the aim of people using guns
+        command26 = "antiak", -- prevents people from using autokill (beta, not tested against autokill users)
+        command27 = "antiav", -- prevents people from using aim view on you (if you use .aimview yourself you can see ur beam but others still cant)
+        command28 = "cmds", -- prints all commands into output (press F9 to get to output)
+        command29 = "target", -- sets target to <string> (no display name, dosent have to be full name but is recommended to do so)
+        command30 = "test", -- ignore this
+        command31 = "spectate", -- spectates target (use .target to set your target)
+        command32 = "unspectate", -- un spectates target
+        command33 = "goto", -- teleports to your target (again, use .target first to set target)
+     },
+     
+        B = {
+        -- anti sp
+        FreezeProtection = true, -- Protects you from being frozen
+        
+        -- future stuff
+        Cam_lock = true, -- Bool for DNS Cam lock
+        Silent_Aim = true, -- Bool for DNS Silent Aim
+        Cam_Lock_Prediction = 0.51, -- Value for DNS Cam lock prediction
+        Silent_Aim_Prediction = 0.12471, -- Value for DNS Silent Aim prediction
+        Prediction_Enabled = true, -- Bool for Cam Lock Prediction
+        Smooth_Lock = true, -- Bool for Smooth Cam Lock
+        Smoothing = 0.90, -- Value for Smooth Lock smoothing (Lower = Smoother)
+        Fov_Size = 40, -- Value for Size of FOV circle
+        Lock_Key = "T", -- Key for Lock
+        Unlock_Key = "B", -- Key for Unlock
+        Cam_Lock_Parts = {"UpperTorso"}, -- What cam lock will aim at (Use "Head" for max damage, "UpperTorso" for accuracy
+     }
+     
+   }
+   
+   
+   
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/chatdpdncs"))()
 end)
 
 -- antislow
@@ -547,6 +619,24 @@ Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Argume
 	start()
 end)
 
+
+Window:AddCommand('WP', {'WaypointName'}, 'Teleports to a waypoint', function(Arguments, Speaker)
+    character.HumanoidRootPart.CFrame = Waypoints[Arguments[1]]
+    Window:CreateNotification('KarpiWare', 'Teleported to '..Arguments[1], 5)
+end)    
+
+
+Window:AddCommand('AddWP', {'WaypointName'}, 'Sets a waypoint', function(Arguments, Speaker)
+    Waypoints[Arguments[1]] = character.HumanoidRootPart.CFrame
+    print(Waypoints[Arguments[1]])
+    Window:CreateNotification('KarpiWare', 'Added '..Arguments[1], 5)
+end)
+
+
+Window:AddCommand('RemoveWP', {'WaypointName'}, 'Removes a waypoint', function(Arguments, Speaker)
+    Waypoints[Arguments[1]] = nil
+    Window:CreateNotification('KarpiWare', 'Removed '..Arguments[1], 5)
+end)    
 
 Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them (Revolver needed)"', function(Arguments, Speaker)
     local PPname = "[Revolver]"
@@ -1198,9 +1288,19 @@ end)
 end)
 
 
+Window:AddCommand('SpawnCash', {}, 'Fake spawns cash using moneygun, get moneygun first.', function(Arguments, Speaker)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+    local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+
+    humanoid:EquipTool(tool)
+    tool:Activate()
+    humanoid:UnequipTools(tool)
+end)
+
+
 Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command', function(Arguments, Speaker)
 mgogpos = character.HumanoidRootPart.CFrame
-character.HumanoidRootPart.CFrame = CFrame.new(-883, 22, -130)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-885.24609375, 21.597984313964844, -129.31216430664062)
 wait(3)
 character.HumanoidRootPart.CFrame = mgogpos
 end)
@@ -1260,11 +1360,101 @@ PPlocation.GripPos = Vector3.new(-100,-100,100)
 end)
 
 
-Window:AddCommand('SpawnCash', {}, 'Fake spawns cash using moneygun, get moneygun first.', function(Arguments, Speaker)
-    local humanoid = game.Players.LocalPlayer.Character.Humanoid
-    local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+Window:AddCommand('Bank', {}, 'Teleports to bank', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-447.26019287109375, 23.003671646118164, -283.8965759277344)
+end)
 
-    humanoid:EquipTool(tool)
-    tool:Activate()
-    humanoid:UnequipTools(tool)
+
+Window:AddCommand('Revolver', {}, 'Teleports to revolver', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-643.6868286132812, 21.748022079467773, -121.32481384277344)
+end)
+
+
+Window:AddCommand('Police', {}, 'Teleports to Police station', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-265.4961853027344, 21.797977447509766, -116.37294006347656)
+end)
+
+
+Window:AddCommand('Drumgun', {}, 'Teleports to drumgun', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-81.06612396240234, 22.575956344604492, -86.40039825439453)
+end)
+
+
+Window:AddCommand('MediumArmor', {}, 'Teleports to Medium Armor', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(410.32427978515625, 48.02492904663086, -50.341190338134766)
+end)
+
+
+Window:AddCommand('Boxing', {}, 'Teleports to Boxing', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
+end)
+
+
+Window:AddCommand('Military', {}, 'Teleports to Military', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38.51276397705078, 25.253023147583008, -875.2348022460938)
+end)
+
+
+Window:AddCommand('DBshotgun', {}, 'Teleports to DBshotgun', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23.364553451538086, 25.628028869628906, -834.4078369140625)
+end)
+
+
+Window:AddCommand('PhoneStore', {}, 'Teleports to Phone Store', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
+end)
+
+
+Window:AddCommand('Fitness', {}, 'Teleports to Fitness', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-76.6124267578125, 22.69831657409668, -632.8761596679688)
+end)
+
+
+Window:AddCommand('Hospital', {}, 'Teleports to Hospital', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(105.38876342773438, 22.798017501831055, -483.2912902832031)
+end)
+
+
+Window:AddCommand('UphillGuns', {}, 'Teleports to UphillGuns', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(483.9078369140625, 48.06851577758789, -623.2725219726562)
+end)
+
+
+Window:AddCommand('Joses', {}, 'Teleports to Joses', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(583.9660034179688, 51.05943298339844, -479.64508056640625)
+end)
+
+
+Window:AddCommand('Bat', {}, 'Teleports to Bat', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-80.242919921875, 21.748022079467773, -293.10821533203125)
+end)
+
+
+Window:AddCommand('Food', {}, 'Teleports to Food', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-325.65826416015625, 23.680667877197266, -293.7251281738281)
+end)
+
+
+Window:AddCommand('SkatePark', {}, 'Teleports to Skate Park', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-850.03955078125, 21.79800796508789, -531.6365356445312)
+end)
+
+
+Window:AddCommand('Casino', {}, 'Teleports to Casino', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-864.4593505859375, 21.597980499267578, -101.7231216430664)
+end)
+
+
+Window:AddCommand('Sledgehammer', {}, 'Teleports to Sledgehammer', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-901.64404296875, 21.74802017211914, -296.5692443847656)
+end)
+
+
+Window:AddCommand('DownhillGuns', {}, 'Teleports to Downhill Guns', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-582.5549926757812, 8.312807083129883, -737.0886840820312)
+end)
+
+
+Window:AddCommand('Panic', {}, 'Teleports you to a hidden spot', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
 end)
