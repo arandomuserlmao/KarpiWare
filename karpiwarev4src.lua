@@ -87,6 +87,7 @@ end)
 
 Window:AddCommand('Discord', {}, 'Copies discord link', function(Arguments, Speaker)
     setclipboard("https://discord.gg/sbZNGNVdE9")
+    Window:CreateNotification('KarpiWare', 'Copied Discord link')
 end)
 
 
