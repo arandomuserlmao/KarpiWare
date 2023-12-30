@@ -437,9 +437,9 @@ end)
 
 -- Fly
 Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Arguments, Speaker)
-    local mouse = plr:GetMouse()
+    local mouse = plr1:GetMouse()
 
-	localplayer = plr
+	localplayer = plr1
 
 	if workspace:FindFirstChild("Core") then
 		workspace.Core:Destroy()
