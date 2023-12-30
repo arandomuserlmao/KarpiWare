@@ -3,5 +3,3 @@
 
 
 https://discord.gg/sbZNGNVdE9
-
-Main script open sourced ("chatdpdncs" file) no longer updating this, you can use it without credits idgaf
