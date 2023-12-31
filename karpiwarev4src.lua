@@ -37,6 +37,7 @@ end
 local plr1 = game.Players.LocalPlayer
 local character = plr1.Character
 local humanoid = character.Humanoid
+local others = game:GetService("Players")
 local target = nil
 local foundtarg = nil
 local mgogpos = nil
@@ -51,37 +52,37 @@ Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, B
         Window:ChangeTheme('dark')
     elseif Arguments[1] == "dark" then
             Window:ChangeTheme('dark')
-    
+
     elseif Arguments[1] == "Light" then
         Window:ChangeTheme('light')
-    
+
     elseif Arguments[1] == "Red" then
         Window:ChangeTheme('redandblack')
-    
+
     elseif Arguments[1] == "Orange" then
         Window:ChangeTheme('kiriot')
-    
+
     elseif Arguments[1] == "Purple" then
         Window:ChangeTheme('purple')
-    
+
     elseif Arguments[1] == "Blue" then
         Window:ChangeTheme('scriptware')
 
     elseif Arguments[1] == "light" then
         Window:ChangeTheme('light')
-    
+
     elseif Arguments[1] == "red" then
         Window:ChangeTheme('redandblack')
-    
+
     elseif Arguments[1] == "orange" then
         Window:ChangeTheme('kiriot')
-    
+
     elseif Arguments[1] == "purple" then
         Window:ChangeTheme('purple')
-    
+
     elseif Arguments[1] == "blue" then
         Window:ChangeTheme('scriptware')
-    
+
     elseif Arguments[1] == nil then
         Window:ChangeTheme('scriptware')
     end
@@ -95,7 +96,70 @@ end)
 
 
 Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', function(Arguments, Speaker)
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/KarpiWare/main/Open%20Sourced/(dahood)%20KarpiTroller%20CHATCMDS"))()
+wait()
+
+getgenv().Settings = {
+   A = {
+      prefix = ".", -- what you will use to signal that this is a command
+
+        command = "tool", -- cmd for equip tool
+        command2 = "unequip", -- this is the cmd for unequip tool
+        command3 = "male", --  cmd for PP (need DB shotgun)
+        command4 = "reset", -- resets all commands
+        command5 = "spawncash", -- uses mg to make it seem like you spawned cash (use .mg command and get mg)
+        command6 = "antislow", -- makes it so your WS and JP stays at 16 and 50
+        command7 = "mg", -- gets mg for spawncash cmd
+        command8 = "combatphone", -- kill ppl with a phone (get bat)
+        command9 = "combatflowers", -- kill ppl with a flower (get flower and bat)
+        command10 = "combatchicken", -- kill ppl with a chicken (get chicken and bat)
+        command11 = nil, -- this was antikick, it autoenables when you execute this script
+        command12 = "tp", -- q to tp
+        command13 = "fly", -- x to fly
+        command14 = nil, -- this was antifreeze, it autoenables when you execute this script
+        command15 = "inviskill", -- Need revolver (aim at plr and press Z to fire)
+        command16 = "rj", --  Rejoins the current server
+        command17 = "chatspy", -- dehoisted chat spy
+        command18 = "male2", -- same as .male but uses a RPG
+        command19 = "esp", -- my custom Highlight ESP
+        command20 = "savegame", -- saves game JobId incase you get kicked or something
+        command21 = "joinsave", -- joins saved game
+        command22 = "male3", -- bat PP (get bat)
+        command23 = "curvemale", -- get old phone from phone store
+        command24 = "destroyseats", -- destroys seats
+        command25 = "aimview", -- views the aim of people using guns
+        command26 = "antiak", -- prevents people from using autokill (beta, not tested against autokill users)
+        command27 = "antiav", -- prevents people from using aim view on you (if you use .aimview yourself you can see ur beam but others still cant)
+        command28 = "cmds", -- prints all commands into output (press F9 to get to output)
+        command29 = "target", -- sets target to <string> (no display name, dosent have to be full name but is recommended to do so)
+        command30 = "test", -- ignore this
+        command31 = "spectate", -- spectates target (use .target to set your target)
+        command32 = "unspectate", -- un spectates target
+        command33 = "goto", -- teleports to your target (again, use .target first to set target)
+     },
+
+        B = {
+        -- anti sp
+        FreezeProtection = true, -- Protects you from being frozen
+
+        -- future stuff
+        Cam_lock = true, -- Bool for DNS Cam lock
+        Silent_Aim = true, -- Bool for DNS Silent Aim
+        Cam_Lock_Prediction = 0.51, -- Value for DNS Cam lock prediction
+        Silent_Aim_Prediction = 0.12471, -- Value for DNS Silent Aim prediction
+        Prediction_Enabled = true, -- Bool for Cam Lock Prediction
+        Smooth_Lock = true, -- Bool for Smooth Cam Lock
+        Smoothing = 0.90, -- Value for Smooth Lock smoothing (Lower = Smoother)
+        Fov_Size = 40, -- Value for Size of FOV circle
+        Lock_Key = "T", -- Key for Lock
+        Unlock_Key = "B", -- Key for Unlock
+        Cam_Lock_Parts = {"UpperTorso"}, -- What cam lock will aim at (Use "Head" for max damage, "UpperTorso" for accuracy
+     }
+
+   }
+
+
+
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/chatdpdncs"))()
 end)
 
 -- antislow
@@ -307,19 +371,19 @@ else
     autofarm = true
     local humanoid = game.Players.LocalPlayer.Character.Humanoid
     local tool = game.Players.LocalPlayer.Backpack.Combat
-    
-    local function Collect() 
+
+    local function Collect()
         task.wait(0.5)
         for i, v in ipairs(game.Workspace.Ignored.Drop:GetChildren()) do
             if v.Name == "MoneyDrop" and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 20 then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
                 fireclickdetector(v.ClickDetector)
                 task.wait(0.5)
-            end  
+            end
         end
     end
-    
-    local function Start() 
+
+    local function Start()
             humanoid:EquipTool(tool)
             for i, v in ipairs(game.Workspace.Cashiers:GetChildren()) do
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Open.CFrame * CFrame.new(0, 0, 2)
@@ -337,102 +401,78 @@ end)
 
 -- Chams ESP
 Window:AddCommand('Chams', {}, 'Not mine | Puts chams on every player', function(Arguments, Speaker)
-    local dwEntities = game:GetService("Players")
-local dwLocalPlayer = dwEntities.LocalPlayer 
 local dwRunService = game:GetService("RunService")
 
 for i, v in pairs(game.Players:GetChildren()) do
-repeat wait() until game:IsLoaded() and game.Players and game.Players.LocalPlayer and game.Players.LocalPlayer.Character and v.Character and v.Character.Head ~= nil and v.Character.HumanoidRootPart ~= nil
+repeat wait() until game:IsLoaded() and others and plr1 and character and v.Character and v.Character.Head ~= nil and v.Character.HumanoidRootPart ~= nil
 end
-
-local sets = {
-    ESP_Enabled = true,
-    ESP_TeamCheck = false,
-    Chams = true,
-    Chams_Color = Color3.fromRGB(110,153,202),
-    Chams_Transparency = 0.1,
-    Chams_Glow_Color = Color3.fromRGB(110,153,202)
-}
 
 function destroy_chams(char)
 
-    for k,v in next, char:GetChildren() do 
+    for k,v in next, char:GetChildren() do
 
         if v:IsA("BasePart") and v.Transparency ~= 1 then
 
-            if v:FindFirstChild("Glow") and 
+            if v:FindFirstChild("Glow") and
             v:FindFirstChild("Chams") then
 
                 v.Glow:Destroy()
-                v.Chams:Destroy() 
+                v.Chams:Destroy()
 
-            end 
+            end
 
-        end 
+        end
 
-    end 
+    end
 
 end
 
 dwRunService.Heartbeat:Connect(function()
 
-    if sets.ESP_Enabled then
+        for k,v in next, others:GetPlayers() do
 
-        for k,v in next, dwEntities:GetPlayers() do 
-
-            if v ~= dwLocalPlayer then
+            if v ~= plr1 then
 
                 if v.Character and
-                v.Character:FindFirstChild("HumanoidRootPart") and 
-                v.Character:FindFirstChild("Humanoid") and 
+                v.Character:FindFirstChild("HumanoidRootPart") and
+                v.Character:FindFirstChild("Humanoid") and
                 v.Character:FindFirstChild("Humanoid").Health ~= 0 then
 
-                    if sets.ESP_TeamCheck == false then
+                        local char = v.Character
 
-                        local char = v.Character 
+                        for k,b in next, char:GetChildren() do
 
-                        for k,b in next, char:GetChildren() do 
-
-                            if b:IsA("BasePart") and 
+                            if b:IsA("BasePart") and
                             b.Transparency ~= 1 then
-                                
-                                if sets.Chams then
 
                                     if not b:FindFirstChild("Glow") and
                                     not b:FindFirstChild("Chams") then
 
                                         local chams_box = Instance.new("BoxHandleAdornment", b)
                                         chams_box.Name = "Chams"
-                                        chams_box.AlwaysOnTop = true 
-                                        chams_box.ZIndex = 4 
-                                        chams_box.Adornee = b 
-                                        chams_box.Color3 = sets.Chams_Color
-                                        chams_box.Transparency = sets.Chams_Transparency
+                                        chams_box.AlwaysOnTop = true
+                                        chams_box.ZIndex = 4
+                                        chams_box.Adornee = b
+                                        chams_box.Color3 = Color3.fromRGB(110,153,202)
+                                        chams_box.Transparency = 0.1
                                         chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
 
                                         local glow_box = Instance.new("BoxHandleAdornment", b)
                                         glow_box.Name = "Glow"
-                                        glow_box.AlwaysOnTop = false 
-                                        glow_box.ZIndex = 3 
-                                        glow_box.Adornee = b 
-                                        glow_box.Color3 = sets.Chams_Glow_Color
+                                        glow_box.AlwaysOnTop = false
+                                        glow_box.ZIndex = 3
+                                        glow_box.Adornee = b
+                                        glow_box.Color3 = Color3.fromRGB(110,153,202)
                                         glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
 
                                     end
-
-                                else
-
-                                    destroy_chams(char)
-
-                                end
-                            
                             end
 
                         end
 
                     else
 
-                        if v.Team == dwLocalPlayer.Team then
+                        if v.Team == plr1.Team then
                             destroy_chams(v.Character)
                         end
 
@@ -446,34 +486,14 @@ dwRunService.Heartbeat:Connect(function()
 
             end
 
-        end
-
-    else 
-
-        for k,v in next, dwEntities:GetPlayers() do 
-
-            if v ~= dwLocalPlayer and 
-            v.Character and 
-            v.Character:FindFirstChild("HumanoidRootPart") and 
-            v.Character:FindFirstChild("Humanoid") and 
-            v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-                
-                destroy_chams(v.Character)
-
-            end
-
-        end
-
-    end
-
 end)
 end)
 
 -- ClickTP
 Window:AddCommand('ClickTP', {}, 'Teleports you where you click (Q)', function(Arguments, Speaker)
-    plr = game.Players.LocalPlayer
-hum = plr.Character.HumanoidRootPart
-mouse = plr:GetMouse()
+local plr = game.Players.LocalPlayer
+local hum = plr.Character.HumanoidRootPart
+local mouse = plr:GetMouse()
 mouse.KeyDown:connect(function(key)
 if key == "q" then
 if mouse.Target then
@@ -487,8 +507,6 @@ end)
 Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Arguments, Speaker)
     local mouse = plr1:GetMouse()
 
-	localplayer = plr1
-
 	if workspace:FindFirstChild("Core") then
 		workspace.Core:Destroy()
 	end
@@ -501,7 +519,7 @@ Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Argume
 		Core.Parent = workspace
 		local Weld = Instance.new("Weld", Core)
 		Weld.Part0 = Core
-		Weld.Part1 = localplayer.Character.LowerTorso
+		Weld.Part1 = character.LowerTorso
 		Weld.C0 = CFrame.new(0, 0, 0)
 	end)
 
@@ -523,7 +541,7 @@ Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Argume
 		gyro.cframe = torso.CFrame
 		repeat
 			wait()
-			localplayer.Character.Humanoid.PlatformStand=true
+			humanoid.PlatformStand=true
 			local new=gyro.cframe - gyro.cframe.p + pos.position
 			if not keys.w and not keys.s and not keys.a and not keys.d then
 				speed=5
@@ -559,7 +577,7 @@ Window:AddCommand('Fly', {}, 'Allows your character to fly (X)', function(Argume
 		if gyro then gyro:Destroy() end
 		if pos then pos:Destroy() end
 		flying=false
-		localplayer.Character.Humanoid.PlatformStand=false
+		humanoid.PlatformStand=false
 		speed=10
 	end
 	e1=mouse.KeyDown:connect(function(key)
@@ -599,7 +617,7 @@ end)
 Window:AddCommand('WP', {'WaypointName'}, 'Teleports to a waypoint', function(Arguments, Speaker)
     character.HumanoidRootPart.CFrame = Waypoints[Arguments[1]]
     Window:CreateNotification('KarpiWare', 'Teleported to '..Arguments[1], 5)
-end)    
+end)
 
 
 Window:AddCommand('AddWP', {'WaypointName'}, 'Sets a waypoint', function(Arguments, Speaker)
@@ -612,7 +630,7 @@ end)
 Window:AddCommand('RemoveWP', {'WaypointName'}, 'Removes a waypoint', function(Arguments, Speaker)
     Waypoints[Arguments[1]] = nil
     Window:CreateNotification('KarpiWare', 'Removed '..Arguments[1], 5)
-end)    
+end)
 
 Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them !!Broken on some Emulators!! (Revolver needed)"', function(Arguments, Speaker)
     local PPname = "[Revolver]"
@@ -711,7 +729,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             ping190_200 = 0.1865,
         }
      }
-     
+
      local function getnamecall()
         if game.PlaceId == 2788229376 then
             return "UpdateMousePos"
@@ -721,9 +739,9 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             return "GetMousePos"
         end
      end
-     
+
      local namecalltype = getnamecall()
-     
+
      function MainEventLocate()
         for _,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
             if v.Name == "MainEvent" then
@@ -731,9 +749,9 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end
         end
      end
-     
+
      local mainevent = MainEventLocate()
-     
+
      -- // Shorthand
      local uwuDNS = getgenv().DNS
      local uwuMain = uwuDNS.General
@@ -743,22 +761,22 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
      local uwuSilentFOV = uwuDNS.Silent.FOV
      local uwuTrace = uwuDNS.Tracer
      local uwuAutoPred = uwuDNS.AutoPrediction
-     
+
      -- // Optimization
      local vect3 = Vector3.new
      local vect2 = Vector2.new
      local cnew = CFrame.new
-     
+
      -- // Libraries
      local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
      local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-     
+
      -- // Services
      local uis = game:GetService("UserInputService")
      local rs = game:GetService("RunService")
      local plrs = game:GetService("Players")
      local ws = game:GetService("Workspace")
-     
+
      -- // Script Variables
      local CToggle = false
      local lplr = plrs.LocalPlayer
@@ -767,11 +785,11 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
      local SToggle = false
      local STarget = nil
      local SPart = nil
-     
+
      -- // Client Variables
      local m = lplr:GetMouse()
      local c = ws.CurrentCamera
-     
+
      -- // Notification Function
      local function SendNotification(text)
         Notification:Notify(
@@ -779,13 +797,13 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             {OutlineColor = Color3.fromRGB(50,76,110),Time = 2, Type = "image"},
             {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(50,76,110)}
         )
-     end 
-     
+     end
+
      -- // Call notification function
      if uwuMain.Notifications then
         SendNotification("DNS LOCK ")
      end
-     
+
      -- // Camlock FOV
      local CamlockFOV = Drawing.new("Circle")
      CamlockFOV.Visible = uwuCamFOV.ShowFOV
@@ -795,7 +813,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
      CamlockFOV.Color = uwuCamFOV.Color
      CamlockFOV.Filled = uwuCamFOV.Filled
      CamlockFOV.Transparency = uwuCamFOV.Transparency
-     
+
      --Silent FOV
      local SilentFOV = Drawing.new("Circle")
      SilentFOV.Visible = uwuSilentFOV.ShowFOV
@@ -805,14 +823,14 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
      SilentFOV.Color = uwuSilentFOV.Color
      SilentFOV.Filled = uwuSilentFOV.Filled
      SilentFOV.Transparency = uwuSilentFOV.Transparency
-     
+
      --Tracer
      local Line = Drawing.new("Line")
      Line.Color = uwuTrace.Color
      Line.Transparency = uwuTrace.Transparency
      Line.Thickness = 1
      Line.Visible = uwuTrace.Visible
-     
+
      -- // Script Functions
      local function uwuFindTawget() -- // Find target
         local d, t = math.huge, nil
@@ -829,7 +847,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
         end
         return t
      end
-     
+
      local function uwuFindPart() -- // Find aimpart
         local d, p = math.huge, nil
         if CTarget then
@@ -846,7 +864,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             return p.Name
         end
      end
-     
+
      local function uwuFindSilentPart() -- // Find aimpart
         local d, p = math.huge, nil
         if CTarget then
@@ -863,7 +881,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             return p.Name
         end
      end
-     
+
      local function uwuCheckAnti(targ) -- // Anti-aim detection
         if (targ.Character.HumanoidRootPart.Velocity.Y < -5 and targ.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall) or targ.Character.HumanoidRootPart.Velocity.Y < -50 then
             return true
@@ -877,7 +895,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             return false
         end
      end
-     
+
      local function InSilentRadiuwus(target, section, fov) -- // Check if player is in the fov
         if target then
             local pos = nil
@@ -894,7 +912,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end
         end
      end
-     
+
      local function Silent()
         if STarget then
             if SPart and InSilentRadiuwus(STarget, uwuSilentMain, SilentFOV.Radius) then
@@ -906,8 +924,8 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end
         end
      end
-     
-     
+
+
      local function InRadiuwus(target, section, fov) -- // Check if player is in the fov
         if target then
             if uwuCamFOV.UseFOV then
@@ -928,7 +946,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end
         end
      end
-     
+
      uis.InputBegan:Connect(function(k,t)
         if not t then
             if k.KeyCode == Enum.KeyCode[uwuCamMain.Key:upper()] then
@@ -960,7 +978,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end
         end
      end)
-     
+
      rs.RenderStepped:Connect(function()
         if CTarget then
             CPart = uwuFindPart()
@@ -1043,7 +1061,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             Line.Visible = false
         end
      end)
-     
+
      lplr.Character.ChildAdded:Connect(function(tool)
         if tool:IsA("Tool") then
             tool.Activated:connect(function()
@@ -1071,7 +1089,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end)
         end
      end)
-     
+
      lplr.CharacterAdded:Connect(function(char)
         char.ChildAdded:Connect(function(tool)
             tool.Activated:connect(function()
@@ -1099,7 +1117,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
             end)
         end)
      end)
-     
+
      --Auto Prediction
      coroutine.resume(coroutine.create(function()
         while true do
@@ -1170,7 +1188,6 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
 end)
 
 
-
 Window:AddCommand('View', {}, 'Sets camerasubject to your target', function(Arguments, Speaker)
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
@@ -1214,10 +1231,10 @@ Window:AddCommand('GetCash', {}, 'Tells you the set targets cash amount', functi
             local nmb = (function (n)
                 n = tostring(n)
                 return n:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
-            end)     
-            cashtarget = game:GetService('Players'):FindFirstChild(target)       
+            end)
+            cashtarget = game:GetService('Players'):FindFirstChild(target)
             Window:CreateNotification('KarpiWare', 'Cash: '..nmb(cashtarget.DataFolder.Currency.Value), 5)
-            
+
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
         end
