@@ -1261,7 +1261,7 @@ Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command',
 mgogpos = character.HumanoidRootPart.CFrame
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
 fireclickdetector(game.Workspace.Ignored.Shop['[Money Gun] - $800'].ClickDetector)
-task.wait(3)
+task.wait(5)
 character.HumanoidRootPart.CFrame = mgogpos
 end)
 
@@ -1269,8 +1269,8 @@ end)
 Window:AddCommand('Armor', {}, 'Buys armor', function(Arguments, Speaker)
     mgogpos = character.HumanoidRootPart.CFrame
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
-    fireclickdetector(game.Workspace.Ignored.Shop['[Money Gun] - $800'].ClickDetector)
-    task.wait(3)
+    fireclickdetector(game.Workspace.Ignored.Shop['[Max Armor] - $5099'].ClickDetector)
+    task.wait(5)
     character.HumanoidRootPart.CFrame = mgogpos
     end)
 
