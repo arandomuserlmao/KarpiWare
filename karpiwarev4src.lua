@@ -17,7 +17,7 @@ local file = "karpi_ware_settings.txt";
 
 function load()
 	print("loading sets")
-	if (readfile and isfile and isfile(filename)) then
+	if (readfile and isfile and isfile(file)) then
         print('file found, loading settings')
 		Window:ChangeTheme(HttpService:JSONDcode(readfile(filename)));
 	end
