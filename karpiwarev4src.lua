@@ -687,7 +687,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
                 SmoothLock = true,
                 Smoothness = 0.90,
                 PredictMovement = true,
-                Prediction = 0.51,
+                Prediction = 0.21,
                 Shake = false,
                 ShakeValue = 7,
                 Parts = {"UpperTorso"}
