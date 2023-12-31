@@ -20,7 +20,7 @@ function load()
 	print("loading sets")
 	if (readfile and isfile and isfile(file)) then
         print('file found, loading settings')
-		savedtheme = HttpService:JSONDcode(readfile(file));
+		savedtheme = HttpService:JSONDecode(readfile(file));
 		Window:ChangeTheme(savedtheme)
 	end
 end
