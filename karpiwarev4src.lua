@@ -404,6 +404,18 @@ else
 end
 end)
 
+
+Window:AddCommand('CollectCash', {}, 'Collects all cash drops', function(Arguments, Speaker)
+    task.wait(0.5)
+    for i, v in ipairs(game.Workspace.Ignored.Drop:GetChildren()) do
+        if v.Name == "MoneyDrop" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+            fireclickdetector(v.ClickDetector)
+            task.wait(0.5)
+        end
+    end
+    end)
+
 -- Chams ESP
 Window:AddCommand('Chams', {}, 'Not mine | Puts chams on every player', function(Arguments, Speaker)
 local dwRunService = game:GetService("RunService")
@@ -1260,19 +1272,9 @@ end)
 Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command', function(Arguments, Speaker)
 mgogpos = character.HumanoidRootPart.CFrame
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
-fireclickdetector(game.Workspace.Ignored.Shop['[Money Gun] - $800'].ClickDetector)
 task.wait(5)
 character.HumanoidRootPart.CFrame = mgogpos
 end)
-
-
-Window:AddCommand('Armor', {}, 'Buys armor', function(Arguments, Speaker)
-    mgogpos = character.HumanoidRootPart.CFrame
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
-    fireclickdetector(game.Workspace.Ignored.Shop['[Max Armor] - $5099'].ClickDetector)
-    task.wait(5)
-    character.HumanoidRootPart.CFrame = mgogpos
-    end)
 
 
 Window:AddCommand('CombatPhone', {}, 'Need Phone and Bat | Kill people with a phone', function(Arguments, Speaker)
@@ -1330,7 +1332,6 @@ end)
 
 
 -- Teleports
-
 Window:AddCommand('Panic', {}, 'Teleports you to a Safe spot', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
 end)
@@ -1408,6 +1409,26 @@ end)
 
 Window:AddCommand('DownhillGuns', {}, 'Teleports to Downhill Guns', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-582.5549926757812, 8.312807083129883, -737.0886840820312)
+end)
+
+
+Window:AddCommand('MaxArmor', {}, 'Teleports to Max Armor', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
+end)
+
+
+Window:AddCommand('HighMediumArmor', {}, 'Teleports to High Medium Armor', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-934.0250244140625, -28.14982795715332, 570.5496826171875)
+end)
+
+
+Window:AddCommand('MediumArmor', {}, 'Teleports to Medium Armor', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-607.9784545898438, 7.449648857116699, -788.4942626953125)
+end)
+
+
+Window:AddCommand('FireArmor', {}, 'Teleports to Fire Armor', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-504.22802734375, 20.25925636291504, -286.00994873046875)
 end)
 
 
