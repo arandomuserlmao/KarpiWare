@@ -17,7 +17,7 @@ local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 
 function load()
-	print("Loading Settings")
+	print("loading sets")
 	if (readfile and isfile and isfile(file)) then
         print('file found, loading settings')
 		savedtheme = HttpService:JSONDecode(readfile(file));
@@ -27,14 +27,14 @@ function load()
 end
 
 function save(tosave)
-    print("Saving Settings")
+    print("saving sets")
     local json;
     if (writefile) then
     json = HttpService:JSONEncode(tosave)
     writefile(file, json);
-    print("Saved Settings")
+    print("saved sets")
     else
-        print("Writefile function dosen't exist on this executor")
+        print("writefile function dosen't exist on this executor")
     end
 end
 
@@ -495,7 +495,7 @@ end)
 end)
 
 -- ClickTP
-Window:AddCommand('ClickTP', {}, 'Teleports you where you click (Q)', function(Arguments, Speaker)
+Window:AddCommand('ClickTP', {}, 'Teleports you where you hover over (Q)', function(Arguments, Speaker)
 local plr = game.Players.LocalPlayer
 local hum = plr.Character.HumanoidRootPart
 local mouse = plr:GetMouse()
@@ -637,7 +637,7 @@ Window:AddCommand('RemoveWP', {'WaypointName'}, 'Removes a waypoint', function(A
     Window:CreateNotification('KarpiWare', 'Removed '..Arguments[1], 5)
 end)
 
-Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them !!Broken on some Emulators!! (Revolver needed)"', function(Arguments, Speaker)
+Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them (Revolver needed)"', function(Arguments, Speaker)
     local PPname = "[Revolver]"
 plr = game.Players.LocalPlayer
 hum = plr.Character.HumanoidRootPart
@@ -1259,10 +1259,20 @@ end)
 
 Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command', function(Arguments, Speaker)
 mgogpos = character.HumanoidRootPart.CFrame
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-885.24609375, 21.597984313964844, -129.31216430664062)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
+fireclickdetector(game.Workspace.Ignored.Shop['[Money Gun] - $800'].ClickDetector)
 task.wait(3)
 character.HumanoidRootPart.CFrame = mgogpos
 end)
+
+
+Window:AddCommand('Armor', {}, 'Buys armor', function(Arguments, Speaker)
+    mgogpos = character.HumanoidRootPart.CFrame
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
+    fireclickdetector(game.Workspace.Ignored.Shop['[Money Gun] - $800'].ClickDetector)
+    task.wait(3)
+    character.HumanoidRootPart.CFrame = mgogpos
+    end)
 
 
 Window:AddCommand('CombatPhone', {}, 'Need Phone and Bat | Kill people with a phone', function(Arguments, Speaker)
@@ -1320,18 +1330,19 @@ end)
 
 
 -- Teleports
-Window:AddCommand('Bank', {}, 'Teleports to bank', function(Arguments, Speaker)
+
+Window:AddCommand('Panic', {}, 'Teleports you to a Safe spot', function(Arguments, Speaker)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
+end)
+
+
+Window:AddCommand('Bank', {}, 'Teleports to Bank', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-447.26019287109375, 23.003671646118164, -283.8965759277344)
 end)
 
 
 Window:AddCommand('Police', {}, 'Teleports to Police station', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-265.4961853027344, 21.797977447509766, -116.37294006347656)
-end)
-
-
-Window:AddCommand('MediumArmor', {}, 'Teleports to Medium Armor', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(410.32427978515625, 48.02492904663086, -50.341190338134766)
 end)
 
 
@@ -1385,12 +1396,12 @@ Window:AddCommand('Club', {}, 'Teleports to Club', function(Arguments, Speaker)
 end)
 
 
-Window:AddCommand('School', {}, 'School', function(Arguments, Speaker)
+Window:AddCommand('School', {}, 'Teleports to School', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-652.6968383789062, 21.982521057128906, 306.2254943847656)
 end)
 
 
-Window:AddCommand('UphillGuns', {}, 'Teleports to UphillGuns', function(Arguments, Speaker)
+Window:AddCommand('UphillGuns', {}, 'Teleports to Uphill Guns', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(483.9078369140625, 48.06851577758789, -623.2725219726562)
 end)
 
@@ -1502,9 +1513,4 @@ end)
 
 Window:AddCommand('Mask', {}, 'Teleports to Mask', function(Arguments, Speaker)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(107.610595703125, 22.798015594482422, -486.6477966308594)
-end)
-
-
-Window:AddCommand('Panic', {}, 'Teleports you to a hidden spot', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
 end)
