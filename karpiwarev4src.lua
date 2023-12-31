@@ -1,5 +1,6 @@
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
+local savedtheme = nil
 local Window = Library:CreateWindow({
     Name = 'KarpiWare V4',
     IntroText = 'Proton Utilities | KarpiWare V4',
@@ -19,7 +20,8 @@ function load()
 	print("loading sets")
 	if (readfile and isfile and isfile(file)) then
         print('file found, loading settings')
-		Window:ChangeTheme(HttpService:JSONDcode(readfile(file)));
+		savedtheme = HttpService:JSONDcode(readfile(file));
+		Window:ChangeTheme(savedtheme)
 	end
 end
 
