@@ -6,33 +6,36 @@ local Window = Library:CreateWindow({
     IntroIcon = 'rbxassetid://0',
     IntroBlur = true,
     IntroBlurIntensity = 15,
-    Theme =  Library.Themes.dark,
+    Theme =  Library.Themes.scriptware,
     Position = 'Bottom',
     Draggable = true,
     Prefix = _G.Prefix
 })
 
-if _G.Theme == "Dark" then
-    Window:ChangeTheme('dark')
+local HttpService = game:GetService("HttpService");
+local file = "karpi_ware_settings.txt";
 
-elseif _G.Theme == "Light" then
-    Window:ChangeTheme('light')
-
-elseif _G.Theme == "Red" then
-    Window:ChangeTheme('redandblack')
-
-elseif _G.Theme == "Orange" then
-    Window:ChangeTheme('kiriot')
-
-elseif _G.Theme == "Purple" then
-    Window:ChangeTheme('purple')
-
-elseif _G.Theme == "Blue" then
-    Window:ChangeTheme('scriptware')
-
-elseif _G.Theme == nil then
-    Window:ChangeTheme('scriptware')
+function load()
+	print("loading sets")
+	if (readfile and isfile and isfile(filename)) then
+        print('file found, loading settings')
+		Window:ChangeTheme(HttpService:JSONDcode(readfile(filename)));
+	end
 end
+
+function save(tosave)
+    print("saving sets")
+    local json;
+    if (writefile) then
+    json = HttpService:JSONEncode(tosave)
+    writefile(file, json);
+    print("saved sets")
+    else
+        print("writefile function dosen't exist on this executor")
+    end
+end
+
+load()
 
 local plr1 = game.Players.LocalPlayer
 local character = plr1.Character
@@ -50,41 +53,40 @@ local Waypoints = {
 Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, Blue', function(Arguments, Speaker)
     if Arguments[1] == "Dark" then
         Window:ChangeTheme('dark')
+        save('dark')
     elseif Arguments[1] == "dark" then
-            Window:ChangeTheme('dark')
-
+        Window:ChangeTheme('dark')
+        save('dark')
     elseif Arguments[1] == "Light" then
         Window:ChangeTheme('light')
-
+        save('light')
     elseif Arguments[1] == "Red" then
         Window:ChangeTheme('redandblack')
-
+        save('redandblack')
     elseif Arguments[1] == "Orange" then
         Window:ChangeTheme('kiriot')
-
+        save('kiriot')
     elseif Arguments[1] == "Purple" then
         Window:ChangeTheme('purple')
-
+        save('purple')
     elseif Arguments[1] == "Blue" then
         Window:ChangeTheme('scriptware')
-
+        save('scriptware')
     elseif Arguments[1] == "light" then
         Window:ChangeTheme('light')
-
+        save('light')
     elseif Arguments[1] == "red" then
         Window:ChangeTheme('redandblack')
-
+        save('redandblack')
     elseif Arguments[1] == "orange" then
         Window:ChangeTheme('kiriot')
-
+        save('kiriot')
     elseif Arguments[1] == "purple" then
         Window:ChangeTheme('purple')
-
+        save('purple')
     elseif Arguments[1] == "blue" then
         Window:ChangeTheme('scriptware')
-
-    elseif Arguments[1] == nil then
-        Window:ChangeTheme('scriptware')
+        save('scriptware')
     end
 end)
 
@@ -687,7 +689,7 @@ Window:AddCommand('Lock', {}, 'Not Mine | DNS Paid Lock leak', function(Argument
                 SmoothLock = true,
                 Smoothness = 0.90,
                 PredictMovement = true,
-                Prediction = 0.21,
+                Prediction = 0.51,
                 Shake = false,
                 ShakeValue = 7,
                 Parts = {"UpperTorso"}
