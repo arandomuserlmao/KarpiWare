@@ -17,7 +17,7 @@ local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 
 function load()
-	print("loading sets")
+	print("Loading Settings")
 	if (readfile and isfile and isfile(file)) then
         print('file found, loading settings')
 		savedtheme = HttpService:JSONDecode(readfile(file));
@@ -27,14 +27,14 @@ function load()
 end
 
 function save(tosave)
-    print("saving sets")
+    print("Saving Settings")
     local json;
     if (writefile) then
     json = HttpService:JSONEncode(tosave)
     writefile(file, json);
-    print("saved sets")
+    print("Saved Settings")
     else
-        print("writefile function dosen't exist on this executor")
+        print("Writefile function dosen't exist on this executor")
     end
 end
 
