@@ -22,6 +22,7 @@ function load()
         print('file found, loading settings')
 		savedtheme = HttpService:JSONDecode(readfile(file));
 		Window:ChangeTheme(savedtheme)
+        Window:CreateNotification('KarpiWare', 'Loaded saved theme')
 	end
 end
 
