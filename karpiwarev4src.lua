@@ -1,5 +1,4 @@
-_G.Prefix = ";" --  Key to open command bar
-
+local version = "4.132"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -99,6 +98,12 @@ end)
 Window:AddCommand('Discord', {}, 'Copies discord link', function(Arguments, Speaker)
     setclipboard("https://discord.gg/sbZNGNVdE9")
     Window:CreateNotification('KarpiWare', 'Copied Discord link')
+end)
+
+
+Window:AddCommand('Version', {}, 'Gets version', function(Arguments, Speaker)
+    setclipboard("https://discord.gg/sbZNGNVdE9")
+    Window:CreateNotification('KarpiWare', 'Current version: '..version)
 end)
 
 
