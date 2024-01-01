@@ -1197,6 +1197,8 @@ Window:AddCommand('Playerlist', {}, 'Gives you a playerlist to quickly set a tar
     playerlist["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
     playerlist["2"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
     playerlist["2"]["Name"] = [[Main]];
+    playerlist["2"]["Draggable"] = true;
+    playerlist["2"]["Active"] = true;
     
     playerlist["3"] = Instance.new("Frame", playerlist["2"]);
     playerlist["3"]["ZIndex"] = 2;
