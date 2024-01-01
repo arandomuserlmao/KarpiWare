@@ -1,4 +1,4 @@
-local version = "4.181"
+local version = "4.186"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -1410,6 +1410,312 @@ end;
 task.spawn(C_e);
 
 return playerlist["1"], require;
+end)
+
+
+Window:AddCommand('TPlist', {}, 'Gives a Teleport List to quickly teleport to places', function(Arguments, Speaker)
+    for _, v in next, game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):GetChildren() do
+        if v.Name == 'KarpiWare_TeleportsList_Teleports' then
+            v:Destroy()
+        end
+    end
+    
+    local TPlist = {};
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports
+    TPlist["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+    TPlist["1"]["Name"] = [[KarpiWare_TeleportsList_Teleports]];
+    TPlist["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+    TPlist["1"]["ResetOnSpawn"] = false;
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main
+    TPlist["2"] = Instance.new("Frame", TPlist["1"]);
+    TPlist["2"]["ZIndex"] = 501;
+    TPlist["2"]["BorderSizePixel"] = 0;
+    TPlist["2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["2"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+    TPlist["2"]["BackgroundTransparency"] = 0.10000000149011612;
+    TPlist["2"]["Size"] = UDim2.new(0, 300, 0, 350);
+    TPlist["2"]["ClipsDescendants"] = true;
+    TPlist["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["2"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+    TPlist["2"]["Name"] = [[Main]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar
+    TPlist["3"] = Instance.new("Frame", TPlist["2"]);
+    TPlist["3"]["ZIndex"] = 500;
+    TPlist["3"]["BorderSizePixel"] = 0;
+    TPlist["3"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
+    TPlist["3"]["Size"] = UDim2.new(0, 300, 0, 26);
+    TPlist["3"]["ClipsDescendants"] = true;
+    TPlist["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["3"]["Name"] = [[Topbar]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label
+    TPlist["4"] = Instance.new("TextLabel", TPlist["3"]);
+    TPlist["4"]["ZIndex"] = 2;
+    TPlist["4"]["BorderSizePixel"] = 0;
+    TPlist["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["4"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+    TPlist["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
+    TPlist["4"]["TextSize"] = 16;
+    TPlist["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["4"]["Size"] = UDim2.new(0, 194, 0, 26);
+    TPlist["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["4"]["Text"] = [[Teleports]];
+    TPlist["4"]["Name"] = [[Label]];
+    TPlist["4"]["BackgroundTransparency"] = 1;
+    TPlist["4"]["Position"] = UDim2.new(0.019999999552965164, 0, 0, 0);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close
+    TPlist["5"] = Instance.new("ImageLabel", TPlist["4"]);
+    TPlist["5"]["ZIndex"] = 2;
+    TPlist["5"]["ScaleType"] = Enum.ScaleType.Fit;
+    TPlist["5"]["Image"] = [[rbxassetid://3944676352]];
+    TPlist["5"]["Size"] = UDim2.new(0, 19, 0, 19);
+    TPlist["5"]["Name"] = [[Close]];
+    TPlist["5"]["BackgroundTransparency"] = 1;
+    TPlist["5"]["Position"] = UDim2.new(1.4049999713897705, 0, 0.10700000077486038, 0);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close
+    TPlist["6"] = Instance.new("TextButton", TPlist["5"]);
+    TPlist["6"]["ZIndex"] = 3;
+    TPlist["6"]["BorderSizePixel"] = 0;
+    TPlist["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["6"]["TextSize"] = 14;
+    TPlist["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+    TPlist["6"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["6"]["Size"] = UDim2.new(0, 19, 0, 19);
+    TPlist["6"]["Name"] = [[Close]];
+    TPlist["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["6"]["Text"] = [[]];
+    TPlist["6"]["BackgroundTransparency"] = 1;
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close.LocalScript
+    TPlist["7"] = Instance.new("LocalScript", TPlist["6"]);
+    
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.UICorner
+    TPlist["8"] = Instance.new("UICorner", TPlist["3"]);
+    TPlist["8"]["CornerRadius"] = UDim.new(0, 4);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.roundcut
+    TPlist["9"] = Instance.new("Frame", TPlist["3"]);
+    TPlist["9"]["BorderSizePixel"] = 0;
+    TPlist["9"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
+    TPlist["9"]["Size"] = UDim2.new(0, 300, 0, 4);
+    TPlist["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["9"]["Position"] = UDim2.new(0, 0, 0.872794508934021, 0);
+    TPlist["9"]["Name"] = [[roundcut]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.UIStroke
+    TPlist["a"] = Instance.new("UIStroke", TPlist["2"]);
+    TPlist["a"]["Color"] = Color3.fromRGB(255, 255, 255);
+    TPlist["a"]["Transparency"] = 0.5;
+    TPlist["a"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.UICorner
+    TPlist["b"] = Instance.new("UICorner", TPlist["2"]);
+    TPlist["b"]["CornerRadius"] = UDim.new(0, 4);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List
+    TPlist["c"] = Instance.new("ScrollingFrame", TPlist["2"]);
+    TPlist["c"]["Active"] = true;
+    TPlist["c"]["BorderSizePixel"] = 0;
+    TPlist["c"]["ScrollBarImageTransparency"] = 0.8199999928474426;
+    TPlist["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["c"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
+    TPlist["c"]["BackgroundTransparency"] = 1;
+    TPlist["c"]["Size"] = UDim2.new(0, 288, 0, 310);
+    TPlist["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["c"]["ScrollBarThickness"] = 2;
+    TPlist["c"]["Position"] = UDim2.new(0.019999999552965164, 0, 0.09428571164608002, 0);
+    TPlist["c"]["Name"] = [[List]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container
+    TPlist["d"] = Instance.new("Frame", TPlist["c"]);
+    TPlist["d"]["BorderSizePixel"] = 0;
+    TPlist["d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["d"]["BackgroundTransparency"] = 1;
+    TPlist["d"]["Size"] = UDim2.new(0, 288, 0, 306);
+    TPlist["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["d"]["Position"] = UDim2.new(0, 0, 0.012903225608170033, 0);
+    TPlist["d"]["Name"] = [[Container]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler
+    TPlist["e"] = Instance.new("LocalScript", TPlist["d"]);
+    TPlist["e"]["Name"] = [[ListHandler]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton
+    TPlist["f"] = Instance.new("TextButton", TPlist["e"]);
+    TPlist["f"]["BorderSizePixel"] = 0;
+    TPlist["f"]["AutoButtonColor"] = false;
+    TPlist["f"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
+    TPlist["f"]["TextSize"] = 14;
+    TPlist["f"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
+    TPlist["f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+    TPlist["f"]["Size"] = UDim2.new(0, 260, 0, 24);
+    TPlist["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+    TPlist["f"]["Text"] = [[Player]];
+    TPlist["f"]["Position"] = UDim2.new(0.0486111119389534, 0, 0, 0);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton.UIStroke
+    TPlist["10"] = Instance.new("UIStroke", TPlist["f"]);
+    TPlist["10"]["Color"] = Color3.fromRGB(255, 255, 255);
+    TPlist["10"]["Transparency"] = 0.5;
+    TPlist["10"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton.UICorner
+    TPlist["11"] = Instance.new("UICorner", TPlist["f"]);
+    TPlist["11"]["CornerRadius"] = UDim.new(0, 4);
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.UIListLayout
+    TPlist["12"] = Instance.new("UIListLayout", TPlist["d"]);
+    TPlist["12"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
+    TPlist["12"]["Padding"] = UDim.new(0, 7);
+    TPlist["12"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.DragScript
+    TPlist["13"] = Instance.new("LocalScript", TPlist["2"]);
+    TPlist["13"]["Name"] = [[DragScript]];
+    
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close.LocalScript
+    local function C_7()
+    local script = TPlist["7"];
+        local TweenService = game:GetService('TweenService')
+        local main = script.Parent.Parent.Parent.Parent.Parent
+        
+        function Tween(Instance, Properties, Duration, ...)
+            local TweenInfo = TweenInfo.new(Duration, ...)
+            TweenService:Create(Instance, TweenInfo, Properties):Play()
+        end
+        
+        script.Parent.MouseButton1Click:Connect(function()
+            main.Parent:Destroy()
+        end)
+    end;
+    task.spawn(C_7);
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler
+    local function C_e()
+    local script = TPlist["e"];
+        local Btn = script.TextButton
+        local teleports = {
+            ["Bank"] = Vector3.new(-447.26019287109375, 23.003671646118164, -283.8965759277344),
+            ["Police"] = Vector3.new(-265.4961853027344, 21.797977447509766, -116.37294006347656),
+            ["Boxing"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
+            ["Military"] = Vector3.new(38.51276397705078, 25.253023147583008, -875.2348022460938),
+            ["Phone Store"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
+            ["Fitness"] = Vector3.new(-76.6124267578125, 22.69831657409668, -632.8761596679688),
+            ["Hospital"] = Vector3.new(105.38876342773438, 22.798017501831055, -483.2912902832031),
+            ["Food"] = Vector3.new(-325.65826416015625, 23.680667877197266, -293.7251281738281),
+            ["Skate Park"] = Vector3.new(-850.03955078125, 21.79800796508789, -531.6365356445312),
+            ["Casino"] = Vector3.new(-864.4593505859375, 21.597980499267578, -101.7231216430664),
+            ["Club"] = Vector3.new(-262.5336608886719, 22.628089904785156, -453.33203125),
+            ["School"] = Vector3.new(-652.6968383789062, 21.982521057128906, 306.2254943847656),
+            ["Uphill Guns"] = Vector3.new(483.9078369140625, 48.06851577758789, -623.272521972656),
+            ["Downhill Guns"] = Vector3.new(-582.5549926757812, 8.312807083129883, -737.0886840820312),
+            ["Max Armor"] = Vector3.new(-510.3179626464844, 20.275625228881836, -285.819885253906259),
+            ["High Medium Armor"] = Vector3.new(-934.0250244140625, -28.14982795715332, 570.5496826171875),
+            ["Medium Armor"] = Vector3.new(-607.9784545898438, 7.449648857116699, -788.4942626953125),
+            ["Fire Armor"] = Vector3.new(-504.22802734375, 20.25925636291504, -286.00994873046875),
+            ["RPG"] = Vector3.new(114.18929290771484, -26.752010345458984, -276.26934814453125),
+            ["Revolver"] = Vector3.new(-643.6868286132812, 21.748022079467773, -121.32481384277344),
+            ["Double-Barrel shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
+            ["Tactical Shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
+            ["Rifle"] = Vector3.new(-167.8747100830078, -18.040834426879883, -311.8492431640625),
+            ["AUG"] = Vector3.new(-273.3023376464844, 52.261661529541016, -216.994140625),
+            ["Knife"] = Vector3.new(-278.2847900390625, 21.74802017211914, -239.21456909179688),
+            ["Sledgehammer"] = Vector3.new(-901.64404296875, 21.74802017211914, -296.5692443847656),
+            ["Bat"] = Vector3.new(-80.242919921875, 21.748022079467773, -293.10821533203125),
+            ["Pitchfork"] = Vector3.new(250.8275604248047, 21.747995376586914, -28.456567764282227),
+            ["Shovel"] = Vector3.new(150.86940002441406, 21.747995376586914, 31.57048988342285),
+            ["StopSign"] = Vector3.new(-225.90127563476562, 21.74802017211914, -81.81007385253906),
+            ["Tazer"] = Vector3.new(-270.2383728027344, 21.7979793548584, -98.4942855834961),
+            ["TearGas"] = Vector3.new(98.40107727050781, 25.637149810791016, -891.5840454101562),
+            ["Lockpick"] = Vector3.new(-264.5516357421875, 21.748022079467773, -238.6057891845703),
+            ["Key"] = Vector3.new(-271.192138671875, 21.748022079467773, -239.74179077148438),
+            ["Grenade"] = Vector3.new(108.70999145507812, -26.75200653076172, -273.833251953125),
+            ["Weights"] = Vector3.new(-55.78539276123047, 22.948291778564453, -654.3751220703125),
+            ["Lettuce"] = Vector3.new(-81.97262573242188, 22.698314666748047, -632.7714233398438),
+            ["Anti-bodies"] = Vector3.new(109.00323486328125, 22.798017501831055, -471.5952453613281),
+            ["Mask"] = Vector3.new(),
+        }
+        
+        for name, tp in pairs(teleports) do
+                local clone = Btn:Clone()
+                clone.Text = name
+            clone.Parent = script.Parent
+        -- animate
+            Tween = function(Obj, Time, Settings)	
+                game:GetService("TweenService"):Create(Obj, TweenInfo.new(Time), Settings):Play()
+            end
+        
+        
+            clone.MouseEnter:Connect(function()
+                Tween(clone, 0.2, {BackgroundTransparency = 0.4})
+                Tween(clone.UIStroke, 0.5, {Transparency = 0.4})
+            end)
+        
+            clone.MouseLeave:Connect(function()
+                Tween(clone, 0.2, {BackgroundTransparency = 0})
+                Tween(clone.UIStroke, 0.5, {Transparency = 0.5})
+            end)
+        
+            clone.MouseButton1Down:Connect(function()
+                Tween(clone, 0.1, {BackgroundTransparency = 0.25})
+                Tween(clone.UIStroke, 0.3, {Transparency = 0.25})
+            end)
+        
+            clone.MouseButton1Up:Connect(function()
+                Tween(clone, 0.1, {BackgroundTransparency = 0.4})
+                Tween(clone.UIStroke, 0.3, {Transparency = 0.4})
+            end)
+        
+            clone.MouseButton1Click:Connect(function()
+                print(tp)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(tp)
+            end)
+            end
+    end;
+    task.spawn(C_e);
+    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.DragScript
+    local function C_13()
+    local script = TPlist["13"];
+        local UIS = game:GetService('UserInputService')
+        local frame = TPlist["2"]
+        
+        local function updateInput(input)
+            local delta = input.Position - dragStart
+            local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+                startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            game:GetService('TweenService'):Create(frame, TweenInfo.new(0.15), {Position = position}):Play()
+        end
+        
+        frame.InputBegan:Connect(function(input)
+            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+                dragToggle = true
+                dragStart = input.Position
+                startPos = frame.Position
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragToggle = false
+                    end
+                end)
+            end
+        end)
+        
+        UIS.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                if dragToggle then
+                    updateInput(input)
+                end
+            end
+        end)
+        
+    end;
+    task.spawn(C_13);
+    
+    return TPlist["1"], require;
 end)
 
 
