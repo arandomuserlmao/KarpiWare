@@ -1,4 +1,4 @@
-local version = "4.1895"
+local version = "4.1896"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -1354,7 +1354,7 @@ local script = playerlist["e"];
                 
                 local hl = Instance.new("Highlight")
                 hl.Name = "Karpiware_Highlight_"..version
-                hl.DepthMode = Enum.DepthMode.AlwaysOnTop
+                hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
                 hl.FillColor = Color3.new(0, 255, 0)
                 hl.FillTransparency = 0.5
                 hl.OutlineColor = Color3.new(0, 255, 0)
@@ -1708,7 +1708,7 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
             
             local hl = Instance.new("Highlight")
             hl.Name = "Karpiware_Highlight_"..version
-            hl.DepthMode = Enum.DepthMode.AlwaysOnTop
+            hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
             hl.FillColor = Color3.new(0, 255, 0)
             hl.FillTransparency = 0.5
             hl.OutlineColor = Color3.new(0, 255, 0)
