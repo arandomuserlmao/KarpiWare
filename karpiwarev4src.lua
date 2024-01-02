@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.194"
+local version = "4.195"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
