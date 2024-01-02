@@ -1,9 +1,9 @@
-local version = "4.1965"
+local version = "4.1967"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
     Name = 'KarpiWare V4',
-    IntroText = 'Proton Utilities | KarpiWare V4 V'..version,
+    IntroText = 'Proton Utilities | KarpiWare V'..version,
     IntroIcon = 'rbxassetid://0',
     IntroBlur = true,
     IntroBlurIntensity = 15,
@@ -316,7 +316,11 @@ Window:AddCommand('esp', {}, 'Revamped ESP', function(Arguments, Speaker)
            end
        end
     else 
-        removeEsp(player);
+        for _, player in next, others:GetPlayers() do
+            if player ~= plr1 then
+                removeEsp(player)
+            end
+         end
     end
     end)
         end
