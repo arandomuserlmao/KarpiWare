@@ -1,4 +1,4 @@
-local version = "4.199"
+local version = "4.2"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
@@ -23,7 +23,7 @@ local humanoid = character.Humanoid
 local others = game:GetService("Players")
 local espog = false
 local esp = false
-local rpgislocked = false
+local lines = false
 local target = nil
 local foundtarg = nil
 local mgogpos = nil
@@ -66,21 +66,30 @@ function targetesp(targetplr)
  local lasttarg = nil
  
  -- functions
- local newVector2, newColor3, newDrawing = Vector2.new, Color3.new, Drawing.new;
+ local newVector2, newColor3, draw = Vector2.new, Color3.new, Drawing.new;
  local tan, rad = math.tan, math.rad;
  local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
  local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
- 
+ local wtvptrcrs = camera.WorldToViewportPoint
+
  local espCache = {};
  local function createEsp(player)
     local drawings = {};
     
-    drawings.box = newDrawing("Square");
+    drawings.box = draw("Square");
     drawings.box.Thickness = 2;
     drawings.box.Filled = false;
     drawings.box.Color = Color3.fromRGB(0,255,0);
     drawings.box.Visible = false;
     drawings.box.ZIndex = 2;
+
+    drawings.line = draw("Line")
+    drawings.line.Visible = false;
+    drawings.line.From = Vector2.new(0, 0);
+    drawings.line.To = Vector2.new(1, 1);
+    drawings.line.Color = Color3.fromRGB(0,255,0);
+    drawings.line.Thickness = 1;
+    drawings.line.ZIndex = 2;
 
     drawings.gui = Instance.new("BillboardGui")
     drawings.gui.ResetOnSpawn = false
@@ -114,24 +123,36 @@ function targetesp(targetplr)
         local cframe = character:GetModelCFrame();
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
+        esp.line.Visible = visible;
 
         esp.esp.Text = player.Name.." | Health: "..math.round(character:WaitForChild("Humanoid").Health)
         esp.gui.Parent = character.Head
 
             esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
+            esp.line.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
             esp.esp.TextColor3 = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
  
         if cframe and visible then
+            -- box
             local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
             local width, height = round(4 * scaleFactor, 5 * scaleFactor);
             local x, y = round(position.X, position.Y);
  
             esp.box.Size = newVector2(width, height);
             esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
- 
+
+            -- tracers (copied over from one of my other scripts so some variables from above aren't used)
+            if lines == true and visible then
+            esp.line.Visible = true;
+            esp.line.From = newVector2(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+            esp.line.To = newVector2(position.X, position.Y)
+            elseif lines == false then
+                esp.line.Visible = false;
+            end
         end
     else
         esp.box.Visible = false;
+        esp.line.Visible = false;
     end
  end
  
@@ -212,86 +233,108 @@ Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', func
    loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/KarpiWare/main/KarpiWare%20V3%20(ChatCMDS)"))()
 end)
 
-Window:AddCommand('esp', {}, 'Revamped ESP (Load again to disable)', function(Arguments, Speaker)
+Window:AddCommand('ESP', {}, 'Revamped ESP (Load again to disable)', function(Arguments, Speaker)
     -- initially created by 'mickeyrbx', revamped by me
     if esp == false then
         esp = true
         if espog == false then
                 -- services
-    local runService = game:GetService("RunService");
+ local runService = game:GetService("RunService");
+ 
+ -- variables
+ local camera = workspace.CurrentCamera;
+ local lasttarg = nil
+ 
+ -- functions
+ local newVector2, newColor3, draw = Vector2.new, Color3.new, Drawing.new;
+ local tan, rad = math.tan, math.rad;
+ local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
+ local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
+ local wtvptrcrs = camera.WorldToViewportPoint
+
+ local espCache = {};
+ local function createEsp(player)
+    local drawings = {};
     
-    -- variables
-    local camera = workspace.CurrentCamera;
-    
-    -- functions
-    local newVector2, newColor3, newDrawing = Vector2.new, Color3.new, Drawing.new;
-    local tan, rad = math.tan, math.rad;
-    local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
-    local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
-    
-    local espCache = {};
-    local function createEsp(player)
-       local drawings = {};
-       
-       drawings.box = newDrawing("Square");
-       drawings.box.Thickness = 2;
-       drawings.box.Filled = false;
-       drawings.box.Color = Color3.fromRGB(0,255,0);
-       drawings.box.Visible = false;
-       drawings.box.ZIndex = 2;
-   
-       drawings.gui = Instance.new("BillboardGui")
-       drawings.gui.ResetOnSpawn = false
-       drawings.gui.AlwaysOnTop = true;
-       drawings.gui.LightInfluence = 0;
-       drawings.gui.Size = UDim2.new(1.75, 0, 1.75, 0);
-   
-       drawings.esp = Instance.new("TextLabel",drawings.gui)
-       drawings.esp.BackgroundTransparency = 1
-       drawings.esp.Text = ""
-       drawings.esp.Size = UDim2.new(0.0001, 0.00001, 0.0001, 0.00001);
-       drawings.esp.Font = "GothamSemibold"
-       drawings.esp.TextSize = 8
-       drawings.esp.TextColor3 = Color3.fromRGB(0,255,0) 
-    
-       espCache[player] = drawings;
+    drawings.box = draw("Square");
+    drawings.box.Thickness = 2;
+    drawings.box.Filled = false;
+    drawings.box.Color = Color3.fromRGB(0,255,0);
+    drawings.box.Visible = false;
+    drawings.box.ZIndex = 2;
+
+    drawings.line = draw("Line")
+    drawings.line.Visible = false;
+    drawings.line.From = Vector2.new(0, 0);
+    drawings.line.To = Vector2.new(1, 1);
+    drawings.line.Color = Color3.fromRGB(0,255,0);
+    drawings.line.Thickness = 1;
+    drawings.line.ZIndex = 2;
+
+    drawings.gui = Instance.new("BillboardGui")
+    drawings.gui.ResetOnSpawn = false
+    drawings.gui.AlwaysOnTop = true;
+    drawings.gui.LightInfluence = 0;
+    drawings.gui.Size = UDim2.new(1.75, 0, 1.75, 0);
+
+    drawings.esp = Instance.new("TextLabel",drawings.gui)
+    drawings.esp.BackgroundTransparency = 1
+    drawings.esp.Text = ""
+    drawings.esp.Size = UDim2.new(0.0001, 0.00001, 0.0001, 0.00001);
+    drawings.esp.Font = "GothamSemibold"
+    drawings.esp.TextSize = 8
+    drawings.esp.TextColor3 = Color3.fromRGB(0,255,0) 
+ 
+    espCache[player] = drawings;
+ end
+ 
+ local function removeEsp(player)
+    if rawget(espCache, player) then
+        for _, drawing in next, espCache[player] do
+            drawing:Remove();
+        end
+        espCache[player] = nil;
     end
-    
-    local function removeEsp(player)
-       if rawget(espCache, player) then
-           for _, drawing in next, espCache[player] do
-               drawing:Remove();
-           end
-           espCache[player] = nil;
-       end
+ end
+ 
+ local function updateEsp(player, esp)
+    local character = player and player.Character;
+    if character then
+        local cframe = character:GetModelCFrame();
+        local position, visible, depth = wtvp(cframe.Position);
+        esp.box.Visible = visible;
+        esp.line.Visible = visible;
+
+        esp.esp.Text = player.Name.." | Health: "..math.round(character:WaitForChild("Humanoid").Health)
+        esp.gui.Parent = character.Head
+
+            esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
+            esp.line.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
+            esp.esp.TextColor3 = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
+ 
+        if cframe and visible then
+            -- box
+            local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
+            local width, height = round(4 * scaleFactor, 5 * scaleFactor);
+            local x, y = round(position.X, position.Y);
+ 
+            esp.box.Size = newVector2(width, height);
+            esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
+
+            -- tracers (copied over from one of my other scripts so some variables from above aren't used)
+            if lines == true and visible then
+            esp.line.Visible = true;
+            esp.line.From = newVector2(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+            esp.line.To = newVector2(position.X, position.Y)
+            elseif lines == false then
+                esp.line.Visible = false;
+            end
+        end
+    else
+        esp.box.Visible = false;
+        esp.line.Visible = false;
     end
-    
-    local function updateEsp(player, esp)
-       local character = player and player.Character;
-       if character then
-           local cframe = character:GetModelCFrame();
-           local position, visible, depth = wtvp(cframe.Position);
-           esp.box.Visible = visible;
-   
-           esp.esp.Text = player.Name.." | Health: "..math.round(character:WaitForChild("Humanoid").Health)
-           esp.gui.Parent = character.Head
-   
-               esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
-               esp.esp.TextColor3 = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
-    
-           if cframe and visible then
-               local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
-               local width, height = round(4 * scaleFactor, 5 * scaleFactor);
-               local x, y = round(position.X, position.Y);
-    
-               esp.box.Size = newVector2(width, height);
-               esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
-    
-           end
-       else
-           esp.box.Visible = false;
-       end
-    end
+ end
     
     -- main
     for _, player in next, others:GetPlayers() do
@@ -328,6 +371,10 @@ Window:AddCommand('esp', {}, 'Revamped ESP (Load again to disable)', function(Ar
     elseif esp == true then
         esp = false
     end
+ end)
+
+ Window:AddCommand('Tracers', {}, 'Enables/Disables Tracer ESP (Must have ESP Enabled)', function(Arguments, Speaker)
+    if lines == false then lines = true elseif lines == true then lines = false end
  end)
 
 -- antislow
