@@ -1,4 +1,4 @@
-local version = "4.197"
+local version = "4.198"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
@@ -1815,55 +1815,6 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
     if not foundtarg then
         Window:CreateNotification('KarpiWare', 'Unable to find target.', 5)
     end
-end)
-
-
-Window:AddCommand('RPGLock', {}, 'Teleports RPG bullets to target', function(Arguments, Speaker)
-    -- Made by biggaboy212 and GoldeForge
-    x1 = 75
-    y1 = 5
-    x2 = x1
-    y2 = y1
-    
-    local localVar1
-    local loopFunction = function()
-        local RPG = game:GetService('Workspace'):FindFirstChild('Ignored'):FindFirstChild('RPG') or game:GetService('Workspace'):FindFirstChild('Ignored'):FindFirstChild('MyLauncher')
-        local toLock = game:GetService('Workspace').Players:FindFirstChild(target.Name)
-    
-        if RPG and toLock then
-            local toLockPos = toLock:FindFirstChild('HumanoidRootPart')
-    
-            if toLockPos then
-                if x2 >= 0 then
-                    RPG.CFrame = CFrame.new(toLockPos.Position.X, toLockPos.Position.Y + 5, toLockPos.Position.Z)
-                    x2 = x2 - 1
-                else
-                    RPG.CFrame = CFrame.new(toLockPos.Position.X, toLockPos.Position.Y + y2, toLockPos.Position.Z)
-                    y2 = y2 - 1
-                end
-            else
-                x2 = 75 
-                y2 = y1
-            end
-        else
-            x2 = x1 
-            y2 = y1
-        end
-    end
-    
-    local connectFunc = function()
-        localVar1 = game:GetService("RunService").Heartbeat:Connect(loopFunction)
-    end
-    
-    local disconnectFunc = function()
-        localVar1:Disconnect()
-    end
-    
-    connectFunc()
-    
-    repeat wait() until not character or humanoid.Died == true
-    disconnectFunc()
-    
 end)
 
 
