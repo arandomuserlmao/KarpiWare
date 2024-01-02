@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.193"
+local version = "4.194"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -113,7 +113,7 @@ function targetesp(targetplr)
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
 
-        drawings.esp = v.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+        drawings.esp = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
         drawings.gui.Parent = character.Head
 
         if character.Humanoid.Health > 50 then
