@@ -113,8 +113,8 @@ function targetesp(targetplr)
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
 
-        drawings.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
-        drawings.gui.Parent = character.Head
+        esp.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+        esp.gui.Parent = character.Head
 
         if character.Humanoid.Health > 50 then
             esp.box.Color = Color3.fromRGB(0,255,0);
