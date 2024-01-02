@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.1945"
+local version = "4.1946"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -119,10 +119,10 @@ function targetesp(targetplr)
         if character.Humanoid.Health > 50 then
             esp.box.Color = Color3.fromRGB(0,255,0);
             esp.esp.TextColor3 = Color3.fromRGB(0,255,0) 
-        elseif character.Humanoid.Health <= 50 and character.Humanoid.Health > 0 then
+        elseif character.Humanoid.Health <= 50 and character.Humanoid.Health > 10 then
             esp.box.Color = Color3.fromRGB(255,255,0)
             esp.esp.TextColor3 = Color3.fromRGB(255,255,0) 
-        elseif character.humanoid.Health <= 0 then
+        elseif character.humanoid.Health <= 10 then
             esp.box.Color = Color3.fromRGB(255,0,0)
             esp.esp.TextColor3 = Color3.fromRGB(255,0,0) 
         end
@@ -209,7 +209,6 @@ end)
 
 
 Window:AddCommand('Version', {}, 'Gets version', function(Arguments, Speaker)
-    setclipboard("https://discord.gg/sbZNGNVdE9")
     Window:CreateNotification('KarpiWare', 'Current version: '..version)
 end)
 
