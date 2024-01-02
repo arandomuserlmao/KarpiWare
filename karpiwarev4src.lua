@@ -1,4 +1,4 @@
-local version = "4.188"
+local version = "4.189"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -52,26 +52,6 @@ local autofarm = false
 local Waypoints = {
 
 }
-
-function highlighttarget(tohl)
-    for _, v in next, others.Character:GetChildren() do
-        if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
-            print("yes")
-            v:Destroy()
-    else
-        print("no")
-    end
-    end
-    local hl = instance.new("Highlight")
-    hl.Name = "Karpiware_Highlight_"..version
-    hl.DepthMode = AlwaysOnTop
-    hl.FillColor = Color3.new(0,255,0)
-    hl.FillTransparency = 0.5
-    hl.OutlineColor = Color3.new(0,255,0)
-    hl.Enabled = true
-    print(others:FindFirstChild(tohl).Name)
-    hl.Parent = others:FindFirstChild(tohl).Character
-end
 
 
 Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, Blue', function(Arguments, Speaker)
@@ -1358,7 +1338,22 @@ local script = playerlist["e"];
 			clone.MouseButton1Click:Connect(function()
 				target = player.Name
 				Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-                highlighttarget(target)
+                for _, v in next, others.Character:GetChildren() do
+                    if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
+                        print("yes")
+                        v:Destroy()
+                else
+                    print("no")
+                end
+                end
+                local hl = instance.new("Highlight")
+                hl.Name = "Karpiware_Highlight_"..version
+                hl.DepthMode = AlwaysOnTop
+                hl.FillColor = Color3.new(0,255,0)
+                hl.FillTransparency = 0.5
+                hl.OutlineColor = Color3.new(0,255,0)
+                hl.Enabled = true
+                hl.Parent = player.Character
 			end)
 			--end
 		end
@@ -1690,7 +1685,22 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
             target = CurrentPlayer.Name
             foundtarg = true
             Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-            highlighttarget(target)
+            for _, v in next, others.Character:GetChildren() do
+                if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
+                    print("yes")
+                    v:Destroy()
+            else
+                print("no")
+            end
+            end
+            local hl = instance.new("Highlight")
+            hl.Name = "Karpiware_Highlight_"..version
+            hl.DepthMode = AlwaysOnTop
+            hl.FillColor = Color3.new(0,255,0)
+            hl.FillTransparency = 0.5
+            hl.OutlineColor = Color3.new(0,255,0)
+            hl.Enabled = true
+            hl.Parent = CurrentPlayer.Character
             break
         end
     end
