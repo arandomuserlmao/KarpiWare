@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.1946"
+local version = "4.195"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -116,16 +116,8 @@ function targetesp(targetplr)
         esp.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
         esp.gui.Parent = character.Head
 
-        if character.Humanoid.Health > 50 then
-            esp.box.Color = Color3.fromRGB(0,255,0);
-            esp.esp.TextColor3 = Color3.fromRGB(0,255,0) 
-        elseif character.Humanoid.Health <= 50 and character.Humanoid.Health > 10 then
-            esp.box.Color = Color3.fromRGB(255,255,0)
-            esp.esp.TextColor3 = Color3.fromRGB(255,255,0) 
-        elseif character.humanoid.Health <= 10 then
-            esp.box.Color = Color3.fromRGB(255,0,0)
-            esp.esp.TextColor3 = Color3.fromRGB(255,0,0) 
-        end
+            esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
+            esp.esp.TextColor3 = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
  
         if cframe and visible then
             local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
