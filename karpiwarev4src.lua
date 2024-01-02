@@ -1,7 +1,5 @@
-local version = "4.1896"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
-local savedtheme = nil
 local Window = Library:CreateWindow({
     Name = 'KarpiWare V4',
     IntroText = 'Proton Utilities | KarpiWare V4',
@@ -14,9 +12,26 @@ local Window = Library:CreateWindow({
     Prefix = _G.Prefix
 })
 
+-- variables
+local version = "4.190"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
+local savedtheme = nil
+local plr1 = game.Players.LocalPlayer
+local character = plr1.Character
+local humanoid = character.Humanoid
+local others = game:GetService("Players")
+local hl = Instance.new("Highlight")
+local target = nil
+local foundtarg = nil
+local mgogpos = nil
+local autofarm = false
+local Waypoints = {
 
+}
+
+
+-- functions
 function load()
 	print("loading sets")
 	if (readfile and isfile and isfile(file)) then
@@ -39,19 +54,100 @@ function save(tosave)
     end
 end
 
+function targetesp(targetplr)
+    -- settings
+local settings = {
+    defaultcolor = Color3.fromRGB(255,0,0),
+    teamcolor = true
+ };
+ 
+ -- services
+ local runService = game:GetService("RunService");
+ 
+ -- variables
+ local camera = workspace.CurrentCamera;
+ local lasttarg = nil
+ 
+ -- functions
+ local newVector2, newColor3, newDrawing = Vector2.new, Color3.new, Drawing.new;
+ local tan, rad = math.tan, math.rad;
+ local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
+ local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
+ 
+ local espCache = {};
+ local function createEsp(player)
+    local drawings = {};
+    
+    drawings.box = newDrawing("Square");
+    drawings.box.Thickness = 1;
+    drawings.box.Filled = false;
+    drawings.box.Color = settings.defaultcolor;
+    drawings.box.Visible = false;
+    drawings.box.ZIndex = 2;
+ 
+    drawings.boxoutline = newDrawing("Square");
+    drawings.boxoutline.Thickness = 3;
+    drawings.boxoutline.Filled = false;
+    drawings.boxoutline.Color = newColor3();
+    drawings.boxoutline.Visible = false;
+    drawings.boxoutline.ZIndex = 1;
+ 
+    espCache[player] = drawings;
+ end
+ 
+ local function removeEsp(player)
+    if rawget(espCache, player) then
+        for _, drawing in next, espCache[player] do
+            drawing:Remove();
+        end
+        espCache[player] = nil;
+    end
+ end
+ 
+ local function updateEsp(player, esp)
+    local character = player and player.Character;
+    if character then
+        local cframe = character:GetModelCFrame();
+        local position, visible, depth = wtvp(cframe.Position);
+        esp.box.Visible = visible;
+        esp.boxoutline.Visible = visible;
+ 
+        if cframe and visible then
+            local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
+            local width, height = round(4 * scaleFactor, 5 * scaleFactor);
+            local x, y = round(position.X, position.Y);
+ 
+            esp.box.Size = newVector2(width, height);
+            esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
+            esp.box.Color = settings.teamcolor and player.TeamColor.Color or settings.defaultcolor;
+ 
+            esp.boxoutline.Size = esp.box.Size;
+            esp.boxoutline.Position = esp.box.Position;
+        end
+    else
+        esp.box.Visible = false;
+        esp.boxoutline.Visible = false;
+    end
+ end
+ 
+ -- main
+        createEsp(targetplr);
+
+ 
+ runService:BindToRenderStep("esp", Enum.RenderPriority.Camera.Value, function()
+    for player, drawings in next, espCache do
+        if drawings then
+            updateEsp(player, drawings);
+        end
+    end
+if lasttarg == nil then lasttarg = targetplr
+elseif lasttarg ~= target then
+    removeEsp(lasttarg)
+end
+ end)
+end
+
 load()
-
-local plr1 = game.Players.LocalPlayer
-local character = plr1.Character
-local humanoid = character.Humanoid
-local others = game:GetService("Players")
-local target = nil
-local foundtarg = nil
-local mgogpos = nil
-local autofarm = false
-local Waypoints = {
-
-}
 
 
 Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, Blue', function(Arguments, Speaker)
@@ -1338,28 +1434,7 @@ local script = playerlist["e"];
 			clone.MouseButton1Click:Connect(function()
 				target = player.Name
 				Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-                for _, otherPlayer in pairs(others:GetPlayers()) do
-                    local character = otherPlayer.Character
-                    if character then
-                        for _, v in pairs(character:GetChildren()) do
-                            if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
-                                print("yes")
-                                v:Destroy()
-                            else
-                                print("no")
-                            end
-                        end
-                    end
-                end
-                
-                local hl = Instance.new("Highlight")
-                hl.Name = "Karpiware_Highlight_"..version
-                hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-                hl.FillColor = Color3.new(0, 255, 0)
-                hl.FillTransparency = 0.5
-                hl.OutlineColor = Color3.new(0, 255, 0)
-                hl.Enabled = true
-                hl.Parent = player.Character
+                targetesp(player)
                 
 			end)
 			--end
@@ -1692,29 +1767,7 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
             target = CurrentPlayer.Name
             foundtarg = true
             Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-            for _, otherPlayer in pairs(others:GetPlayers()) do
-                local character = otherPlayer.Character
-                if character then
-                    for _, v in pairs(character:GetChildren()) do
-                        if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
-                            print("yes")
-                            v:Destroy()
-                        else
-                            print("no")
-                        end
-                    end
-                end
-            end
-            
-            local hl = Instance.new("Highlight")
-            hl.Name = "Karpiware_Highlight_"..version
-            hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            hl.FillColor = Color3.new(0, 255, 0)
-            hl.FillTransparency = 0.5
-            hl.OutlineColor = Color3.new(0, 255, 0)
-            hl.Enabled = true
-            hl.Parent = player.Character
-            
+            targetesp(CurrentPlayer)
             break
         end
     end
