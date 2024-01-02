@@ -1,4 +1,4 @@
-local version = "4.186"
+local version = "4.187"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -52,6 +52,22 @@ local autofarm = false
 local Waypoints = {
 
 }
+
+function highlighttarget()
+    for _, v in next, others.Character:GetChildren() do
+        if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
+            v:Destroy()
+        end
+    end
+    local hl = instance.new("Highlight")
+    hl.Name = "Karpiware_Highlight_"..version
+    hl.DepthMode = AlwaysOnTop
+    hl.FillColor = Color3.new(0,255,0)
+    hl.FillTransparency = 0.5
+    hl.OutlineColor = Color3.new(0,255,0)
+    hl.Enabled = true
+    hl.Parent = others:FindFirstChild(target).Character
+end
 
 
 Window:AddCommand('ChangeTheme', {'Theme'}, 'Dark, Light, Red, Orange, Purple, Blue', function(Arguments, Speaker)
@@ -108,70 +124,7 @@ end)
 
 
 Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', function(Arguments, Speaker)
-wait()
-
-getgenv().Settings = {
-   A = {
-      prefix = ".", -- what you will use to signal that this is a command
-
-        command = "tool", -- cmd for equip tool
-        command2 = "unequip", -- this is the cmd for unequip tool
-        command3 = "male", --  cmd for PP (need DB shotgun)
-        command4 = "reset", -- resets all commands
-        command5 = "spawncash", -- uses mg to make it seem like you spawned cash (use .mg command and get mg)
-        command6 = "antislow", -- makes it so your WS and JP stays at 16 and 50
-        command7 = "mg", -- gets mg for spawncash cmd
-        command8 = "combatphone", -- kill ppl with a phone (get bat)
-        command9 = "combatflowers", -- kill ppl with a flower (get flower and bat)
-        command10 = "combatchicken", -- kill ppl with a chicken (get chicken and bat)
-        command11 = nil, -- this was antikick, it autoenables when you execute this script
-        command12 = "tp", -- q to tp
-        command13 = "fly", -- x to fly
-        command14 = nil, -- this was antifreeze, it autoenables when you execute this script
-        command15 = "inviskill", -- Need revolver (aim at plr and press Z to fire)
-        command16 = "rj", --  Rejoins the current server
-        command17 = "chatspy", -- dehoisted chat spy
-        command18 = "male2", -- same as .male but uses a RPG
-        command19 = "esp", -- my custom Highlight ESP
-        command20 = "savegame", -- saves game JobId incase you get kicked or something
-        command21 = "joinsave", -- joins saved game
-        command22 = "male3", -- bat PP (get bat)
-        command23 = "curvemale", -- get old phone from phone store
-        command24 = "destroyseats", -- destroys seats
-        command25 = "aimview", -- views the aim of people using guns
-        command26 = "antiak", -- prevents people from using autokill (beta, not tested against autokill users)
-        command27 = "antiav", -- prevents people from using aim view on you (if you use .aimview yourself you can see ur beam but others still cant)
-        command28 = "cmds", -- prints all commands into output (press F9 to get to output)
-        command29 = "target", -- sets target to <string> (no display name, dosent have to be full name but is recommended to do so)
-        command30 = "test", -- ignore this
-        command31 = "spectate", -- spectates target (use .target to set your target)
-        command32 = "unspectate", -- un spectates target
-        command33 = "goto", -- teleports to your target (again, use .target first to set target)
-     },
-
-        B = {
-        -- anti sp
-        FreezeProtection = true, -- Protects you from being frozen
-
-        -- future stuff
-        Cam_lock = true, -- Bool for DNS Cam lock
-        Silent_Aim = true, -- Bool for DNS Silent Aim
-        Cam_Lock_Prediction = 0.51, -- Value for DNS Cam lock prediction
-        Silent_Aim_Prediction = 0.12471, -- Value for DNS Silent Aim prediction
-        Prediction_Enabled = true, -- Bool for Cam Lock Prediction
-        Smooth_Lock = true, -- Bool for Smooth Cam Lock
-        Smoothing = 0.90, -- Value for Smooth Lock smoothing (Lower = Smoother)
-        Fov_Size = 40, -- Value for Size of FOV circle
-        Lock_Key = "T", -- Key for Lock
-        Unlock_Key = "B", -- Key for Unlock
-        Cam_Lock_Parts = {"UpperTorso"}, -- What cam lock will aim at (Use "Head" for max damage, "UpperTorso" for accuracy
-     }
-
-   }
-
-
-
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/arandomuserlmao/KarpiWare/main/chatdpdncs"))()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/KarpiWare/main/KarpiWare%20V3%20(ChatCMDS)"))()
 end)
 
 -- antislow
@@ -1401,6 +1354,7 @@ local script = playerlist["e"];
 			clone.MouseButton1Click:Connect(function()
 				target = player.Name
 				Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
+                highlighttarget()
 			end)
 			--end
 		end
@@ -1732,6 +1686,7 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
             target = CurrentPlayer.Name
             foundtarg = true
             Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
+            highlighttarget()
             break
         end
     end
