@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.191"
+local version = "4.192"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -55,11 +55,6 @@ function save(tosave)
 end
 
 function targetesp(targetplr)
-    -- settings
-local settings = {
-    defaultcolor = Color3.fromRGB(255,0,0),
-    teamcolor = true
- };
  
  -- services
  local runService = game:GetService("RunService");
@@ -81,16 +76,16 @@ local settings = {
     drawings.box = newDrawing("Square");
     drawings.box.Thickness = 1;
     drawings.box.Filled = false;
-    drawings.box.Color = settings.defaultcolor;
+    drawings.box.Color = Color3.fromRGB(0,255,0);
     drawings.box.Visible = false;
     drawings.box.ZIndex = 2;
  
     drawings.boxoutline = newDrawing("Square");
-    drawings.boxoutline.Thickness = 3;
+    drawings.boxoutline.Thickness = 0;
     drawings.boxoutline.Filled = false;
     drawings.boxoutline.Color = newColor3();
     drawings.boxoutline.Visible = false;
-    drawings.boxoutline.ZIndex = 1;
+    drawings.boxoutline.ZIndex = 0;
  
     espCache[player] = drawings;
  end
@@ -119,7 +114,6 @@ local settings = {
  
             esp.box.Size = newVector2(width, height);
             esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
-            esp.box.Color = settings.teamcolor and player.TeamColor.Color or settings.defaultcolor;
  
             esp.boxoutline.Size = esp.box.Size;
             esp.boxoutline.Position = esp.box.Position;
