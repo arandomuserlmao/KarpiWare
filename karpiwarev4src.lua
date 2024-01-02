@@ -113,7 +113,7 @@ function targetesp(targetplr)
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
 
-        drawings.esp = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+        drawings.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
         drawings.gui.Parent = character.Head
 
         if character.Humanoid.Health > 50 then
