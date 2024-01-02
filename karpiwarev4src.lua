@@ -1,4 +1,4 @@
-local version = "4.187"
+local version = "4.188"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local savedtheme = nil
@@ -53,11 +53,14 @@ local Waypoints = {
 
 }
 
-function highlighttarget()
+function highlighttarget(tohl)
     for _, v in next, others.Character:GetChildren() do
         if v.Name == "Karpiware_Highlight_"..version and v:IsA("Highlight") then
+            print("yes")
             v:Destroy()
-        end
+    else
+        print("no")
+    end
     end
     local hl = instance.new("Highlight")
     hl.Name = "Karpiware_Highlight_"..version
@@ -66,7 +69,8 @@ function highlighttarget()
     hl.FillTransparency = 0.5
     hl.OutlineColor = Color3.new(0,255,0)
     hl.Enabled = true
-    hl.Parent = others:FindFirstChild(target).Character
+    print(others:FindFirstChild(tohl).Name)
+    hl.Parent = others:FindFirstChild(tohl).Character
 end
 
 
@@ -1354,7 +1358,7 @@ local script = playerlist["e"];
 			clone.MouseButton1Click:Connect(function()
 				target = player.Name
 				Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-                highlighttarget()
+                highlighttarget(target)
 			end)
 			--end
 		end
@@ -1686,7 +1690,7 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
             target = CurrentPlayer.Name
             foundtarg = true
             Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
-            highlighttarget()
+            highlighttarget(target)
             break
         end
     end
