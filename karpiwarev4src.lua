@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.192"
+local version = "4.193"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -74,18 +74,25 @@ function targetesp(targetplr)
     local drawings = {};
     
     drawings.box = newDrawing("Square");
-    drawings.box.Thickness = 1;
+    drawings.box.Thickness = 2;
     drawings.box.Filled = false;
     drawings.box.Color = Color3.fromRGB(0,255,0);
     drawings.box.Visible = false;
     drawings.box.ZIndex = 2;
- 
-    drawings.boxoutline = newDrawing("Square");
-    drawings.boxoutline.Thickness = 0;
-    drawings.boxoutline.Filled = false;
-    drawings.boxoutline.Color = newColor3();
-    drawings.boxoutline.Visible = false;
-    drawings.boxoutline.ZIndex = 0;
+
+    drawings.gui = Instance.new("BillboardGui")
+    drawings.gui.ResetOnSpawn = false
+    drawings.gui.AlwaysOnTop = true;
+    drawings.gui.LightInfluence = 0;
+    drawings.gui.Size = UDim2.new(1.75, 0, 1.75, 0);
+
+    drawings.esp = Instance.new("TextLabel",drawings.gui)
+    drawings.esp.BackgroundTransparency = 1
+    drawings.esp.Text = ""
+    drawings.esp.Size = UDim2.new(0.0001, 0.00001, 0.0001, 0.00001);
+    drawings.esp.Font = "GothamSemibold"
+    drawings.esp.TextSize = 8
+    drawings.esp.TextColor3 = Color3.fromRGB(0,255,0) 
  
     espCache[player] = drawings;
  end
@@ -105,7 +112,20 @@ function targetesp(targetplr)
         local cframe = character:GetModelCFrame();
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
-        esp.boxoutline.Visible = visible;
+
+        drawings.esp = v.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+        drawings.gui.Parent = character.Head
+
+        if character.Humanoid.Health > 50 then
+            esp.box.Color = Color3.fromRGB(0,255,0);
+            drawings.esp.TextColor3 = Color3.fromRGB(0,255,0) 
+        elseif character.Humanoid.Health <= 50 and character.Humanoid.Health > 0 then
+            esp.box.Color = Color3.fromRGB(255,255,0)
+            drawings.esp.TextColor3 = Color3.fromRGB(255,255,0) 
+        elseif character.humanoid.Health <= 0 then
+            esp.box.Color = Color3.fromRGB(255,0,0)
+            drawings.esp.TextColor3 = Color3.fromRGB(255,0,0) 
+        end
  
         if cframe and visible then
             local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
@@ -115,12 +135,9 @@ function targetesp(targetplr)
             esp.box.Size = newVector2(width, height);
             esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
  
-            esp.boxoutline.Size = esp.box.Size;
-            esp.boxoutline.Position = esp.box.Position;
         end
     else
         esp.box.Visible = false;
-        esp.boxoutline.Visible = false;
     end
  end
  
