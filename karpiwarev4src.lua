@@ -1,4 +1,4 @@
-local version = "4.1967"
+local version = "4.197"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
@@ -23,6 +23,7 @@ local humanoid = character.Humanoid
 local others = game:GetService("Players")
 local espog = false
 local esp = false
+local rpgislocked = false
 local target = nil
 local foundtarg = nil
 local mgogpos = nil
@@ -211,7 +212,7 @@ Window:AddCommand('Legacy', {}, 'Loads Legacy KW ChatCMDS (not supported)', func
    loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/KarpiWare/main/KarpiWare%20V3%20(ChatCMDS)"))()
 end)
 
-Window:AddCommand('esp', {}, 'Revamped ESP', function(Arguments, Speaker)
+Window:AddCommand('esp', {}, 'Revamped ESP (Load again to disable)', function(Arguments, Speaker)
     -- initially created by 'mickeyrbx', revamped by me
     if esp == false then
         esp = true
@@ -419,6 +420,13 @@ Window:AddCommand('AntiSit', {}, 'Destroys all seats in the game', function(Argu
     end
 end)
 
+-- Show users
+Window:AddCommand('ShowNames', {}, 'Shows masked names', function(Arguments, Speaker)
+    for i,v in pairs(others:GetChildren()) do
+        v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
+    end
+end)
+
 -- AimView
 Window:AddCommand('AimView', {}, 'Not mine | Allows you to see where others are aiming', function(Arguments, Speaker)
     -- // Services
@@ -529,7 +537,7 @@ Window:AddCommand('AntiAutoKill', {}, 'Prevents people from autokilling you, Res
         character.HumanoidRootPart.CFrame = part.CFrame
 end)
 
--- Cash ESP
+-- Cash farm
 Window:AddCommand('Autofarm', {}, 'Cash autofarm, rejoin to stop', function(Arguments, Speaker)
 -- Revamped
 
@@ -564,96 +572,6 @@ else
     end
     Start()
 end
-end)
-
--- Chams ESP
-Window:AddCommand('Chams', {}, 'Not mine | Puts chams on every player', function(Arguments, Speaker)
-local dwRunService = game:GetService("RunService")
-
-for i, v in pairs(game.Players:GetChildren()) do
-repeat wait() until game:IsLoaded() and others and plr1 and character and v.Character and v.Character.Head ~= nil and v.Character.HumanoidRootPart ~= nil
-end
-
-function destroy_chams(char)
-
-    for k,v in next, char:GetChildren() do
-
-        if v:IsA("BasePart") and v.Transparency ~= 1 then
-
-            if v:FindFirstChild("Glow") and
-            v:FindFirstChild("Chams") then
-
-                v.Glow:Destroy()
-                v.Chams:Destroy()
-
-            end
-
-        end
-
-    end
-
-end
-
-dwRunService.Heartbeat:Connect(function()
-
-        for k,v in next, others:GetPlayers() do
-
-            if v ~= plr1 then
-
-                if v.Character and
-                v.Character:FindFirstChild("HumanoidRootPart") and
-                v.Character:FindFirstChild("Humanoid") and
-                v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-
-                        local char = v.Character
-
-                        for k,b in next, char:GetChildren() do
-
-                            if b:IsA("BasePart") and
-                            b.Transparency ~= 1 then
-
-                                    if not b:FindFirstChild("Glow") and
-                                    not b:FindFirstChild("Chams") then
-
-                                        local chams_box = Instance.new("BoxHandleAdornment", b)
-                                        chams_box.Name = "Chams"
-                                        chams_box.AlwaysOnTop = true
-                                        chams_box.ZIndex = 4
-                                        chams_box.Adornee = b
-                                        chams_box.Color3 = Color3.fromRGB(110,153,202)
-                                        chams_box.Transparency = 0.1
-                                        chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
-
-                                        local glow_box = Instance.new("BoxHandleAdornment", b)
-                                        glow_box.Name = "Glow"
-                                        glow_box.AlwaysOnTop = false
-                                        glow_box.ZIndex = 3
-                                        glow_box.Adornee = b
-                                        glow_box.Color3 = Color3.fromRGB(110,153,202)
-                                        glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
-
-                                    end
-                            end
-
-                        end
-
-                    else
-
-                        if v.Team == plr1.Team then
-                            destroy_chams(v.Character)
-                        end
-
-                    end
-
-                else
-
-                    destroy_chams(v.Character)
-
-                end
-
-            end
-
-end)
 end)
 
 -- ClickTP
@@ -1900,13 +1818,61 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
 end)
 
 
+Window:AddCommand('RPGLock', {}, 'Teleports RPG bullets to target', function(Arguments, Speaker)
+    -- Made by biggaboy212 and GoldeForge
+    x1 = 75
+    y1 = 5
+    x2 = x1
+    y2 = y1
+    
+    local localVar1
+    local loopFunction = function()
+        local RPG = game:GetService('Workspace'):FindFirstChild('Ignored'):FindFirstChild('RPG') or game:GetService('Workspace'):FindFirstChild('Ignored'):FindFirstChild('MyLauncher')
+        local toLock = game:GetService('Workspace').Players:FindFirstChild(target.Name)
+    
+        if RPG and toLock then
+            local toLockPos = toLock:FindFirstChild('HumanoidRootPart')
+    
+            if toLockPos then
+                if x2 >= 0 then
+                    RPG.CFrame = CFrame.new(toLockPos.Position.X, toLockPos.Position.Y + 5, toLockPos.Position.Z)
+                    x2 = x2 - 1
+                else
+                    RPG.CFrame = CFrame.new(toLockPos.Position.X, toLockPos.Position.Y + y2, toLockPos.Position.Z)
+                    y2 = y2 - 1
+                end
+            else
+                x2 = 75 
+                y2 = y1
+            end
+        else
+            x2 = x1 
+            y2 = y1
+        end
+    end
+    
+    local connectFunc = function()
+        localVar1 = game:GetService("RunService").Heartbeat:Connect(loopFunction)
+    end
+    
+    local disconnectFunc = function()
+        localVar1:Disconnect()
+    end
+    
+    connectFunc()
+    
+    repeat wait() until not character or humanoid.Died == true
+    disconnectFunc()
+    
+end)
+
+
 Window:AddCommand('View', {}, 'Sets camerasubject to your target', function(Arguments, Speaker)
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
         if game.Players:FindFirstChild(target.Name) then
-            local plr2 = game.Players:FindFirstChild(target.Name)
-            game.Workspace.CurrentCamera.CameraSubject = plr2.Character
+            game.Workspace.CurrentCamera.CameraSubject = target.Character
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
         end
@@ -1915,7 +1881,7 @@ end)
 
 
 Window:AddCommand('Unview', {}, 'Sets camerasubject to your player', function(Arguments, Speaker)
-    game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+    game.Workspace.CurrentCamera.CameraSubject = character
 end)
 
 
@@ -1924,8 +1890,7 @@ Window:AddCommand('Goto', {}, 'Teleports to set target', function(Arguments, Spe
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
         if game.Players:FindFirstChild(target.Name) then
-            local plr2 = target
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = plr2.Character.HumanoidRootPart.CFrame * CFrame.new(0,2,0)
+            character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,2,0)
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
         end
@@ -1938,14 +1903,12 @@ Window:AddCommand('GetCash', {}, 'Tells you the set targets cash amount', functi
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
         if game.Players:FindFirstChild(target.Name) then
-            local cashtarget = target
 
-            local nmb = (function (n)
-                n = tostring(n)
-                return n:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+            local nmb = (function(currency)
+                converted = tostring(currency)
+                return converted:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
             end)
-            cashtarget = game:GetService('Players'):FindFirstChild(target.Name)
-            Window:CreateNotification('KarpiWare', 'Cash: '..nmb(cashtarget.DataFolder.Currency.Value), 5)
+            Window:CreateNotification('KarpiWare', 'Cash: '..nmb(target.DataFolder.Currency.Value), 5)
 
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
@@ -1955,8 +1918,7 @@ end)
 
 
 Window:AddCommand('SpawnCash', {}, 'Fake spawns cash using moneygun, get moneygun first.', function(Arguments, Speaker)
-    local humanoid = game.Players.LocalPlayer.Character.Humanoid
-    local tool = game.Players.LocalPlayer.Backpack["[Money Gun]"]
+    local tool = plr1.Backpack["[Money Gun]"]
 
     humanoid:EquipTool(tool)
     tool:Activate()
@@ -1966,63 +1928,60 @@ end)
 
 Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command', function(Arguments, Speaker)
 mgogpos = character.HumanoidRootPart.CFrame
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
+character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
 task.wait(5)
 character.HumanoidRootPart.CFrame = mgogpos
 end)
 
 
 Window:AddCommand('CombatPhone', {}, 'Need Phone and Bat | Kill people with a phone', function(Arguments, Speaker)
-    plr1.Backpack["[Phone]"].Parent = plr1.Character
-                  plr1.Backpack["[Bat]"].Parent = plr1.Character
-                   local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,-100)
+    plr1.Backpack["[Phone]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPname = "[Bat]"
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,-100)
 task.wait(0.01)
-plr1.Character["[Phone]"].Parent = plr1.Backpack
-plr1.Character["[Bat]"].Parent = plr1.Backpack
+    character["[Phone]"].Parent = plr1.Backpack
+    character["[Bat]"].Parent = plr1.Backpack
 task.wait(0.01)
-                  plr1.Backpack["[Phone]"].Parent = plr1.Character
-                  plr1.Backpack["[Bat]"].Parent = plr1.Character
-                   local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,100)
+    plr1.Backpack["[Phone]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,100)
 end)
 
 
 Window:AddCommand('CombatFlowers', {}, 'Need Flowers and Bat | Kill people with flowers', function(Arguments, Speaker)
-    plr1.Backpack["[FlowersTool]"].Parent = plr1.Character
-    plr1.Backpack["[Bat]"].Parent = plr1.Character
-     local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,-100)
+    plr1.Backpack["[FlowersTool]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPname = "[Bat]"
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,-100)
 task.wait(0.01)
-plr1.Character["[FlowersTool]"].Parent = plr1.Backpack
-plr1.Character["[Bat]"].Parent = plr1.Backpack
+character["[FlowersTool]"].Parent = plr1.Backpack
+character["[Bat]"].Parent = plr1.Backpack
 task.wait(0.01)
-    plr1.Backpack["[FlowersTool]"].Parent = plr1.Character
-    plr1.Backpack["[Bat]"].Parent = plr1.Character
-     local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,100)
+    plr1.Backpack["[FlowersTool]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,100)
 end)
 
 
 Window:AddCommand('CombatChicken', {}, 'Kill People with chicken', function(Arguments, Speaker)
-    plr1.Backpack["[Chicken]"].Parent = plr1.Character
-    plr1.Backpack["[Bat]"].Parent = plr1.Character
-     local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,-100)
+    plr1.Backpack["[Chicken]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPname = "[Bat]"
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,-100)
 task.wait(0.01)
-plr1.Character["[Chicken]"].Parent = plr1.Backpack
-plr1.Character["[Bat]"].Parent = plr1.Backpack
+character["[Chicken]"].Parent = plr1.Backpack
+character["[Bat]"].Parent = plr1.Backpack
 task.wait(0.01)
-    plr1.Backpack["[Chicken]"].Parent = plr1.Character
-    plr1.Backpack["[Bat]"].Parent = plr1.Character
-     local PPname = "[Bat]"
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-100,-100,100)
+    plr1.Backpack["[Chicken]"].Parent = character
+    plr1.Backpack["[Bat]"].Parent = character
+local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100,-100,100)
 end)
 
 
