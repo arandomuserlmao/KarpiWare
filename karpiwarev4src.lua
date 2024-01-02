@@ -13,7 +13,7 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.190"
+local version = "4.191"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -1432,8 +1432,8 @@ local script = playerlist["e"];
 			end)
 
 			clone.MouseButton1Click:Connect(function()
-				target = player.Name
-				Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
+				target = player
+				Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
                 targetesp(player)
                 
 			end)
@@ -1764,9 +1764,9 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
     for i = 1, #Players do
         local CurrentPlayer = Players[i]
         if string.lower(CurrentPlayer.Name):sub(1, #PartialName) == string.lower(PartialName) then
-            target = CurrentPlayer.Name
+            target = CurrentPlayer
             foundtarg = true
-            Window:CreateNotification('KarpiWare', 'Target: '..target, 5)
+            Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
             targetesp(CurrentPlayer)
             break
         end
@@ -1782,8 +1782,8 @@ Window:AddCommand('View', {}, 'Sets camerasubject to your target', function(Argu
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target) then
-            local plr2 = game.Players:FindFirstChild(target)
+        if game.Players:FindFirstChild(target.Name) then
+            local plr2 = game.Players:FindFirstChild(target.Name)
             game.Workspace.CurrentCamera.CameraSubject = plr2.Character
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
@@ -1801,8 +1801,8 @@ Window:AddCommand('Goto', {}, 'Teleports to set target', function(Arguments, Spe
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target) then
-            local plr2 = game.Players:WaitForChild(target)
+        if game.Players:FindFirstChild(target.Name) then
+            local plr2 = target
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = plr2.Character.HumanoidRootPart.CFrame * CFrame.new(0,2,0)
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
@@ -1815,14 +1815,14 @@ Window:AddCommand('GetCash', {}, 'Tells you the set targets cash amount', functi
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target) then
-            local cashtarget = game:GetService('Players'):FindFirstChild(target)
+        if game.Players:FindFirstChild(target.Name) then
+            local cashtarget = target
 
             local nmb = (function (n)
                 n = tostring(n)
                 return n:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
             end)
-            cashtarget = game:GetService('Players'):FindFirstChild(target)
+            cashtarget = game:GetService('Players'):FindFirstChild(target.Name)
             Window:CreateNotification('KarpiWare', 'Cash: '..nmb(cashtarget.DataFolder.Currency.Value), 5)
 
         else
