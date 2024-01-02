@@ -1,8 +1,9 @@
+local version = "4.1965"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
     Name = 'KarpiWare V4',
-    IntroText = 'Proton Utilities | KarpiWare V4',
+    IntroText = 'Proton Utilities | KarpiWare V4 V'..version,
     IntroIcon = 'rbxassetid://0',
     IntroBlur = true,
     IntroBlurIntensity = 15,
@@ -13,7 +14,6 @@ local Window = Library:CreateWindow({
 })
 
 -- variables
-local version = "4.196"
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
@@ -114,7 +114,7 @@ function targetesp(targetplr)
         local position, visible, depth = wtvp(cframe.Position);
         esp.box.Visible = visible;
 
-        esp.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+        esp.esp.Text = player.Name.." | Health: "..math.round(character:WaitForChild("Humanoid").Health)
         esp.gui.Parent = character.Head
 
             esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
@@ -272,7 +272,7 @@ Window:AddCommand('esp', {}, 'Revamped ESP', function(Arguments, Speaker)
            local position, visible, depth = wtvp(cframe.Position);
            esp.box.Visible = visible;
    
-           esp.esp.Text = player.Name.." | Health: "..character:WaitForChild("Humanoid").Health
+           esp.esp.Text = player.Name.." | Health: "..math.round(character:WaitForChild("Humanoid").Health)
            esp.gui.Parent = character.Head
    
                esp.box.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), character.Humanoid.Health / character.Humanoid.MaxHealth)
