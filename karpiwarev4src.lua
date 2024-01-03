@@ -1,4 +1,4 @@
-local version = "4.21"
+local version = "4.215"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
 local Window = Library:CreateWindow({
@@ -32,7 +32,7 @@ local Waypoints = {
 
 }
 
-Window:CreateNotification('KarpiWare', 'Prefix to open CMD Bar: '.._G.Prefix)
+Window:CreateNotification('KarpiWare', 'Prefix to open CMD Bar - '.._G.Prefix)
 -- functions
 function load()
 	print("loading sets")
