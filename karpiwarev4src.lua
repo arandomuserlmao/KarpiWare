@@ -1,5 +1,6 @@
-local version = "4.215"
+local version = "4.2"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
+local ListLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/biggaboy212/Utility-Libraries/main/ListLibrary/Source.lua'))()
 
 local Window = Library:CreateWindow({
     Name = 'KarpiWare V4',
@@ -17,10 +18,11 @@ local Window = Library:CreateWindow({
 local HttpService = game:GetService("HttpService");
 local file = "karpi_ware_settings.txt";
 local savedtheme = nil
-local plr1 = game.Players.LocalPlayer
+local others = game:GetService("Players")
+local plr1 = others.LocalPlayer
 local character = plr1.Character
 local humanoid = character.Humanoid
-local others = game:GetService("Players")
+local currentcamera = game.Workspace.CurrentCamera
 local espog = false
 local esp = false
 local lines = false
@@ -32,7 +34,7 @@ local Waypoints = {
 
 }
 
-Window:CreateNotification('KarpiWare', 'Prefix to open CMD Bar - '.._G.Prefix)
+
 -- functions
 function load()
 	print("loading sets")
@@ -417,7 +419,7 @@ Window:AddCommand('NoRecoil', {}, 'Removes Gun Recoil', function(Arguments, Spea
     Camera2.CameraSubject = humanoid
     Camera2.HeadLocked = true
     Camera2.HeadScale = 1
-    game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+    game.Workspace.CurrentCamera.CameraSubject = character
 end)
 
 -- Rejoin
@@ -591,14 +593,14 @@ Window:AddCommand('Autofarm', {}, 'Cash autofarm, rejoin to stop', function(Argu
 if autofarm == true then -- to stop from lagging
 else
     autofarm = true
-    local humanoid = game.Players.LocalPlayer.Character.Humanoid
-    local tool = game.Players.LocalPlayer.Backpack.Combat
+    local humanoid = character.Humanoid
+    local tool = plr1.Backpack.Combat
 
     local function Collect()
         task.wait(0.5)
         for i, v in ipairs(game.Workspace.Ignored.Drop:GetChildren()) do
-            if v.Name == "MoneyDrop" and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 20 then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+            if v.Name == "MoneyDrop" and (v.Position - character.HumanoidRootPart.Position).magnitude <= 20 then
+                character.HumanoidRootPart.CFrame = v.CFrame
                 fireclickdetector(v.ClickDetector)
                 task.wait(0.5)
             end
@@ -608,7 +610,7 @@ else
     local function Start()
             humanoid:EquipTool(tool)
             for i, v in ipairs(game.Workspace.Cashiers:GetChildren()) do
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Open.CFrame * CFrame.new(0, 0, 2)
+                character.HumanoidRootPart.CFrame = v.Open.CFrame * CFrame.new(0, 0, 2)
                 for i = 0, 10 do
                     task.wait(0.5)
                     tool:Activate()
@@ -623,7 +625,7 @@ end)
 
 -- ClickTP
 Window:AddCommand('ClickTP', {}, 'Teleports you where you hover over (Q)', function(Arguments, Speaker)
-local plr = game.Players.LocalPlayer
+local plr = plr1
 local hum = plr.Character.HumanoidRootPart
 local mouse = plr:GetMouse()
 mouse.KeyDown:connect(function(key)
@@ -766,20 +768,26 @@ end)
 
 Window:AddCommand('Inviskill', {}, 'Hover over to read description, aim at someone and press Z to shoot them (Revolver needed)"', function(Arguments, Speaker)
     local PPname = "[Revolver]"
-plr = game.Players.LocalPlayer
-hum = plr.Character.HumanoidRootPart
-mouse = plr:GetMouse()
-mouse.KeyUp:connect(function(key)
-if key == "z" then
-plr.Backpack[PPname].Parent = plr.Character
-local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-10,-10,0)
-plr.Character.Humanoid:UnequipTools()
-plr.Backpack[PPname].Parent = plr.Character
-PPlocation:Activate()
-plr.Character.Humanoid:UnequipTools()
-end
-end)
+    local mouse = plr1:GetMouse()
+    
+    mouse.KeyUp:Connect(function(key)
+        if key == "z" then
+            local revolver = plr1.Backpack[PPname]
+            
+            revolver.Parent = character
+    
+            local PPlocation = character:WaitForChild(PPname)
+            PPlocation.GripPos = Vector3.new(-10, -10, 0)
+    
+            character.Humanoid:UnequipTools()
+    
+            revolver.Parent = character
+            PPlocation:Activate()
+    
+            character.Humanoid:UnequipTools()
+        end
+    end)
+    
 end)
 
 
@@ -1298,546 +1306,69 @@ end)
 
 
 Window:AddCommand('Playerlist', {}, 'Gives you a playerlist to quickly set a target', function(Arguments, Speaker)
- for _, v in next, game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):GetChildren() do
-	if v.Name == 'KarpiWare_PlayerList_PlayerSelector' then
-		v:Destroy()
-	end
-end
-
-
-local playerlist = {};
-
-playerlist["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
-playerlist["1"]["Name"] = [[KarpiWare_PlayerList_PlayerSelector]];
-playerlist["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
-playerlist["1"]["ResetOnSpawn"] = false;
-
-playerlist["2"] = Instance.new("Frame", playerlist["1"]);
-playerlist["2"]["BorderSizePixel"] = 0;
-playerlist["2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["2"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-playerlist["2"]["BackgroundTransparency"] = 0.10000000149011612;
-playerlist["2"]["Size"] = UDim2.new(0, 300, 0, 350);
-playerlist["2"]["ClipsDescendants"] = true;
-playerlist["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["2"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-playerlist["2"]["Name"] = [[Main]];
-
-playerlist["3"] = Instance.new("Frame", playerlist["2"]);
-playerlist["3"]["ZIndex"] = 2;
-playerlist["3"]["BorderSizePixel"] = 0;
-playerlist["3"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
-playerlist["3"]["Size"] = UDim2.new(0, 300, 0, 26);
-playerlist["3"]["ClipsDescendants"] = true;
-playerlist["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["3"]["Name"] = [[Topbar]];
-
-playerlist["4"] = Instance.new("TextLabel", playerlist["3"]);
-playerlist["4"]["ZIndex"] = 2;
-playerlist["4"]["BorderSizePixel"] = 0;
-playerlist["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-playerlist["4"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-playerlist["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
-playerlist["4"]["TextSize"] = 16;
-playerlist["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-playerlist["4"]["Size"] = UDim2.new(0, 194, 0, 26);
-playerlist["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["4"]["Text"] = [[Playerlist]];
-playerlist["4"]["Name"] = [[Label]];
-playerlist["4"]["BackgroundTransparency"] = 1;
-playerlist["4"]["Position"] = UDim2.new(0.019999999552965164, 0, 0, 0);
-
-playerlist["5"] = Instance.new("ImageLabel", playerlist["4"]);
-playerlist["5"]["ZIndex"] = 2;
-playerlist["5"]["ScaleType"] = Enum.ScaleType.Fit;
-playerlist["5"]["Image"] = [[rbxassetid://3944676352]];
-playerlist["5"]["Size"] = UDim2.new(0, 19, 0, 19);
-playerlist["5"]["Name"] = [[Close]];
-playerlist["5"]["BackgroundTransparency"] = 1;
-playerlist["5"]["Position"] = UDim2.new(1.4049999713897705, 0, 0.10700000077486038, 0);
-
-playerlist["6"] = Instance.new("TextButton", playerlist["5"]);
-playerlist["6"]["ZIndex"] = 3;
-playerlist["6"]["BorderSizePixel"] = 0;
-playerlist["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-playerlist["6"]["TextSize"] = 14;
-playerlist["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-playerlist["6"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["6"]["Size"] = UDim2.new(0, 19, 0, 19);
-playerlist["6"]["Name"] = [[Close]];
-playerlist["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["6"]["Text"] = [[]];
-playerlist["6"]["BackgroundTransparency"] = 1;
-
-playerlist["7"] = Instance.new("LocalScript", playerlist["6"]);
-
-
-playerlist["8"] = Instance.new("UICorner", playerlist["3"]);
-playerlist["8"]["CornerRadius"] = UDim.new(0, 4);
-
-playerlist["9"] = Instance.new("Frame", playerlist["3"]);
-playerlist["9"]["BorderSizePixel"] = 0;
-playerlist["9"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
-playerlist["9"]["Size"] = UDim2.new(0, 300, 0, 4);
-playerlist["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["9"]["Position"] = UDim2.new(0, 0, 0.872794508934021, 0);
-playerlist["9"]["Name"] = [[roundcut]];
-
-playerlist["a"] = Instance.new("UIStroke", playerlist["2"]);
-playerlist["a"]["Color"] = Color3.fromRGB(255, 255, 255);
-playerlist["a"]["Transparency"] = 0.5;
-playerlist["a"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-
-playerlist["b"] = Instance.new("UICorner", playerlist["2"]);
-playerlist["b"]["CornerRadius"] = UDim.new(0, 4);
-
-playerlist["c"] = Instance.new("ScrollingFrame", playerlist["2"]);
-playerlist["c"]["Active"] = true;
-playerlist["c"]["BorderSizePixel"] = 0;
-playerlist["c"]["ScrollBarImageTransparency"] = 0.8199999928474426;
-playerlist["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-playerlist["c"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
-playerlist["c"]["BackgroundTransparency"] = 1;
-playerlist["c"]["Size"] = UDim2.new(0, 288, 0, 310);
-playerlist["c"]["ClipsDescendants"] = false;
-playerlist["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["c"]["ScrollBarThickness"] = 2;
-playerlist["c"]["Position"] = UDim2.new(0.019999999552965164, 0, 0.09428571164608002, 0);
-playerlist["c"]["Name"] = [[List]];
-
-playerlist["d"] = Instance.new("UIListLayout", playerlist["c"]);
-playerlist["d"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
-playerlist["d"]["Padding"] = UDim.new(0, 7);
-playerlist["d"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-
-playerlist["e"] = Instance.new("LocalScript", playerlist["c"]);
-playerlist["e"]["Name"] = [[ListHandler]];
-
-playerlist["f"] = Instance.new("TextButton", playerlist["e"]);
-playerlist["f"]["BorderSizePixel"] = 0;
-playerlist["f"]["AutoButtonColor"] = false;
-playerlist["f"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
-playerlist["f"]["TextSize"] = 14;
-playerlist["f"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
-playerlist["f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-playerlist["f"]["Size"] = UDim2.new(0, 260, 0, 24);
-playerlist["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-playerlist["f"]["Text"] = [[Player]];
-playerlist["f"]["Position"] = UDim2.new(0.0486111119389534, 0, 0, 0);
-
-playerlist["10"] = Instance.new("UIStroke", playerlist["f"]);
-playerlist["10"]["Color"] = Color3.fromRGB(255, 255, 255);
-playerlist["10"]["Transparency"] = 0.5;
-playerlist["10"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-
-playerlist["11"] = Instance.new("UICorner", playerlist["f"]);
-playerlist["11"]["CornerRadius"] = UDim.new(0, 4);
-
-
-local UIS = game:GetService('UserInputService')
-local frame = playerlist["2"]
-
-local function updateInput(input)
-	local delta = input.Position - dragStart
-	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
-		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	game:GetService('TweenService'):Create(frame, TweenInfo.new(0.15), {Position = position}):Play()
-end
-
-frame.InputBegan:Connect(function(input)
-	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
-		dragToggle = true
-		dragStart = input.Position
-		startPos = frame.Position
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragToggle = false
-			end
-		end)
-	end
-end)
-
-UIS.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-		if dragToggle then
-			updateInput(input)
-		end
-	end
-end)
-
-
-
-local function C_7()
-local script = playerlist["7"];
-	local main = script.Parent.Parent.Parent.Parent.Parent
-	
-	script.Parent.MouseButton1Click:Connect(function()
-		main.Parent:Destroy()
-	end)
-end;
-task.spawn(C_7);
-local function C_e()
-local script = playerlist["e"];
-	while wait() do
-		for _, Item in next, script.Parent:GetChildren() do
-			if Item.Name == "TextButton" and Item:IsA("TextButton") then
-				Item:Destroy()
-			end
-		end
-		task.wait(0.1)
-		local Btn = script.TextButton
-
-		for _, player in pairs(game.Players:GetPlayers()) do
-			--if player.Name ~= game.Players.LocalPlayer.Name then
-			local clone = Btn:Clone()
-			clone.Text = player.Name
-			clone.Parent = script.Parent
-			-- animate
-			Tween = function(Obj, Time, Settings)	
-				game:GetService("TweenService"):Create(Obj, TweenInfo.new(Time), Settings):Play()
-			end
-
-
-			clone.MouseEnter:Connect(function()
-				Tween(clone, 0.2, {BackgroundTransparency = 0.4})
-				Tween(clone.UIStroke, 0.5, {Transparency = 0.4})
-			end)
-
-			clone.MouseLeave:Connect(function()
-				Tween(clone, 0.2, {BackgroundTransparency = 0})
-				Tween(clone.UIStroke, 0.5, {Transparency = 0.5})
-			end)
-
-			clone.MouseButton1Down:Connect(function()
-				Tween(clone, 0.1, {BackgroundTransparency = 0.25})
-				Tween(clone.UIStroke, 0.3, {Transparency = 0.25})
-			end)
-
-			clone.MouseButton1Up:Connect(function()
-				Tween(clone, 0.1, {BackgroundTransparency = 0.4})
-				Tween(clone.UIStroke, 0.3, {Transparency = 0.4})
-			end)
-
-			clone.MouseButton1Click:Connect(function()
-				target = player
-				Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
-                targetesp(player)
-                
-			end)
-			--end
-		end
-		wait(8)
-	end
-end;
-task.spawn(C_e);
-
-return playerlist["1"], require;
+    ListLibrary:CreateList("Player List")
+    
+    for i,v in pairs(others:GetChildren()) do
+        ListLibrary:CreateListButton(v.DisplayName, function()
+            target = v
+            Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
+            targetesp(v)
+        end)
+    end
 end)
 
 
 Window:AddCommand('TPlist', {}, 'Gives a Teleport List to quickly teleport to places', function(Arguments, Speaker)
-    for _, v in next, game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):GetChildren() do
-        if v.Name == 'KarpiWare_TeleportsList_Teleports' then
-            v:Destroy()
-        end
+
+local Teleports = {
+	["Bank"] = Vector3.new(-447.26019287109375, 23.003671646118164, -283.8965759277344),
+	["Police"] = Vector3.new(-265.4961853027344, 21.797977447509766, -116.37294006347656),
+	["Boxing"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
+	["Military"] = Vector3.new(38.51276397705078, 25.253023147583008, -875.2348022460938),
+	["Phone Store"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
+	["Fitness"] = Vector3.new(-76.6124267578125, 22.69831657409668, -632.8761596679688),
+	["Hospital"] = Vector3.new(105.38876342773438, 22.798017501831055, -483.2912902832031),
+	["Food"] = Vector3.new(-325.65826416015625, 23.680667877197266, -293.7251281738281),
+	["Skate Park"] = Vector3.new(-850.03955078125, 21.79800796508789, -531.6365356445312),
+	["Casino"] = Vector3.new(-864.4593505859375, 21.597980499267578, -101.7231216430664),
+	["Club"] = Vector3.new(-262.5336608886719, 22.628089904785156, -453.33203125),
+	["School"] = Vector3.new(-652.6968383789062, 21.982521057128906, 306.2254943847656),
+	["Uphill Guns"] = Vector3.new(483.9078369140625, 48.06851577758789, -623.272521972656),
+	["Downhill Guns"] = Vector3.new(-582.5549926757812, 8.312807083129883, -737.0886840820312),
+	["Max Armor"] = Vector3.new(-510.3179626464844, 20.275625228881836, -285.819885253906259),
+	["High Medium Armor"] = Vector3.new(-934.0250244140625, -28.14982795715332, 570.5496826171875),
+	["Medium Armor"] = Vector3.new(-607.9784545898438, 7.449648857116699, -788.4942626953125),
+	["Fire Armor"] = Vector3.new(-504.22802734375, 20.25925636291504, -286.00994873046875),
+	["RPG"] = Vector3.new(114.18929290771484, -26.752010345458984, -276.26934814453125),
+	["Revolver"] = Vector3.new(-643.6868286132812, 21.748022079467773, -121.32481384277344),
+	["Double-Barrel shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
+	["Tactical Shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
+	["Rifle"] = Vector3.new(-167.8747100830078, -18.040834426879883, -311.8492431640625),
+	["AUG"] = Vector3.new(-273.3023376464844, 52.261661529541016, -216.994140625),
+	["Knife"] = Vector3.new(-278.2847900390625, 21.74802017211914, -239.21456909179688),
+	["Sledgehammer"] = Vector3.new(-901.64404296875, 21.74802017211914, -296.5692443847656),
+	["Bat"] = Vector3.new(-80.242919921875, 21.748022079467773, -293.10821533203125),
+	["Pitchfork"] = Vector3.new(250.8275604248047, 21.747995376586914, -28.456567764282227),
+	["Shovel"] = Vector3.new(150.86940002441406, 21.747995376586914, 31.57048988342285),
+	["StopSign"] = Vector3.new(-225.90127563476562, 21.74802017211914, -81.81007385253906),
+	["Tazer"] = Vector3.new(-270.2383728027344, 21.7979793548584, -98.4942855834961),
+	["TearGas"] = Vector3.new(98.40107727050781, 25.637149810791016, -891.5840454101562),
+	["Lockpick"] = Vector3.new(-264.5516357421875, 21.748022079467773, -238.6057891845703),
+	["Key"] = Vector3.new(-271.192138671875, 21.748022079467773, -239.74179077148438),
+	["Grenade"] = Vector3.new(108.70999145507812, -26.75200653076172, -273.833251953125),
+	["Weights"] = Vector3.new(-55.78539276123047, 22.948291778564453, -654.3751220703125),
+	["Lettuce"] = Vector3.new(-81.97262573242188, 22.698314666748047, -632.7714233398438),
+	["Anti-bodies"] = Vector3.new(109.00323486328125, 22.798017501831055, -471.5952453613281),
+	["Mask"] = Vector3.new(105.38876342773438, 22.798017501831055, -483.2912902832031),
+}
+
+    ListLibrary:CreateList("Teleports List")
+
+    for Name,TP in pairs(Teleports) do
+        ListLibrary:CreateListButton(Name, function()
+            character.HumanoidRootPart.CFrame = CFrame.new(TP)
+        end)
     end
-    
-    local TPlist = {};
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports
-    TPlist["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
-    TPlist["1"]["Name"] = [[KarpiWare_TeleportsList_Teleports]];
-    TPlist["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
-    TPlist["1"]["ResetOnSpawn"] = false;
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main
-    TPlist["2"] = Instance.new("Frame", TPlist["1"]);
-    TPlist["2"]["ZIndex"] = 501;
-    TPlist["2"]["BorderSizePixel"] = 0;
-    TPlist["2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["2"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-    TPlist["2"]["BackgroundTransparency"] = 0.10000000149011612;
-    TPlist["2"]["Size"] = UDim2.new(0, 300, 0, 350);
-    TPlist["2"]["ClipsDescendants"] = true;
-    TPlist["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["2"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-    TPlist["2"]["Name"] = [[Main]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar
-    TPlist["3"] = Instance.new("Frame", TPlist["2"]);
-    TPlist["3"]["ZIndex"] = 500;
-    TPlist["3"]["BorderSizePixel"] = 0;
-    TPlist["3"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
-    TPlist["3"]["Size"] = UDim2.new(0, 300, 0, 26);
-    TPlist["3"]["ClipsDescendants"] = true;
-    TPlist["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["3"]["Name"] = [[Topbar]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label
-    TPlist["4"] = Instance.new("TextLabel", TPlist["3"]);
-    TPlist["4"]["ZIndex"] = 2;
-    TPlist["4"]["BorderSizePixel"] = 0;
-    TPlist["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["4"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-    TPlist["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
-    TPlist["4"]["TextSize"] = 16;
-    TPlist["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["4"]["Size"] = UDim2.new(0, 194, 0, 26);
-    TPlist["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["4"]["Text"] = [[Teleports]];
-    TPlist["4"]["Name"] = [[Label]];
-    TPlist["4"]["BackgroundTransparency"] = 1;
-    TPlist["4"]["Position"] = UDim2.new(0.019999999552965164, 0, 0, 0);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close
-    TPlist["5"] = Instance.new("ImageLabel", TPlist["4"]);
-    TPlist["5"]["ZIndex"] = 2;
-    TPlist["5"]["ScaleType"] = Enum.ScaleType.Fit;
-    TPlist["5"]["Image"] = [[rbxassetid://3944676352]];
-    TPlist["5"]["Size"] = UDim2.new(0, 19, 0, 19);
-    TPlist["5"]["Name"] = [[Close]];
-    TPlist["5"]["BackgroundTransparency"] = 1;
-    TPlist["5"]["Position"] = UDim2.new(1.4049999713897705, 0, 0.10700000077486038, 0);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close
-    TPlist["6"] = Instance.new("TextButton", TPlist["5"]);
-    TPlist["6"]["ZIndex"] = 3;
-    TPlist["6"]["BorderSizePixel"] = 0;
-    TPlist["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["6"]["TextSize"] = 14;
-    TPlist["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-    TPlist["6"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["6"]["Size"] = UDim2.new(0, 19, 0, 19);
-    TPlist["6"]["Name"] = [[Close]];
-    TPlist["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["6"]["Text"] = [[]];
-    TPlist["6"]["BackgroundTransparency"] = 1;
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close.LocalScript
-    TPlist["7"] = Instance.new("LocalScript", TPlist["6"]);
-    
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.UICorner
-    TPlist["8"] = Instance.new("UICorner", TPlist["3"]);
-    TPlist["8"]["CornerRadius"] = UDim.new(0, 4);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.roundcut
-    TPlist["9"] = Instance.new("Frame", TPlist["3"]);
-    TPlist["9"]["BorderSizePixel"] = 0;
-    TPlist["9"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
-    TPlist["9"]["Size"] = UDim2.new(0, 300, 0, 4);
-    TPlist["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["9"]["Position"] = UDim2.new(0, 0, 0.872794508934021, 0);
-    TPlist["9"]["Name"] = [[roundcut]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.UIStroke
-    TPlist["a"] = Instance.new("UIStroke", TPlist["2"]);
-    TPlist["a"]["Color"] = Color3.fromRGB(255, 255, 255);
-    TPlist["a"]["Transparency"] = 0.5;
-    TPlist["a"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.UICorner
-    TPlist["b"] = Instance.new("UICorner", TPlist["2"]);
-    TPlist["b"]["CornerRadius"] = UDim.new(0, 4);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List
-    TPlist["c"] = Instance.new("ScrollingFrame", TPlist["2"]);
-    TPlist["c"]["Active"] = true;
-    TPlist["c"]["BorderSizePixel"] = 0;
-    TPlist["c"]["ScrollBarImageTransparency"] = 0.8199999928474426;
-    TPlist["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["c"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
-    TPlist["c"]["BackgroundTransparency"] = 1;
-    TPlist["c"]["Size"] = UDim2.new(0, 288, 0, 310);
-    TPlist["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["c"]["ScrollBarThickness"] = 2;
-    TPlist["c"]["Position"] = UDim2.new(0.019999999552965164, 0, 0.09428571164608002, 0);
-    TPlist["c"]["Name"] = [[List]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container
-    TPlist["d"] = Instance.new("Frame", TPlist["c"]);
-    TPlist["d"]["BorderSizePixel"] = 0;
-    TPlist["d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["d"]["BackgroundTransparency"] = 1;
-    TPlist["d"]["Size"] = UDim2.new(0, 288, 0, 306);
-    TPlist["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["d"]["Position"] = UDim2.new(0, 0, 0.012903225608170033, 0);
-    TPlist["d"]["Name"] = [[Container]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler
-    TPlist["e"] = Instance.new("LocalScript", TPlist["d"]);
-    TPlist["e"]["Name"] = [[ListHandler]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton
-    TPlist["f"] = Instance.new("TextButton", TPlist["e"]);
-    TPlist["f"]["BorderSizePixel"] = 0;
-    TPlist["f"]["AutoButtonColor"] = false;
-    TPlist["f"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
-    TPlist["f"]["TextSize"] = 14;
-    TPlist["f"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.SemiBold, Enum.FontStyle.Normal);
-    TPlist["f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-    TPlist["f"]["Size"] = UDim2.new(0, 260, 0, 24);
-    TPlist["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-    TPlist["f"]["Text"] = [[Player]];
-    TPlist["f"]["Position"] = UDim2.new(0.0486111119389534, 0, 0, 0);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton.UIStroke
-    TPlist["10"] = Instance.new("UIStroke", TPlist["f"]);
-    TPlist["10"]["Color"] = Color3.fromRGB(255, 255, 255);
-    TPlist["10"]["Transparency"] = 0.5;
-    TPlist["10"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler.TextButton.UICorner
-    TPlist["11"] = Instance.new("UICorner", TPlist["f"]);
-    TPlist["11"]["CornerRadius"] = UDim.new(0, 4);
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.UIListLayout
-    TPlist["12"] = Instance.new("UIListLayout", TPlist["d"]);
-    TPlist["12"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
-    TPlist["12"]["Padding"] = UDim.new(0, 7);
-    TPlist["12"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.DragScript
-    TPlist["13"] = Instance.new("LocalScript", TPlist["2"]);
-    TPlist["13"]["Name"] = [[DragScript]];
-    
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.Topbar.Label.Close.Close.LocalScript
-    local function C_7()
-    local script = TPlist["7"];
-        local TweenService = game:GetService('TweenService')
-        local main = script.Parent.Parent.Parent.Parent.Parent
-        
-        function Tween(Instance, Properties, Duration, ...)
-            local TweenInfo = TweenInfo.new(Duration, ...)
-            TweenService:Create(Instance, TweenInfo, Properties):Play()
-        end
-        
-        script.Parent.MouseButton1Click:Connect(function()
-            main.Parent:Destroy()
-        end)
-    end;
-    task.spawn(C_7);
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.List.Container.ListHandler
-    local function C_e()
-    local script = TPlist["e"];
-        local Btn = script.TextButton
-        local teleports = {
-            ["Bank"] = Vector3.new(-447.26019287109375, 23.003671646118164, -283.8965759277344),
-            ["Police"] = Vector3.new(-265.4961853027344, 21.797977447509766, -116.37294006347656),
-            ["Boxing"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
-            ["Military"] = Vector3.new(38.51276397705078, 25.253023147583008, -875.2348022460938),
-            ["Phone Store"] = Vector3.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125),
-            ["Fitness"] = Vector3.new(-76.6124267578125, 22.69831657409668, -632.8761596679688),
-            ["Hospital"] = Vector3.new(105.38876342773438, 22.798017501831055, -483.2912902832031),
-            ["Food"] = Vector3.new(-325.65826416015625, 23.680667877197266, -293.7251281738281),
-            ["Skate Park"] = Vector3.new(-850.03955078125, 21.79800796508789, -531.6365356445312),
-            ["Casino"] = Vector3.new(-864.4593505859375, 21.597980499267578, -101.7231216430664),
-            ["Club"] = Vector3.new(-262.5336608886719, 22.628089904785156, -453.33203125),
-            ["School"] = Vector3.new(-652.6968383789062, 21.982521057128906, 306.2254943847656),
-            ["Uphill Guns"] = Vector3.new(483.9078369140625, 48.06851577758789, -623.272521972656),
-            ["Downhill Guns"] = Vector3.new(-582.5549926757812, 8.312807083129883, -737.0886840820312),
-            ["Max Armor"] = Vector3.new(-510.3179626464844, 20.275625228881836, -285.819885253906259),
-            ["High Medium Armor"] = Vector3.new(-934.0250244140625, -28.14982795715332, 570.5496826171875),
-            ["Medium Armor"] = Vector3.new(-607.9784545898438, 7.449648857116699, -788.4942626953125),
-            ["Fire Armor"] = Vector3.new(-504.22802734375, 20.25925636291504, -286.00994873046875),
-            ["RPG"] = Vector3.new(114.18929290771484, -26.752010345458984, -276.26934814453125),
-            ["Revolver"] = Vector3.new(-643.6868286132812, 21.748022079467773, -121.32481384277344),
-            ["Double-Barrel shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
-            ["Tactical Shotgun"] = Vector3.new(23.364553451538086, 25.628028869628906, -834.4078369140625),
-            ["Rifle"] = Vector3.new(-167.8747100830078, -18.040834426879883, -311.8492431640625),
-            ["AUG"] = Vector3.new(-273.3023376464844, 52.261661529541016, -216.994140625),
-            ["Knife"] = Vector3.new(-278.2847900390625, 21.74802017211914, -239.21456909179688),
-            ["Sledgehammer"] = Vector3.new(-901.64404296875, 21.74802017211914, -296.5692443847656),
-            ["Bat"] = Vector3.new(-80.242919921875, 21.748022079467773, -293.10821533203125),
-            ["Pitchfork"] = Vector3.new(250.8275604248047, 21.747995376586914, -28.456567764282227),
-            ["Shovel"] = Vector3.new(150.86940002441406, 21.747995376586914, 31.57048988342285),
-            ["StopSign"] = Vector3.new(-225.90127563476562, 21.74802017211914, -81.81007385253906),
-            ["Tazer"] = Vector3.new(-270.2383728027344, 21.7979793548584, -98.4942855834961),
-            ["TearGas"] = Vector3.new(98.40107727050781, 25.637149810791016, -891.5840454101562),
-            ["Lockpick"] = Vector3.new(-264.5516357421875, 21.748022079467773, -238.6057891845703),
-            ["Key"] = Vector3.new(-271.192138671875, 21.748022079467773, -239.74179077148438),
-            ["Grenade"] = Vector3.new(108.70999145507812, -26.75200653076172, -273.833251953125),
-            ["Weights"] = Vector3.new(-55.78539276123047, 22.948291778564453, -654.3751220703125),
-            ["Lettuce"] = Vector3.new(-81.97262573242188, 22.698314666748047, -632.7714233398438),
-            ["Anti-bodies"] = Vector3.new(109.00323486328125, 22.798017501831055, -471.5952453613281),
-            ["Mask"] = Vector3.new(),
-        }
-        
-        for name, tp in pairs(teleports) do
-                local clone = Btn:Clone()
-                clone.Text = name
-            clone.Parent = script.Parent
-        -- animate
-            Tween = function(Obj, Time, Settings)	
-                game:GetService("TweenService"):Create(Obj, TweenInfo.new(Time), Settings):Play()
-            end
-        
-        
-            clone.MouseEnter:Connect(function()
-                Tween(clone, 0.2, {BackgroundTransparency = 0.4})
-                Tween(clone.UIStroke, 0.5, {Transparency = 0.4})
-            end)
-        
-            clone.MouseLeave:Connect(function()
-                Tween(clone, 0.2, {BackgroundTransparency = 0})
-                Tween(clone.UIStroke, 0.5, {Transparency = 0.5})
-            end)
-        
-            clone.MouseButton1Down:Connect(function()
-                Tween(clone, 0.1, {BackgroundTransparency = 0.25})
-                Tween(clone.UIStroke, 0.3, {Transparency = 0.25})
-            end)
-        
-            clone.MouseButton1Up:Connect(function()
-                Tween(clone, 0.1, {BackgroundTransparency = 0.4})
-                Tween(clone.UIStroke, 0.3, {Transparency = 0.4})
-            end)
-        
-            clone.MouseButton1Click:Connect(function()
-                print(tp)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(tp)
-            end)
-            end
-    end;
-    task.spawn(C_e);
-    -- ServerStorage.KarpiWare_TeleportsList_Teleports.Main.DragScript
-    local function C_13()
-    local script = TPlist["13"];
-        local UIS = game:GetService('UserInputService')
-        local frame = TPlist["2"]
-        
-        local function updateInput(input)
-            local delta = input.Position - dragStart
-            local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-            game:GetService('TweenService'):Create(frame, TweenInfo.new(0.15), {Position = position}):Play()
-        end
-        
-        frame.InputBegan:Connect(function(input)
-            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
-                dragToggle = true
-                dragStart = input.Position
-                startPos = frame.Position
-                input.Changed:Connect(function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragToggle = false
-                    end
-                end)
-            end
-        end)
-        
-        UIS.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-                if dragToggle then
-                    updateInput(input)
-                end
-            end
-        end)
-        
-    end;
-    task.spawn(C_13);
-    
-    return TPlist["1"], require;
 end)
 
 
@@ -1845,7 +1376,7 @@ Window:AddCommand('Target', {'Player'}, 'Sets the target player (Username only)'
     local str = string.gsub(Arguments[1], " ", "")
     local PartialName = str
 
-    local Players = game.Players:GetPlayers()
+    local Players = others:GetPlayers()
     foundtarg = false
 
     for i = 1, #Players do
@@ -1869,8 +1400,8 @@ Window:AddCommand('View', {}, 'Sets camerasubject to your target', function(Argu
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target.Name) then
-            game.Workspace.CurrentCamera.CameraSubject = target.Character
+        if others:FindFirstChild(target.Name) then
+            currentcamera.CameraSubject = target.Character
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
         end
@@ -1879,7 +1410,7 @@ end)
 
 
 Window:AddCommand('Unview', {}, 'Sets camerasubject to your player', function(Arguments, Speaker)
-    game.Workspace.CurrentCamera.CameraSubject = character
+    currentcamera.CameraSubject = character
 end)
 
 
@@ -1887,7 +1418,7 @@ Window:AddCommand('Goto', {}, 'Teleports to set target', function(Arguments, Spe
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target.Name) then
+        if others:FindFirstChild(target.Name) then
             character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,2,0)
         else
             Window:CreateNotification('KarpiWare', 'Unable to find set target', 5)
@@ -1900,7 +1431,7 @@ Window:AddCommand('GetCash', {}, 'Tells you the set targets cash amount', functi
     if target == nil then
         Window:CreateNotification('KarpiWare', 'Set your target using SetTarget command first!', 5)
     else
-        if game.Players:FindFirstChild(target.Name) then
+        if others:FindFirstChild(target.Name) then
 
             local nmb = (function(currency)
                 converted = tostring(currency)
@@ -1916,7 +1447,7 @@ end)
 
 
 Window:AddCommand('SpawnCash', {}, 'Fake spawns cash using moneygun, get moneygun first.', function(Arguments, Speaker)
-    local tool = plr1.Backpack["[Money Gun]"]
+    local tool = prl1.Backpack["[Money Gun]"]
 
     humanoid:EquipTool(tool)
     tool:Activate()
@@ -1925,265 +1456,295 @@ end)
 
 
 Window:AddCommand('MoneyGun', {}, 'Teleports to moneygun for SpawnCash Command', function(Arguments, Speaker)
-mgogpos = character.HumanoidRootPart.CFrame
+local originalPosition = character.HumanoidRootPart.CFrame
+
 character.HumanoidRootPart.CFrame = CFrame.new(-883.099976, 18.7245655, -129.749939)
 task.wait(5)
-character.HumanoidRootPart.CFrame = mgogpos
+character.HumanoidRootPart.CFrame = originalPosition
 end)
 
 
 Window:AddCommand('CombatPhone', {}, 'Need Phone and Bat | Kill people with a phone', function(Arguments, Speaker)
-    plr1.Backpack["[Phone]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPname = "[Bat]"
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,-100)
-task.wait(0.01)
-    character["[Phone]"].Parent = plr1.Backpack
-    character["[Bat]"].Parent = plr1.Backpack
-task.wait(0.01)
-    plr1.Backpack["[Phone]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,100)
+    local backpack = plr1.Backpack
+    local characterItems = {
+        FakeItem = "[Phone]",
+        Hit = "[Bat]",
+    }
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    local PPlocation = character:WaitForChild(characterItems.Hit)
+    PPlocation.GripPos = Vector3.new(-100, -100, -100)
+    wait()
+    
+    character[characterItems.FakeItem].Parent = backpack
+    character[characterItems.Hit].Parent = backpack
+    wait()
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    PPlocation = character:WaitForChild(characterItems.Hit)
+    PPlocation.GripPos = Vector3.new(-100, -100, 100)
 end)
 
 
 Window:AddCommand('CombatFlowers', {}, 'Need Flowers and Bat | Kill people with flowers', function(Arguments, Speaker)
-    plr1.Backpack["[FlowersTool]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPname = "[Bat]"
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,-100)
-task.wait(0.01)
-character["[FlowersTool]"].Parent = plr1.Backpack
-character["[Bat]"].Parent = plr1.Backpack
-task.wait(0.01)
-    plr1.Backpack["[FlowersTool]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,100)
+    local backpack = plr1.Backpack
+    local characterItems = {
+        FakeItem = "[FlowersTool]",
+        Hit = "[Bat]",
+    }
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    local PPname = characterItems.Hit
+    local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100, -100, -100)
+    wait()
+    
+    character[characterItems.FakeItem].Parent = backpack
+    character[characterItems.Hit].Parent = backpack
+    wait()
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100, -100, 100)
 end)
 
 
 Window:AddCommand('CombatChicken', {}, 'Kill People with chicken', function(Arguments, Speaker)
-    plr1.Backpack["[Chicken]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPname = "[Bat]"
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,-100)
-task.wait(0.01)
-character["[Chicken]"].Parent = plr1.Backpack
-character["[Bat]"].Parent = plr1.Backpack
-task.wait(0.01)
-    plr1.Backpack["[Chicken]"].Parent = character
-    plr1.Backpack["[Bat]"].Parent = character
-local PPlocation = character:WaitForChild(PPname)
-    PPlocation.GripPos = Vector3.new(-100,-100,100)
+    local backpack = plr1.Backpack
+    local characterItems = {
+        FakeItem = "[Chicken]",
+        Hit = "[Bat]",
+    }
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    local PPname = characterItems.Hit
+    local PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100, -100, -100)
+    wait()
+    
+    character[characterItems.FakeItem].Parent = backpack
+    character[characterItems.Hit].Parent = backpack
+    wait()
+    
+    backpack[characterItems.FakeItem].Parent = character
+    backpack[characterItems.Hit].Parent = character
+    
+    PPlocation = character:WaitForChild(PPname)
+    PPlocation.GripPos = Vector3.new(-100, -100, 100)
 end)
 
 
 -- Teleports
 Window:AddCommand('Panic', {}, 'Teleports you to a Safe spot', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
+    character.Character.HumanoidRootPart.CFrame = CFrame.new(196.7130584716797, -7.202033042907715, 204.46034240722656)
 end)
 
 
 Window:AddCommand('Bank', {}, 'Teleports to Bank', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-447.26019287109375, 23.003671646118164, -283.8965759277344)
+    character.HumanoidRootPart.CFrame = CFrame.new(-447.26019287109375, 23.003671646118164, -283.8965759277344)
 end)
 
 
 Window:AddCommand('Police', {}, 'Teleports to Police station', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-265.4961853027344, 21.797977447509766, -116.37294006347656)
+    character.HumanoidRootPart.CFrame = CFrame.new(-265.4961853027344, 21.797977447509766, -116.37294006347656)
 end)
 
 
 Window:AddCommand('Boxing', {}, 'Teleports to Boxing', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
 end)
 
 
 Window:AddCommand('Military', {}, 'Teleports to Military', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38.51276397705078, 25.253023147583008, -875.2348022460938)
+    character.HumanoidRootPart.CFrame = CFrame.new(38.51276397705078, 25.253023147583008, -875.2348022460938)
 end)
 
 
 Window:AddCommand('PhoneStore', {}, 'Teleports to Phone Store', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-235.43539428710938, 22.065319061279297, -1121.0645751953125)
 end)
 
 
 Window:AddCommand('Fitness', {}, 'Teleports to Fitness', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-76.6124267578125, 22.69831657409668, -632.8761596679688)
+    character.HumanoidRootPart.CFrame = CFrame.new(-76.6124267578125, 22.69831657409668, -632.8761596679688)
 end)
 
 
 Window:AddCommand('Hospital', {}, 'Teleports to Hospital', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(105.38876342773438, 22.798017501831055, -483.2912902832031)
+    character.HumanoidRootPart.CFrame = CFrame.new(105.38876342773438, 22.798017501831055, -483.2912902832031)
 end)
 
 
 Window:AddCommand('Joses', {}, 'Teleports to Joses', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(583.9660034179688, 51.05943298339844, -479.64508056640625)
+    character.HumanoidRootPart.CFrame = CFrame.new(583.9660034179688, 51.05943298339844, -479.64508056640625)
 end)
 
 
 Window:AddCommand('Food', {}, 'Teleports to Food', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-325.65826416015625, 23.680667877197266, -293.7251281738281)
+    character.HumanoidRootPart.CFrame = CFrame.new(-325.65826416015625, 23.680667877197266, -293.7251281738281)
 end)
 
 
 Window:AddCommand('SkatePark', {}, 'Teleports to Skate Park', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-850.03955078125, 21.79800796508789, -531.6365356445312)
+    character.HumanoidRootPart.CFrame = CFrame.new(-850.03955078125, 21.79800796508789, -531.6365356445312)
 end)
 
 
 Window:AddCommand('Casino', {}, 'Teleports to Casino', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-864.4593505859375, 21.597980499267578, -101.7231216430664)
+    character.HumanoidRootPart.CFrame = CFrame.new(-864.4593505859375, 21.597980499267578, -101.7231216430664)
 end)
 
 
 Window:AddCommand('Club', {}, 'Teleports to Club', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-262.5336608886719, 22.628089904785156, -453.33203125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-262.5336608886719, 22.628089904785156, -453.33203125)
 end)
 
 
 Window:AddCommand('School', {}, 'Teleports to School', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-652.6968383789062, 21.982521057128906, 306.2254943847656)
+    character.HumanoidRootPart.CFrame = CFrame.new(-652.6968383789062, 21.982521057128906, 306.2254943847656)
 end)
 
 
 Window:AddCommand('UphillGuns', {}, 'Teleports to Uphill Guns', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(483.9078369140625, 48.06851577758789, -623.2725219726562)
+    character.HumanoidRootPart.CFrame = CFrame.new(483.9078369140625, 48.06851577758789, -623.2725219726562)
 end)
 
 
 Window:AddCommand('DownhillGuns', {}, 'Teleports to Downhill Guns', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-582.5549926757812, 8.312807083129883, -737.0886840820312)
+    character.HumanoidRootPart.CFrame = CFrame.new(-582.5549926757812, 8.312807083129883, -737.0886840820312)
 end)
 
 
 Window:AddCommand('MaxArmor', {}, 'Teleports to Max Armor', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
+    character.HumanoidRootPart.CFrame = CFrame.new(-510.3179626464844, 20.275625228881836, -285.819885253906259)
 end)
 
 
 Window:AddCommand('HighMediumArmor', {}, 'Teleports to High Medium Armor', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-934.0250244140625, -28.14982795715332, 570.5496826171875)
+    character.HumanoidRootPart.CFrame = CFrame.new(-934.0250244140625, -28.14982795715332, 570.5496826171875)
 end)
 
 
 Window:AddCommand('MediumArmor', {}, 'Teleports to Medium Armor', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-607.9784545898438, 7.449648857116699, -788.4942626953125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-607.9784545898438, 7.449648857116699, -788.4942626953125)
 end)
 
 
 Window:AddCommand('FireArmor', {}, 'Teleports to Fire Armor', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-504.22802734375, 20.25925636291504, -286.00994873046875)
+    character.HumanoidRootPart.CFrame = CFrame.new(-504.22802734375, 20.25925636291504, -286.00994873046875)
 end)
 
 
 Window:AddCommand('RPG', {}, 'Teleports to RPG', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(114.18929290771484, -26.752010345458984, -276.26934814453125)
+    character.HumanoidRootPart.CFrame = CFrame.new(114.18929290771484, -26.752010345458984, -276.26934814453125)
 end)
 
 
 Window:AddCommand('Revolver', {}, 'Teleports to Revolver', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-643.6868286132812, 21.748022079467773, -121.32481384277344)
+    character.HumanoidRootPart.CFrame = CFrame.new(-643.6868286132812, 21.748022079467773, -121.32481384277344)
 end)
 
 
 Window:AddCommand('DBshotgun', {}, 'Teleports to DBshotgun', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23.364553451538086, 25.628028869628906, -834.4078369140625)
+    character.HumanoidRootPart.CFrame = CFrame.new(23.364553451538086, 25.628028869628906, -834.4078369140625)
 end)
 
 
 Window:AddCommand('TacShotgun', {}, 'Teleports to Tactical Shotgun', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23.364553451538086, 25.628028869628906, -834.4078369140625)
+    character.HumanoidRootPart.CFrame = CFrame.new(23.364553451538086, 25.628028869628906, -834.4078369140625)
 end)
 
 
 Window:AddCommand('Rifle', {}, 'Teleports to Rifle', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-167.8747100830078, -18.040834426879883, -311.8492431640625)
+    character.HumanoidRootPart.CFrame = CFrame.new(-167.8747100830078, -18.040834426879883, -311.8492431640625)
 end)
 
 
 Window:AddCommand('AUG', {}, 'Teleports to AUG', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-273.3023376464844, 52.261661529541016, -216.994140625)
+    character.HumanoidRootPart.CFrame = CFrame.new(-273.3023376464844, 52.261661529541016, -216.994140625)
 end)
 
 
 Window:AddCommand('Knife', {}, 'Teleports to Knife', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-278.2847900390625, 21.74802017211914, -239.21456909179688)
+    character.HumanoidRootPart.CFrame = CFrame.new(-278.2847900390625, 21.74802017211914, -239.21456909179688)
 end)
 
 
 Window:AddCommand('Sledgehammer', {}, 'Teleports to Sledgehammer', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-901.64404296875, 21.74802017211914, -296.5692443847656)
+    character.HumanoidRootPart.CFrame = CFrame.new(-901.64404296875, 21.74802017211914, -296.5692443847656)
 end)
 
 
 Window:AddCommand('Bat', {}, 'Teleports to Bat', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-80.242919921875, 21.748022079467773, -293.10821533203125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-80.242919921875, 21.748022079467773, -293.10821533203125)
 end)
 
 
 Window:AddCommand('Pitchfork', {}, 'Teleports to Pitchfork', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(250.8275604248047, 21.747995376586914, -28.456567764282227)
+    character.HumanoidRootPart.CFrame = CFrame.new(250.8275604248047, 21.747995376586914, -28.456567764282227)
 end)
 
 
 Window:AddCommand('Shovel', {}, 'Teleports to Shovel', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(150.86940002441406, 21.747995376586914, 31.57048988342285)
+    character.HumanoidRootPart.CFrame = CFrame.new(150.86940002441406, 21.747995376586914, 31.57048988342285)
 end)
 
 
 Window:AddCommand('StopSign', {}, 'Teleports to StopSign', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-225.90127563476562, 21.74802017211914, -81.81007385253906)
+    character.HumanoidRootPart.CFrame = CFrame.new(-225.90127563476562, 21.74802017211914, -81.81007385253906)
 end)
 
 
 Window:AddCommand('Tazer', {}, 'Teleports to Tazer', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-270.2383728027344, 21.7979793548584, -98.4942855834961)
+    character.HumanoidRootPart.CFrame = CFrame.new(-270.2383728027344, 21.7979793548584, -98.4942855834961)
 end)
 
 
 Window:AddCommand('TearGas', {}, 'Teleports to TearGas', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(98.40107727050781, 25.637149810791016, -891.5840454101562)
+    character.HumanoidRootPart.CFrame = CFrame.new(98.40107727050781, 25.637149810791016, -891.5840454101562)
 end)
 
 
 Window:AddCommand('Lockpick', {}, 'Teleports to Lockpick', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-264.5516357421875, 21.748022079467773, -238.6057891845703)
+    character.HumanoidRootPart.CFrame = CFrame.new(-264.5516357421875, 21.748022079467773, -238.6057891845703)
 end)
 
 
 Window:AddCommand('Key', {}, 'Teleports to Key', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-271.192138671875, 21.748022079467773, -239.74179077148438)
+    character.HumanoidRootPart.CFrame = CFrame.new(-271.192138671875, 21.748022079467773, -239.74179077148438)
 end)
 
 
 Window:AddCommand('Grenade', {}, 'Teleports to Grenade', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(108.70999145507812, -26.75200653076172, -273.833251953125)
+    character.HumanoidRootPart.CFrame = CFrame.new(108.70999145507812, -26.75200653076172, -273.833251953125)
 end)
 
 
 Window:AddCommand('Weights', {}, 'Teleports to Weights', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-55.78539276123047, 22.948291778564453, -654.3751220703125)
+    character.HumanoidRootPart.CFrame = CFrame.new(-55.78539276123047, 22.948291778564453, -654.3751220703125)
 end)
 
 
 Window:AddCommand('Lettuce', {}, 'Teleports to Lettuce', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-81.97262573242188, 22.698314666748047, -632.7714233398438)
+    character.HumanoidRootPart.CFrame = CFrame.new(-81.97262573242188, 22.698314666748047, -632.7714233398438)
 end)
 
 
 Window:AddCommand('Antibodies', {}, 'Teleports to Antibodies', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(109.00323486328125, 22.798017501831055, -471.5952453613281)
+    character.HumanoidRootPart.CFrame = CFrame.new(109.00323486328125, 22.798017501831055, -471.5952453613281)
 end)
 
 
 Window:AddCommand('Mask', {}, 'Teleports to Mask', function(Arguments, Speaker)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(107.610595703125, 22.798015594482422, -486.6477966308594)
+    character.HumanoidRootPart.CFrame = CFrame.new(107.610595703125, 22.798015594482422, -486.6477966308594)
 end)
