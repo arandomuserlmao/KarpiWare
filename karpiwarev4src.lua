@@ -1,4 +1,4 @@
-local version = "4.2"
+local version = "4.25"
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 local ListLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/biggaboy212/Utility-Libraries/main/ListLibrary/Source.lua'))()
 
@@ -1306,10 +1306,10 @@ end)
 
 
 Window:AddCommand('Playerlist', {}, 'Gives you a playerlist to quickly set a target', function(Arguments, Speaker)
-    ListLibrary:CreateList("Player List")
+    local Newlist = ListLibrary:CreateList("Player List")
     
     for i,v in pairs(others:GetChildren()) do
-        ListLibrary:CreateListButton(v.DisplayName, true, function()
+        Newlist:CreateListButton(v.DisplayName, true, function()
             target = v
             Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
             targetesp(v)
@@ -1362,10 +1362,10 @@ local Teleports = {
 	["Mask"] = Vector3.new(105.38876342773438, 22.798017501831055, -483.2912902832031),
 }
 
-    ListLibrary:CreateList("Teleports List")
+   local tplist =  ListLibrary:CreateList("Teleports List")
 
     for Name,TP in pairs(Teleports) do
-        ListLibrary:CreateListButton(Name, true, function()
+        tplist:CreateListButton(Name, true, function()
             character.HumanoidRootPart.CFrame = CFrame.new(TP)
         end)
     end
