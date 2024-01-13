@@ -1309,7 +1309,7 @@ Window:AddCommand('Playerlist', {}, 'Gives you a playerlist to quickly set a tar
     ListLibrary:CreateList("Player List")
     
     for i,v in pairs(others:GetChildren()) do
-        ListLibrary:CreateListButton(v.DisplayName, function()
+        ListLibrary:CreateListButton(v.DisplayName, true, function()
             target = v
             Window:CreateNotification('KarpiWare', 'Target: '..target.Name, 5)
             targetesp(v)
@@ -1365,7 +1365,7 @@ local Teleports = {
     ListLibrary:CreateList("Teleports List")
 
     for Name,TP in pairs(Teleports) do
-        ListLibrary:CreateListButton(Name, function()
+        ListLibrary:CreateListButton(Name, true, function()
             character.HumanoidRootPart.CFrame = CFrame.new(TP)
         end)
     end
