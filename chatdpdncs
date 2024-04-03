@@ -377,7 +377,7 @@ mouse.KeyUp:connect(function(key)
 if key == "z" then
 plr.Backpack[PPname].Parent = plr.Character
 local PPlocation = game.Players.LocalPlayer.Character:WaitForChild(PPname)
-PPlocation.GripPos = Vector3.new(-10,-10,0)
+PPlocation.GripPos = Vector3.new(-5,-5,0)
 plr.Character.Humanoid:UnequipTools()
 plr.Backpack[PPname].Parent = plr.Character
 PPlocation:Activate()
