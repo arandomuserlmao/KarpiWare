@@ -1,0 +1,13 @@
+--[[ 
+                                                        --!! TYPES !!--
+    'RPG' - Uses RPG More effective and accurate due to it not being affected by networkownership, however it is more expensive
+    
+    'Grenade' - Grenade will sometimes stop locking onto your character if you are too close to a player for 
+    too long due to networkownership, however this method is more cost effective (Also still locks on when you are 
+    KO'd so maybe if someone tries to stomp you it will kill them)
+]]
+
+getgenv().LoadVersionOfScript = 'RPG'
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/KarpiWare/main/Open%20Sourced/CreeperDepend.lua"))()
