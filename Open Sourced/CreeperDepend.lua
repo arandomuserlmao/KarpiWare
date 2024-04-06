@@ -1,5 +1,3 @@
--- ignore messy code pls
-
 if getgenv().LoadVersionOfScript == 'RPG' then
     local watermark = true
     local old
@@ -54,13 +52,9 @@ if getgenv().LoadVersionOfScript == 'RPG' then
           if RPG then
             RPG.Parent = game.Players.LocalPlayer.Character
             RPG:Activate()
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Creeper, Aww mannn!", "All")
             RPG.Parent = game.Players.LocalPlayer.Backpack
          end
-            game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function ()
-                if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                    ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Creeper, Aww mannn!", "All")
-                end
-            end)
           elseif key == 't' then
             old = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(114.18929290771484, -26.752010345458984, -276.26934814453125)
