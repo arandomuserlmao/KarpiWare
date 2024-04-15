@@ -26,4 +26,4 @@ Welcome to Proton Utilites User documentation, Refer to one of the sections belo
 <br>
 
 ## PURCHASE
-  Please refer to the ⁠💵-purchase channel in our official discord. - https://discord.gg/FWC8PpWtQv 
+  Please refer to the ```⁠💵-purchase``` channel in our official discord. - https://discord.gg/FWC8PpWtQv 
