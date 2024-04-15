@@ -8,9 +8,9 @@ Welcome to Proton Utilites User documentation, Refer to one of the sections belo
   <br>
 
   ## PURCHASE
-  To purchase, visit our official Sellix shop here - https://proton-utilities.mysellix.io/product/karpiware-v5-premium-lifetime
+   To purchase, visit our official Sellix shop here - https://proton-utilities.mysellix.io/product/karpiware-v5-premium-lifetime
     <br>
-  After purchasing, save your key and please refer to the ```⁠💵-purchase``` channel in our official discord. - https://discord.gg/FWC8PpWtQv 
+  > After purchasing, save your key and please refer to the ```⁠💵-purchase``` channel in our official discord. - https://discord.gg/FWC8PpWtQv 
 
 ## FAQ
 
