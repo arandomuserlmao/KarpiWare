@@ -1,12 +1,10 @@
 --[[
-
-~~~ OLD SCRIPT USE KARPIWARE V4 ~~~
-
+~~~ OLD SCRIPT USE AN UPDATED VERSION LIKE KARPIWARE V5 ~~~
 ]]
 
 wait()
 
--- Command names (you can change these to however you want)
+-- Command names ( You can change the strings to anything you want, for example, command28 could be changed to "commands" instead of "cmds" )
 getgenv().Settings = {
    A = {
       prefix = ".", -- what you will use to signal that this is a command
